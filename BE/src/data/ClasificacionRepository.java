@@ -23,7 +23,10 @@ public class ClasificacionRepository {
 			if(rs!=null){
 				while(rs.next()){
 					clasificacion.setId(rs.getInt("id"));
-					clasificacion.setNombre(rs.getString("nombre"));
+					clasificacion.setIdentificador(rs.getString("identificador"));
+					clasificacion.setEdadMinima(rs.getString("edad_minima"));
+					clasificacion.setRecomendacion(rs.getString("recomendacion"));
+					clasificacion.setDefinicion(rs.getString("definicion"));
 					clasificacion.setFechaCreacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_creacion")));
 					clasificacion.setFechaModificacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_modificacion")));
 				}
@@ -58,7 +61,10 @@ public class ClasificacionRepository {
 					Clasificacion clasificacion = new Clasificacion();
 
 					clasificacion.setId(rs.getInt("id"));
-					clasificacion.setNombre(rs.getString("nombre"));
+					clasificacion.setIdentificador(rs.getString("identificador"));
+					clasificacion.setEdadMinima(rs.getString("edad_minima"));
+					clasificacion.setRecomendacion(rs.getString("recomendacion"));
+					clasificacion.setDefinicion(rs.getString("definicion"));
 					clasificacion.setFechaCreacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_creacion")));
 					clasificacion.setFechaModificacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_modificacion")));
 					clasificacionList.add(clasificacion);
