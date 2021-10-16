@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import entity.Clasificacion;
-import server.ClasificacionService;
+import service.ClasificacionService;
 
 /**
  * Servlet implementation class ClasificacionServlet

@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import data.FactoryConection;
 import entity.Clasificacion;
-import server.ClasificacionService;
+import service.ClasificacionService;
 import util.AppDataException;
 
 import java.io.BufferedReader;
