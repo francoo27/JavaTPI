@@ -1,8 +1,12 @@
 <div class="card">
     <div class="p-fluid p-formgrid p-grid  p-jc-center">
+        <div style="line-height: 140%; text-align: left; word-wrap: break-word;">
+            <p style="font-size: 14px; line-height: 140%; text-align: center;"><span style="font-size: 28px; line-height: 39.2px; font-family: Lato, sans-serif;"><span style="color: #236fa1; line-height: 39.2px; font-size: 28px;">CINE</span> <span style="color: #f1c40f; line-height: 39.2px; font-size: 28px;">AR</span></span>
+            </p>
+        </div>
         <div class="p-col-4 p-md-4" style="margin-top: 5em;"></div>
-        <div class="p-col-4 p-md-4" style="margin-top: 10em;min-height: 200px;">
-            <p-galleria [value]="images" >
+        <!-- <div class="p-col-4 p-md-4" style="margin-top: 10em;min-height: 200px;">
+             <p-galleria [value]="images" >
                 <ng-template pTemplate="item" let-item>
                     <img [src]="item.previewImageSrc" [alt]="item.alt" />
                 </ng-template>
@@ -10,19 +14,29 @@
                     <h4 style="margin-bottom: .5rem; color: #ffffff;">{{item.title}}</h4>
                     <p>{{item.alt}}</p>
                 </ng-template>
-            </p-galleria>
-        </div>
+            </p-galleria> -->
+            <!-- <p-carousel [value]="images">
+                <ng-template let-image pTemplate="item">
+                    <ng-template pTemplate="header">
+                        <h5>{{image.title}}</h5>
+                    </ng-template>
+                    <img [src]="image.previewImageSrc" [alt]="image.alt" />
+                </ng-template>
+            </p-carousel>
+        </div> -->
         <div class="p-col-4 p-md-4" style="margin-top: 5em;"></div>
     </div>
     <div class="p-grid p-formgrid p-grid  p-jc-center">
         <div class="p-col-3 p-md-3 p-xs-3" *ngFor="let pelicula of peliculas; let i=index">
-            <p-card header="{{pelicula.tituloPais}}" subheader="{{pelicula.tituloOriginal}}" [style]="{width: '360px'}" styleClass="p-card-shadow">
-                <ng-template pTemplate="header">
-                    <img alt="Card" src="http://192.168.0.10:5000/api/img/{{pelicula.imagen}}" style="height: 200px;width: 300px;">
+            <p-card header="{{pelicula.tituloPais}}" subheader="{{pelicula.tituloOriginal}}" [style]="{width: '360px'}"  styleClass="p-card-shadow">
+                <ng-template pTemplate="header" >
+                    <div style="text-align: center;background-color: rgb(127, 127, 127);">
+                        <img alt="Card" src="{{getImageSrc(pelicula.imagen!)}}" style="height: 200px;width: 300px;">
+                    </div>
                 </ng-template>
                 <p>{{pelicula.sinopsis}}</p>
                 <ng-template pTemplate="footer">
-                    <p-button label="Ver funciones" icon="pi pi-check"></p-button>
+                    <p-button label="Ver funciones" [routerLink]="['/boleteria',pelicula.id]" icon="pi pi-check"></p-button>
                 </ng-template>
             </p-card>
             <br>

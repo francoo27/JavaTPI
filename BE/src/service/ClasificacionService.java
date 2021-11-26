@@ -16,4 +16,9 @@ public class ClasificacionService {
 	public ArrayList<Clasificacion> getAll() throws Exception {
 		return clasificacionRepository.getAll();
 	}
+	
+	public void save(Clasificacion clasificacion) throws Exception {
+		clasificacionRepository.save(clasificacion);
+	}
+
 }

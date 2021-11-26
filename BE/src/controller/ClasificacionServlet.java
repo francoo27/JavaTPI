@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -46,7 +47,6 @@ public class ClasificacionServlet extends HttpServlet {
         response.setContentType("application/json");
 	    response.setCharacterEncoding("UTF-8");
 	    response.addHeader("Access-Control-Allow-Origin", "*");   
-		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
@@ -54,7 +54,21 @@ public class ClasificacionServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		String requestData = request.getReader().lines().collect(Collectors.joining());
+		System.out.println(requestData);
+		System.out.println("asdasdsa");
+	    ClasificacionService clasificacionService = new ClasificacionService();
+	    Clasificacion clasificacion = new Clasificacion();
+	    clasificacion.setDefinicion("asd");
+	    clasificacion.setEdadMinima("asd");
+	    clasificacion.setIdentificador("asd");
+	    clasificacion.setRecomendacion("asd");
+		System.out.println(clasificacion);
+	    try {
+			clasificacionService.save(clasificacion);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**

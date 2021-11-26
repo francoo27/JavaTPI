@@ -42,21 +42,21 @@ public class Clasificacion extends BaseEntity {
 	}
 	
 	public static String buildEntityArrayAsJson(ArrayList<Clasificacion> clasificacionList) {
-		String json = "\"[";
+		String json = "[";
 		int lastId = clasificacionList.get(clasificacionList.size() - 1).getId();
 		for (Clasificacion c : clasificacionList) 
 		{ 
-			json = json.concat(String.format("{'id':'%s','identificador':'%s','edadMinima':'%s','recomendacion':'%s','definicion':'%s'}",
+			json = json.concat(String.format("{\"id\":\"%s\",\"identificador\":\"%s\",\"edadMinima\":\"%s\",\"recomendacion\":\"%s\",\"definicion\":\"%s\"}",
 					c.getId(),c.getIdentificador(),c.getEdadMinima(),c.getRecomendacion(),c.getDefinicion()));
 			if (c.getId() != lastId) {
 				json = json.concat(",");
 			} 
 		}
-		json = json.concat("]\"");
+		json = json.concat("]");
 		return json;
 	}
 	public static String buildEntityAsJson(Clasificacion clasificacion) {
-		return String.format("{'id':'%s','identificador':'%s','edadMinima':'%s','recomendacion':'%s','definicion':'%s'}",
+		return String.format("{\"id\":\"%s\",\"identificador\":\"%s\",\"edadMinima\":\"%s\",\"recomendacion\":\"%s\",\"definicion\":\"%s\"}",
 				clasificacion.getId(),clasificacion.getIdentificador(),clasificacion.getEdadMinima(),clasificacion.getRecomendacion(),clasificacion.getDefinicion());
 	}
 

@@ -9,7 +9,7 @@ type EntityArrayResponseType = HttpResponse<IPais[]>;
 
 @Injectable({ providedIn: 'root' })
 export class PaisService {
-    private resourceUrl = SERVER_API_URL + 'JavaTPI/test';
+    private resourceUrl = SERVER_API_URL + 'api/pais';
 
     constructor(private http: HttpClient) {}
 

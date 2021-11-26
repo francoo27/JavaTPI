@@ -1,5 +1,6 @@
 package data;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -87,6 +88,43 @@ public class ClasificacionRepository {
 		}
 
 		return clasificacionList;
+	}
+	
+	
+	public void save(Clasificacion clasificacion) throws Exception {
+		PreparedStatement stmt = null;
+		String insertQuery = String.format("INSERT INTO clasificacion (`fecha_creacion`,`fecha_modificacion`,`identificador`,`edad_minima`,`recomendacion`,`definicion`) VALUES"
+				+ "(?,?,?,?,?,?)");  
+		String updateQuery = String.format("SELECT * FROM clasificacion");  
+
+		try {
+			if(clasificacion.getId() == 0 ) {
+				stmt = FactoryConection.getInstancia().getConn().prepareStatement(insertQuery);
+				java.sql.Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
+				stmt.setTimestamp(1, date);
+				stmt.setTimestamp(2, date);
+				stmt.setString(3, clasificacion.getIdentificador());
+				stmt.setString(4, clasificacion.getEdadMinima());
+				stmt.setString(5, clasificacion.getRecomendacion());
+				stmt.setString(6, clasificacion.getDefinicion());
+			} else {
+				stmt = FactoryConection.getInstancia().getConn().prepareStatement(updateQuery);
+			}
+			
+			stmt.execute();
+
+		} catch (Exception e) {
+			throw e;
+		}
+
+		try {
+			if (stmt != null)
+				stmt.close();
+			FactoryConection.getInstancia().releaseConn();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 

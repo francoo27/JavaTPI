@@ -3,7 +3,7 @@
         <div class="p-col-4 p-md-4" style="margin-top: 5em;"></div>
         <div class="p-col-4 p-md-4" style="margin-top: 5em;">
             <p-accordion>
-                <p-accordionTab header="Seleccion de Pelicula">
+                <p-accordionTab header="Seleccion de Pelicula" [selected]="true">
                    <ng-container>
                         <div class="p-field p-col-12 p-md-12">
                             <label for="pelicula">Pelicula</label>
@@ -19,67 +19,104 @@
                     <ng-container *ngIf="formatoSeleccionado">
                         <div class="p-field p-col-12 p-md-12" >
                             <label for="funcion">Funcion</label>
-                            <p-dropdown [options]="funciones" [(ngModel)]="funcionSeleccionado" name="funcion"  placeholder="Seleccione Funcion" optionLabel="nombre" [required]="true" [showClear]="true"></p-dropdown>
+                            <p-dropdown [options]="funciones" [(ngModel)]="funcionSeleccionado" name="funcion" (ngModelChange)="onFuncionSelected()"  placeholder="Seleccione Funcion" optionLabel="nombre" [required]="true" [showClear]="true"></p-dropdown>
                         </div>
                     </ng-container>
                 </p-accordionTab>
-                <p-accordionTab header="Seleccion de Precios">
-                    <ng-container *ngIf="formatoSeleccionado">
+                <p-accordionTab header="Seleccion de Precios" [disabled]="funcionSeleccionado == null">
+                    <ng-container *ngIf="funcionSeleccionado">
                         <div class="p-field p-col-12 p-md-12" >
-                            <p>Usted a seleccionado la pelicula <b>{{peliculaSeleccionado.tituloPais}}</b> en formato <b>{{formatoSeleccionado.nombre}}</b> para la funcion <b></b></p>
-                        </div>
-                    </ng-container>
-                    <ng-container *ngIf="formatoSeleccionado">
-                        <div class="p-field p-col-12 p-md-12" >
-                            <p-table [value]="peliculas">
+                            <p-table [value]="precios">
                                 <ng-template pTemplate="header">
                                     <tr>
-                                        <th>Precio</th>
+                                        <th>Boleto</th>
                                         <th>Valor</th>
                                         <th>Cantidad</th>
+                                        <th>Sub Total</th>
                                     </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-item>
                                     <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td>{{item.tipoPrecio.nombre}}</td>
+                                        <td><strong>$ {{item.valor}} </strong></td>
+                                        <td><input type="number" pInputText (change)="onPrecioChange(item,precioInput.value)" min="0" value="0" #precioInput></td>
+                                        <td><strong>$ {{calculateSubtotal(item)}} </strong></td>
                                     </tr>
                                 </ng-template>
+
                             </p-table>
                         </div>
-                    </ng-container>  
+                    </ng-container> 
+                    <ng-container *ngIf="funcionSeleccionado">
+                        <div class="p-field p-col-12 p-md-12" >
+                            <p>Siendo {{calculateTotalElegido()}} asientos dando un  total de <b>$ {{calculateTotal()}}</b></p>
+                        </div>
+                    </ng-container>
                 </p-accordionTab>
-                <p-accordionTab header="Seleccion de Asiento">
+                <p-accordionTab header="Seleccion de Asiento" [disabled]="!isPrecioSelected() || !canElegirAsiento()">
+                    <h5>Seleccione asientos</h5>
+                    <div class="p-grid" *ngFor="let item of asientosSeleccionables">
+                        <div class="p-col" *ngFor="let a of item">
+                            <br>
+                            <div class="box">{{a.nombre}}</div>
+                            <button pButton pRipple type="button" icon="pi pi-user" class="p-button-rounded" [ngClass]="{
+                                'p-button-info': a.disponible && !a.adaptado && !a.seleccionado,
+                                'p-button-success': a.disponible && a.adaptado && !a.seleccionado,
+                                'p-button-danger': !a.disponible,
+                                'p-button-secondary': a.seleccionado
+                            }"(click)="onAsientoSelected(a.id!)" [disabled]="!a.disponible"></button>
+                        </div>
+                    </div>
+                    <hr>
+                    <div pButton pRipple type="button" icon="pi pi-user" class="p-button-rounded p-button-info"></div>Disponible
+                    <div pButton pRipple type="button" icon="pi pi-user" class="p-button-rounded p-button-success"></div>Adaptado
+                    <div pButton pRipple type="button" icon="pi pi-user" class="p-button-rounded p-button-danger"></div>Ocupado
+                    <div pButton pRipple type="button" icon="pi pi-user" class="p-button-rounded p-button-secondary" ></div>Seleccionado
                 </p-accordionTab>
-                <p-accordionTab header="Resumen Transaccion">
+                <p-accordionTab header="Resumen Transaccion" [disabled]="!canPagar()">
+                    <p>Usted esta por comprar <b>{{calculateTotalPrecioSelected()}} </b> boletos para la funcion <b>{{funcionSeleccionado?.nombre}} </b> 
+                        por un precio de <b>$ {{calculateTotal()}}</b> </p>
+                </p-accordionTab>
+                <p-accordionTab header="Pagar" [disabled]="!canPagar()">
                     <ng-container *ngIf="true">
-                        <form #form="ngForm">
+                        <form #form="ngForm" (ngSubmit)="onSubmit()">
+                            <div class="p-field p-col-12 p-md-12" >
+                                <label for="email">Email</label>
+                                <input type="email" pInputText class="p-inputtext-sm" [(ngModel)]="email" placeholder="email@email.com"  required name="email">
+                            </div>
                             <div class="p-field p-col-12 p-md-12" >
                                 <label for="nombreTitular">Nombre Titular</label>
-                                <input type="text" pInputText pKeyFilter="alpha" class="p-inputtext-sm" placeholder="Franco E Pinacca"  required name="nombreTitular">
+                                <input type="text" pInputText pKeyFilter="alpha" [(ngModel)]="nombre" class="p-inputtext-sm" placeholder="Franco E Pinacca"  required name="nombreTitular">
                             </div>
                             <div class="p-field p-col-12 p-md-12" >
                                 <label for="cc" style="display:block;margin-bottom:4px">Numero Tarjeta</label>
-                                <input id="cc" type="text" name="cc" pInputText [(ngModel)]="cc" pKeyFilter="pnum" [pValidateOnly]="true" required placeholder="1234123412341234" maxlength="12" style="margin-right: .5em">
+                                <input id="cc" type="text" name="cc" pInputText [(ngModel)]="cc" pKeyFilter="pnum" required placeholder="1234123412341234" minlength="12" maxlength="12" style="margin-right: .5em">
                             </div>
                             <div class="p-grid" style="margin-left: 1px;">
                                 <div class="p-field p-col-4 p-md-4" >
                                     <label for="mesExp">Mes Expiracion</label>
-                                    <input type="text" pInputText class="p-inputtext-sm" pKeyFilter="pnum" placeholder="MM"  maxlength="2" required name="mesExp">
+                                    <input type="text" pInputText class="p-inputtext-sm" [(ngModel)]="me" pKeyFilter="pnum" placeholder="MM"  maxlength="2" required name="mesExp">
                                 </div>
                                 <div class="p-field p-col-4 p-md-4" >
                                     <label for="anoExp">Año Expiracion</label>
-                                    <input type="text" pInputText class="p-inputtext-sm" pKeyFilter="pnum" placeholder="AA"  maxlength="2" required name="anoExp">
+                                    <input type="text" pInputText class="p-inputtext-sm" [(ngModel)]="ae" pKeyFilter="pnum" placeholder="AA"  maxlength="2" required name="anoExp">
                                 </div>
                                 <div class="p-field p-col-4 p-md-4" >
                                     <label for="codigoVerif">Codigo Verificacion</label>
-                                    <input type="text" pInputText class="p-inputtext-sm" pKeyFilter="pnum" placeholder="***"  maxlength="3" required name="codigoVerif">
+                                    <input type="text" pInputText class="p-inputtext-sm" [(ngModel)]="cvef" pKeyFilter="pnum" placeholder="***"  maxlength="3" required name="codigoVerif">
+                                </div>
+                            </div>
+                            <div class="p-grid p-jc-end">
+                                <div class="p-col-2  p-md-2">
+                                    <button pButton type="button" class="p-button-secondary" (click)="previousState()" label="Volver"></button>
+                                </div>
+                                <div class="p-col-2  p-md-2">
+                                    <button pButton class="p-button-success" type="submit" label="Pagar" [disabled]="!form.valid || isSaving"></button>
                                 </div>
                             </div>
                         </form>
                     </ng-container>
-                </p-accordionTab>
+                </p-accordionTab>  
             </p-accordion>
         </div>
         <div class="p-col-4 p-md-4" style="margin-top: 5em;"></div>
@@ -87,3 +124,4 @@
     <div class="p-grid p-formgrid p-grid  p-jc-center">
     </div>
 </div>
+<p-toast></p-toast>
