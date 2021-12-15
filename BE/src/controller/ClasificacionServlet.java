@@ -55,6 +55,22 @@ public class ClasificacionServlet extends HttpServlet {
 	 * @see HttpServlet#doPut(HttpServletRequest, HttpServletResponse)
 	 */
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String requestData = request.getReader().lines().collect(Collectors.joining());
+		System.out.println(requestData);
+	    Gson gson = new Gson();
+	    
+	    Clasificacion clasificacion = gson.fromJson(requestData, Clasificacion.class);
+	    ClasificacionService clasificacionService = new ClasificacionService();
+		try {
+			Clasificacion currentClasificacion = clasificacionService.getById(clasificacion.getId());
+			if(currentClasificacion.getId() == 0) {
+				throw new ServletException("Clasificacion inexistente"); 
+			}
+			System.out.println(clasificacion.getIdentificador());
+			clasificacionService.save(clasificacion);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		// TODO Auto-generated method stub
 	}
 

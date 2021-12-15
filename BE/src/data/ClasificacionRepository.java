@@ -95,7 +95,7 @@ public class ClasificacionRepository {
 		PreparedStatement stmt = null;
 		String insertQuery = String.format("INSERT INTO clasificacion (`fecha_creacion`,`fecha_modificacion`,`identificador`,`edad_minima`,`recomendacion`,`definicion`) VALUES"
 				+ "(?,?,?,?,?,?)");  
-		String updateQuery = String.format("SELECT * FROM clasificacion");  
+		String updateQuery = String.format("UPDATE clasificacion SET `fecha_modificacion`= ?, `identificador` = ?, `edad_minima` = ?, `recomendacion`= ?, `definicion`= ? WHERE id = ?");  
 
 		try {
 			if(clasificacion.getId() == 0 ) {
@@ -109,6 +109,14 @@ public class ClasificacionRepository {
 				stmt.setString(6, clasificacion.getDefinicion());
 			} else {
 				stmt = FactoryConection.getInstancia().getConn().prepareStatement(updateQuery);
+				java.sql.Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
+				stmt.setTimestamp(1, date);
+				stmt.setString(2, clasificacion.getIdentificador());
+				stmt.setString(3, clasificacion.getEdadMinima());
+				stmt.setString(4, clasificacion.getRecomendacion());
+				stmt.setString(5, clasificacion.getDefinicion());
+				stmt.setInt(6, clasificacion.getId());
+
 			}
 			
 			stmt.execute();
