@@ -9,7 +9,7 @@ type EntityArrayResponseType = HttpResponse<IAudio[]>;
 
 @Injectable({ providedIn: 'root' })
 export class AudioService {
-    private resourceUrl = SERVER_API_URL + 'api/audio';
+    private resourceUrl = SERVER_API_URL + 'JavaTPI/audio';
 
     constructor(private http: HttpClient) {}
 

@@ -9,7 +9,7 @@ type EntityArrayResponseType = HttpResponse<IAsiento[]>;
 
 @Injectable({ providedIn: 'root' })
 export class AsientoService {
-    private resourceUrl = SERVER_API_URL + 'api/asiento';
+    private resourceUrl = SERVER_API_URL + 'JavaTPI/asiento';
 
     constructor(private http: HttpClient) {}
 

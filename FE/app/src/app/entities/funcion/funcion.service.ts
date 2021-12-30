@@ -10,7 +10,7 @@ type EntityArrayResponseType = HttpResponse<IFuncion[]>;
 
 @Injectable({ providedIn: 'root' })
 export class FuncionService {
-    private resourceUrl = SERVER_API_URL + 'api/funcion';
+    private resourceUrl = SERVER_API_URL + 'JavaTPI/funcion';
 
     constructor(private http: HttpClient) {}
 

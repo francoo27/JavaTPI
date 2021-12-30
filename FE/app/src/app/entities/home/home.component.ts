@@ -76,7 +76,7 @@ export class HomeComponent {
 
 
 
-export const SERVER_API_URL_IMAGE = SERVER_API_URL + 'api/img/'
+export const SERVER_API_URL_IMAGE = SERVER_API_URL + 'JavaTPI/img/'
 export interface IDataCarousel {
     previewImageSrc:string
     thumbnailImageSrc:string;

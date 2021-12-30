@@ -9,7 +9,7 @@ type EntityArrayResponseType = HttpResponse<IPelicula[]>;
 
 @Injectable({ providedIn: 'root' })
 export class PeliculaService {
-    private resourceUrl = SERVER_API_URL + 'api/pelicula';
+    private resourceUrl = SERVER_API_URL + 'JavaTPI/pelicula';
 
     constructor(private http: HttpClient) {}
 

@@ -9,7 +9,7 @@ type EntityArrayResponseType = HttpResponse<ISala[]>;
 
 @Injectable({ providedIn: 'root' })
 export class SalaService {
-    private resourceUrl = SERVER_API_URL + 'api/sala';
+    private resourceUrl = SERVER_API_URL + 'JavaTPI/sala';
 
     constructor(private http: HttpClient) {}
 

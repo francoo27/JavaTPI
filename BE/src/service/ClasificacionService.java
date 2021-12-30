@@ -20,5 +20,9 @@ public class ClasificacionService {
 	public void save(Clasificacion clasificacion) throws Exception {
 		clasificacionRepository.save(clasificacion);
 	}
+	
+	public void delete(int id) throws Exception {
+		clasificacionRepository.delete(id);
+	}
 
 }

@@ -9,7 +9,7 @@ type EntityArrayResponseType = HttpResponse<IGenero[]>;
 
 @Injectable({ providedIn: 'root' })
 export class GeneroService {
-    private resourceUrl = SERVER_API_URL + 'api/genero';
+    private resourceUrl = SERVER_API_URL + 'JavaTPI/genero';
 
     constructor(private http: HttpClient) {}
 

@@ -9,7 +9,7 @@ type EntityArrayResponseType = HttpResponse<IComplejo[]>;
 
 @Injectable({ providedIn: 'root' })
 export class ComplejoService {
-    private resourceUrl = SERVER_API_URL + 'api/complejo';
+    private resourceUrl = SERVER_API_URL + 'JavaTPI/complejo';
 
     constructor(private http: HttpClient) {}
 

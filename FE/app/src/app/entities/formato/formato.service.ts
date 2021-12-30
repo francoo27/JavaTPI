@@ -9,7 +9,7 @@ type EntityArrayResponseType = HttpResponse<IFormato[]>;
 
 @Injectable({ providedIn: 'root' })
 export class FormatoService {
-    private resourceUrl = SERVER_API_URL + 'api/formato';
+    private resourceUrl = SERVER_API_URL + 'JavaTPI/formato';
 
     constructor(private http: HttpClient) {}
 

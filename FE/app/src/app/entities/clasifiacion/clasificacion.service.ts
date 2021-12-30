@@ -9,7 +9,7 @@ type EntityArrayResponseType = HttpResponse<IClasificacion[]>;
 
 @Injectable({ providedIn: 'root' })
 export class ClasificacionService {
-    private resourceUrl = SERVER_API_URL + 'api/clasificacion';
+    private resourceUrl = SERVER_API_URL + 'JavaTPI/clasificacion';
 
     constructor(private http: HttpClient) {}
     

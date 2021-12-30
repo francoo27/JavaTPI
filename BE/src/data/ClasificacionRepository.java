@@ -73,7 +73,6 @@ public class ClasificacionRepository {
 				}
 			}
 		} catch (Exception e) {
-			System.out.println("Error getAll TipoHabitacion");
 			throw e;
 		}
 
@@ -134,6 +133,25 @@ public class ClasificacionRepository {
 		}
 
 	}
+	
+	public void delete(int id ) throws Exception {
+		PreparedStatement stmt = null;
+		String deleteQuery = String.format("DELETE FROM java_tpi.clasificacion WHERE id = ?");  
+		try {
+			stmt = FactoryConection.getInstancia().getConn().prepareStatement(deleteQuery);
+			stmt.setInt(1, id);
+			stmt.execute();
+		} catch (Exception e) {
+			throw e;
+		}
 
+		try {
+			if (stmt != null)
+				stmt.close();
+			FactoryConection.getInstancia().releaseConn();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
 }

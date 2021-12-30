@@ -9,7 +9,7 @@ type EntityResponseCreateType = HttpResponse<IUser>;
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-    private resourceUrl = SERVER_API_URL + 'api/authorization';
+    private resourceUrl = SERVER_API_URL + 'JavaTPI/authorization';
 
     constructor(private http: HttpClient) {}
 

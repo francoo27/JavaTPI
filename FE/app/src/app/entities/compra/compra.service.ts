@@ -9,7 +9,7 @@ type EntityArrayResponseType = HttpResponse<ICompra[]>;
 
 @Injectable({ providedIn: 'root' })
 export class CompraService {
-    private resourceUrl = SERVER_API_URL + 'api/compra';
+    private resourceUrl = SERVER_API_URL + 'JavaTPI/compra';
 
     constructor(private http: HttpClient) {}
 

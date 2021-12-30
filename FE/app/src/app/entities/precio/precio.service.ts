@@ -9,7 +9,7 @@ type EntityArrayResponseType = HttpResponse<IPrecio[]>;
 
 @Injectable({ providedIn: 'root' })
 export class PrecioService {
-    private resourceUrl = SERVER_API_URL + 'api/precio';
+    private resourceUrl = SERVER_API_URL + 'JavaTPI/precio';
 
     constructor(private http: HttpClient) {}
 
