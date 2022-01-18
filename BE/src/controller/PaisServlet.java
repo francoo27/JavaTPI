@@ -9,21 +9,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import entity.Clasificacion;
-import service.ClasificacionService;
+import entity.Pais;
+import service.PaisService;
 import com.google.gson.*;
 
 /**
- * Servlet implementation class ClasificacionServlet
+ * Servlet implementation class PaisServlet
  */
-@WebServlet("/clasificacion/*")
-public class ClasificacionServlet extends HttpServlet {
+@WebServlet("/pais/*")
+public class PaisServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ClasificacionServlet() {
+    public PaisServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,13 +35,14 @@ public class ClasificacionServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		String pathInfo = request.getPathInfo();
 		Long id = Long.valueOf(pathInfo.substring(1));
-	    ClasificacionService clasificacionService = new ClasificacionService();
+	    PaisService paisService = new PaisService();
+	    Gson gson = new Gson();
 		try {
-			Clasificacion clasificacion = clasificacionService.getById(id.intValue());
-			if(clasificacion.getId() == 0) {
-				throw new ServletException("Clasificacion inexistente"); 
+			Pais pais = paisService.getById(id.intValue());
+			if(pais.getId() == 0) {
+				throw new ServletException("Pais inexistente"); 
 			} else {
-				response.getWriter().write(Clasificacion.buildEntityAsJson(clasificacion));
+				response.getWriter().write(gson.toJson(pais));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -62,15 +63,14 @@ public class ClasificacionServlet extends HttpServlet {
 		System.out.println(requestData);
 	    Gson gson = new Gson();
 	    
-	    Clasificacion clasificacion = gson.fromJson(requestData, Clasificacion.class);
-	    ClasificacionService clasificacionService = new ClasificacionService();
+	    Pais pais = gson.fromJson(requestData, Pais.class);
+	    PaisService paisService = new PaisService();
 		try {
-			Clasificacion currentClasificacion = clasificacionService.getById(clasificacion.getId());
-			if(currentClasificacion.getId() == 0) {
-				throw new ServletException("Clasificacion inexistente"); 
+			Pais currentPais = paisService.getById(pais.getId());
+			if(currentPais.getId() == 0) {
+				throw new ServletException("Pais inexistente"); 
 			}
-			System.out.println(clasificacion.getIdentificador());
-			clasificacionService.save(clasificacion);
+			paisService.save(pais);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -80,14 +80,14 @@ public class ClasificacionServlet extends HttpServlet {
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String pathInfo = request.getPathInfo();
 		Long id = Long.valueOf(pathInfo.substring(1));
-	    ClasificacionService clasificacionService = new ClasificacionService();
+	    PaisService paisService = new PaisService();
 		System.out.println(id);
 		try {
-			Clasificacion clasificacion = clasificacionService.getById(id.intValue());
-			if(clasificacion.getId() == 0) {
-				throw new ServletException("Clasificacion inexistente"); 
+			Pais pais = paisService.getById(id.intValue());
+			if(pais.getId() == 0) {
+				throw new ServletException("Pais inexistente"); 
 			} else {
-				clasificacionService.delete(clasificacion.getId());
+				paisService.delete(pais.getId());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

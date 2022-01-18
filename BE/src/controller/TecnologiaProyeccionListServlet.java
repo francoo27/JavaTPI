@@ -12,21 +12,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
-
-import entity.Genero;
-import service.GeneroService;
-
+import entity.TecnologiaProyeccion;
+import service.TecnologiaProyeccionService;
 /**
  * Servlet implementation class Test
  */
-@WebServlet("/genero")
-public class GeneroListServlet extends HttpServlet {
+@WebServlet("/tecnologiaProyeccion")
+public class TecnologiaProyeccionListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public GeneroListServlet() {
+    public TecnologiaProyeccionListServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,11 +34,11 @@ public class GeneroListServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	    
-	    GeneroService generoService = new GeneroService();
+	    TecnologiaProyeccionService tecnologiaProyeccionService = new TecnologiaProyeccionService();
 	    Gson gson = new Gson();
 		try {
-			ArrayList<Genero> generoList = generoService.getAll();
-			response.getWriter().write(gson.toJson(generoList));
+			ArrayList<TecnologiaProyeccion> tecnologiaProyeccionList = tecnologiaProyeccionService.getAll();
+			response.getWriter().write(gson.toJson(tecnologiaProyeccionList));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -58,10 +56,10 @@ public class GeneroListServlet extends HttpServlet {
 		System.out.println(requestData);
 	    Gson gson = new Gson();
 	    
-	    Genero genero = gson.fromJson(requestData, Genero.class);
-	    GeneroService generoService = new GeneroService();
+	    TecnologiaProyeccion tecnologiaProyeccion = gson.fromJson(requestData, TecnologiaProyeccion.class);
+	    TecnologiaProyeccionService tecnologiaProyeccionService = new TecnologiaProyeccionService();
 	    try {
-			generoService.save(genero);
+			tecnologiaProyeccionService.save(tecnologiaProyeccion);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

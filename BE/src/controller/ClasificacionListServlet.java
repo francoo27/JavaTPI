@@ -2,10 +2,7 @@ package controller;
 
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
@@ -16,12 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
-import data.FactoryConection;
 import entity.Clasificacion;
 import service.ClasificacionService;
-import util.AppDataException;
-
-import java.io.BufferedReader;
 /**
  * Servlet implementation class Test
  */
@@ -64,7 +57,6 @@ public class ClasificacionListServlet extends HttpServlet {
 	    Gson gson = new Gson();
 	    
 	    Clasificacion clasificacion = gson.fromJson(requestData, Clasificacion.class);
-	    System.out.println(clasificacion.getEdadMinima());
 	    ClasificacionService clasificacionService = new ClasificacionService();
 	    try {
 			clasificacionService.save(clasificacion);

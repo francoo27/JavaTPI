@@ -9,21 +9,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import entity.Clasificacion;
-import service.ClasificacionService;
+import entity.TecnologiaProyeccion;
+import service.TecnologiaProyeccionService;
 import com.google.gson.*;
 
 /**
- * Servlet implementation class ClasificacionServlet
+ * Servlet implementation class TecnologiaProyeccionServlet
  */
-@WebServlet("/clasificacion/*")
-public class ClasificacionServlet extends HttpServlet {
+@WebServlet("/tecnologiaProyeccion/*")
+public class TecnologiaProyeccionServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ClasificacionServlet() {
+    public TecnologiaProyeccionServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,13 +35,14 @@ public class ClasificacionServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		String pathInfo = request.getPathInfo();
 		Long id = Long.valueOf(pathInfo.substring(1));
-	    ClasificacionService clasificacionService = new ClasificacionService();
+	    TecnologiaProyeccionService tecnologiaProyeccionService = new TecnologiaProyeccionService();
+	    Gson gson = new Gson();
 		try {
-			Clasificacion clasificacion = clasificacionService.getById(id.intValue());
-			if(clasificacion.getId() == 0) {
-				throw new ServletException("Clasificacion inexistente"); 
+			TecnologiaProyeccion tecnologiaProyeccion = tecnologiaProyeccionService.getById(id.intValue());
+			if(tecnologiaProyeccion.getId() == 0) {
+				throw new ServletException("TecnologiaProyeccion inexistente"); 
 			} else {
-				response.getWriter().write(Clasificacion.buildEntityAsJson(clasificacion));
+				response.getWriter().write(gson.toJson(tecnologiaProyeccion));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -62,15 +63,14 @@ public class ClasificacionServlet extends HttpServlet {
 		System.out.println(requestData);
 	    Gson gson = new Gson();
 	    
-	    Clasificacion clasificacion = gson.fromJson(requestData, Clasificacion.class);
-	    ClasificacionService clasificacionService = new ClasificacionService();
+	    TecnologiaProyeccion tecnologiaProyeccion = gson.fromJson(requestData, TecnologiaProyeccion.class);
+	    TecnologiaProyeccionService tecnologiaProyeccionService = new TecnologiaProyeccionService();
 		try {
-			Clasificacion currentClasificacion = clasificacionService.getById(clasificacion.getId());
-			if(currentClasificacion.getId() == 0) {
-				throw new ServletException("Clasificacion inexistente"); 
+			TecnologiaProyeccion currentTecnologiaProyeccion = tecnologiaProyeccionService.getById(tecnologiaProyeccion.getId());
+			if(currentTecnologiaProyeccion.getId() == 0) {
+				throw new ServletException("TecnologiaProyeccion inexistente"); 
 			}
-			System.out.println(clasificacion.getIdentificador());
-			clasificacionService.save(clasificacion);
+			tecnologiaProyeccionService.save(tecnologiaProyeccion);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -80,14 +80,14 @@ public class ClasificacionServlet extends HttpServlet {
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String pathInfo = request.getPathInfo();
 		Long id = Long.valueOf(pathInfo.substring(1));
-	    ClasificacionService clasificacionService = new ClasificacionService();
+	    TecnologiaProyeccionService tecnologiaProyeccionService = new TecnologiaProyeccionService();
 		System.out.println(id);
 		try {
-			Clasificacion clasificacion = clasificacionService.getById(id.intValue());
-			if(clasificacion.getId() == 0) {
-				throw new ServletException("Clasificacion inexistente"); 
+			TecnologiaProyeccion tecnologiaProyeccion = tecnologiaProyeccionService.getById(id.intValue());
+			if(tecnologiaProyeccion.getId() == 0) {
+				throw new ServletException("TecnologiaProyeccion inexistente"); 
 			} else {
-				clasificacionService.delete(clasificacion.getId());
+				tecnologiaProyeccionService.delete(tecnologiaProyeccion.getId());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

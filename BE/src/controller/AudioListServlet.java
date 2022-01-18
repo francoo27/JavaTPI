@@ -13,20 +13,19 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
-import entity.Genero;
-import service.GeneroService;
-
+import entity.Audio;
+import service.AudioService;
 /**
  * Servlet implementation class Test
  */
-@WebServlet("/genero")
-public class GeneroListServlet extends HttpServlet {
+@WebServlet("/audio")
+public class AudioListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public GeneroListServlet() {
+    public AudioListServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,11 +35,11 @@ public class GeneroListServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	    
-	    GeneroService generoService = new GeneroService();
+	    AudioService audioService = new AudioService();
 	    Gson gson = new Gson();
 		try {
-			ArrayList<Genero> generoList = generoService.getAll();
-			response.getWriter().write(gson.toJson(generoList));
+			ArrayList<Audio> audioList = audioService.getAll();
+			response.getWriter().write(gson.toJson(audioList));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -58,10 +57,10 @@ public class GeneroListServlet extends HttpServlet {
 		System.out.println(requestData);
 	    Gson gson = new Gson();
 	    
-	    Genero genero = gson.fromJson(requestData, Genero.class);
-	    GeneroService generoService = new GeneroService();
+	    Audio audio = gson.fromJson(requestData, Audio.class);
+	    AudioService audioService = new AudioService();
 	    try {
-			generoService.save(genero);
+			audioService.save(audio);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

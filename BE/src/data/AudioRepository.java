@@ -6,16 +6,16 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import entity.Genero;
+import entity.Audio;
 
-public class GeneroRepository {
+public class AudioRepository {
 
-	public Genero getById(int id) throws Exception{
+	public Audio getById(int id) throws Exception{
 
 		PreparedStatement stmt = null;
 		ResultSet rs=null;
-		Genero genero = new Genero();
-		String query = String.format("SELECT * FROM genero WHERE ID = ?");  
+		Audio audio = new Audio();
+		String query = String.format("SELECT * FROM audio WHERE ID = ?");  
 		System.out.println(id);
 		try{			
 			stmt = FactoryConection.getInstancia().getConn().prepareStatement(query);
@@ -24,10 +24,10 @@ public class GeneroRepository {
 			rs = stmt.getResultSet();
 			if(rs!=null){
 				while(rs.next()){
-					genero.setId(rs.getInt("id"));
-					genero.setNombre(rs.getString("nombre"));
-					genero.setFechaCreacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_creacion")));
-					genero.setFechaModificacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_modificacion")));
+					audio.setId(rs.getInt("id"));
+					audio.setNombre(rs.getString("nombre"));
+					audio.setFechaCreacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_creacion")));
+					audio.setFechaModificacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_modificacion")));
 				}
 			}
 		} catch (Exception e){
@@ -42,28 +42,28 @@ public class GeneroRepository {
 			e.printStackTrace();
 		}
 
-		return genero;
+		return audio;
 	}
 
 
-	public ArrayList<Genero> getAll() throws Exception {
+	public ArrayList<Audio> getAll() throws Exception {
 		Statement stmt = null;
 		ResultSet rs = null;
-		ArrayList<Genero> generoList = new ArrayList<Genero>();
+		ArrayList<Audio> audioList = new ArrayList<Audio>();
 
 		try {
 			stmt = FactoryConection.getInstancia().getConn().createStatement();
-			String query = String.format("SELECT * FROM genero");  
+			String query = String.format("SELECT * FROM audio");  
 			rs = stmt.executeQuery(query);
 			if (rs != null) {
 				while (rs.next()) {
-					Genero genero = new Genero();
+					Audio audio = new Audio();
 
-					genero.setId(rs.getInt("id"));
-					genero.setNombre(rs.getString("nombre"));
-					genero.setFechaCreacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_creacion")));
-					genero.setFechaModificacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_modificacion")));
-					generoList.add(genero);
+					audio.setId(rs.getInt("id"));
+					audio.setNombre(rs.getString("nombre"));
+					audio.setFechaCreacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_creacion")));
+					audio.setFechaModificacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_modificacion")));
+					audioList.add(audio);
 
 				}
 			}
@@ -81,29 +81,29 @@ public class GeneroRepository {
 			e.printStackTrace();
 		}
 
-		return generoList;
+		return audioList;
 	}
 	
 	
-	public void save(Genero genero) throws Exception {
+	public void save(Audio audio) throws Exception {
 		PreparedStatement stmt = null;
-		String insertQuery = String.format("INSERT INTO genero (`fecha_creacion`,`fecha_modificacion`,`nombre`) VALUES"
+		String insertQuery = String.format("INSERT INTO audio (`fecha_creacion`,`fecha_modificacion`,`nombre`) VALUES"
 				+ "(?,?,?)");  
-		String updateQuery = String.format("UPDATE genero SET `fecha_modificacion`= ?, `nombre` = ? WHERE id = ?");  
+		String updateQuery = String.format("UPDATE audio SET `fecha_modificacion`= ?, `nombre` = ? WHERE id = ?");  
 
 		try {
-			if(genero.getId() == 0 ) {
+			if(audio.getId() == 0 ) {
 				stmt = FactoryConection.getInstancia().getConn().prepareStatement(insertQuery);
 				java.sql.Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
 				stmt.setTimestamp(1, date);
 				stmt.setTimestamp(2, date);
-				stmt.setString(3, genero.getNombre());
+				stmt.setString(3, audio.getNombre());
 			} else {
 				stmt = FactoryConection.getInstancia().getConn().prepareStatement(updateQuery);
 				java.sql.Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
 				stmt.setTimestamp(1, date);
-				stmt.setString(2, genero.getNombre());
-				stmt.setInt(3, genero.getId());
+				stmt.setString(2, audio.getNombre());
+				stmt.setInt(3, audio.getId());
 
 			}
 			
@@ -125,7 +125,7 @@ public class GeneroRepository {
 	
 	public void delete(int id ) throws Exception {
 		PreparedStatement stmt = null;
-		String deleteQuery = String.format("DELETE FROM java_tpi.genero WHERE id = ?");  
+		String deleteQuery = String.format("DELETE FROM java_tpi.audio WHERE id = ?");  
 		try {
 			stmt = FactoryConection.getInstancia().getConn().prepareStatement(deleteQuery);
 			stmt.setInt(1, id);

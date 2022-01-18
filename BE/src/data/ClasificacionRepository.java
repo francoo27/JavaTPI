@@ -12,15 +12,15 @@ public class ClasificacionRepository {
 
 	public Clasificacion getById(int id) throws Exception{
 
-		Statement stmt=null;
+		PreparedStatement stmt = null;
 		ResultSet rs=null;
 		Clasificacion clasificacion = new Clasificacion();
-
 		try{
-			stmt = FactoryConection.getInstancia()
-					.getConn().createStatement();
-			String query = String.format("SELECT * FROM clasificacion WHERE ID = %s",id);  
-			rs = stmt.executeQuery(query);
+			String query = String.format("SELECT * FROM clasificacion WHERE ID = ?"); 
+			stmt = FactoryConection.getInstancia().getConn().prepareStatement(query);
+			stmt.setInt(1, id);
+			stmt.execute();
+			rs = stmt.getResultSet();
 			if(rs!=null){
 				while(rs.next()){
 					clasificacion.setId(rs.getInt("id"));
