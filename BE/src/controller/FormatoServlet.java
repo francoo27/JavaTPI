@@ -9,21 +9,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import entity.TecnologiaProyeccion;
-import service.TecnologiaProyeccionService;
+import entity.Formato;
+import service.FormatoService;
 import com.google.gson.*;
 
 /**
- * Servlet implementation class TecnologiaProyeccionServlet
+ * Servlet implementation class FormatoServlet
  */
-@WebServlet("/tecnologia-proyeccion/*")
-public class TecnologiaProyeccionServlet extends HttpServlet {
+@WebServlet("/formato/*")
+public class FormatoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public TecnologiaProyeccionServlet() {
+    public FormatoServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,14 +35,14 @@ public class TecnologiaProyeccionServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		String pathInfo = request.getPathInfo();
 		Long id = Long.valueOf(pathInfo.substring(1));
-	    TecnologiaProyeccionService tecnologiaProyeccionService = new TecnologiaProyeccionService();
+	    FormatoService formatoService = new FormatoService();
 	    Gson gson = new Gson();
 		try {
-			TecnologiaProyeccion tecnologiaProyeccion = tecnologiaProyeccionService.getById(id.intValue());
-			if(tecnologiaProyeccion.getId() == 0) {
-				throw new ServletException("TecnologiaProyeccion inexistente"); 
+			Formato formato = formatoService.getById(id.intValue());
+			if(formato.getId() == 0) {
+				throw new ServletException("Formato inexistente"); 
 			} else {
-				response.getWriter().write(gson.toJson(tecnologiaProyeccion));
+				response.getWriter().write(gson.toJson(formato));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -63,14 +63,14 @@ public class TecnologiaProyeccionServlet extends HttpServlet {
 		System.out.println(requestData);
 	    Gson gson = new Gson();
 	    
-	    TecnologiaProyeccion tecnologiaProyeccion = gson.fromJson(requestData, TecnologiaProyeccion.class);
-	    TecnologiaProyeccionService tecnologiaProyeccionService = new TecnologiaProyeccionService();
+	    Formato formato = gson.fromJson(requestData, Formato.class);
+	    FormatoService formatoService = new FormatoService();
 		try {
-			TecnologiaProyeccion currentTecnologiaProyeccion = tecnologiaProyeccionService.getById(tecnologiaProyeccion.getId());
-			if(currentTecnologiaProyeccion.getId() == 0) {
-				throw new ServletException("TecnologiaProyeccion inexistente"); 
+			Formato currentFormato = formatoService.getById(formato.getId());
+			if(currentFormato.getId() == 0) {
+				throw new ServletException("Formato inexistente"); 
 			}
-			tecnologiaProyeccionService.save(tecnologiaProyeccion);
+			formatoService.save(formato);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -80,14 +80,14 @@ public class TecnologiaProyeccionServlet extends HttpServlet {
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String pathInfo = request.getPathInfo();
 		Long id = Long.valueOf(pathInfo.substring(1));
-	    TecnologiaProyeccionService tecnologiaProyeccionService = new TecnologiaProyeccionService();
+	    FormatoService formatoService = new FormatoService();
 		System.out.println(id);
 		try {
-			TecnologiaProyeccion tecnologiaProyeccion = tecnologiaProyeccionService.getById(id.intValue());
-			if(tecnologiaProyeccion.getId() == 0) {
-				throw new ServletException("TecnologiaProyeccion inexistente"); 
+			Formato formato = formatoService.getById(id.intValue());
+			if(formato.getId() == 0) {
+				throw new ServletException("Formato inexistente"); 
 			} else {
-				tecnologiaProyeccionService.delete(tecnologiaProyeccion.getId());
+				formatoService.delete(formato.getId());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

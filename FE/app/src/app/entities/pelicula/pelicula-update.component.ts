@@ -54,6 +54,7 @@ export class PeliculaUpdateComponent implements OnInit {
 
         this.activatedRoute.data.subscribe(({ pelicula }) => {
             this.pelicula = pelicula;
+            console.log(this.pelicula)
             this.currentNombre = pelicula.tituloPais;
 
 

@@ -9,21 +9,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import entity.TecnologiaProyeccion;
-import service.TecnologiaProyeccionService;
+import entity.Audio;
+import service.AudioService;
 import com.google.gson.*;
 
 /**
- * Servlet implementation class TecnologiaProyeccionServlet
+ * Servlet implementation class AudioServlet
  */
-@WebServlet("/tecnologia-proyeccion/*")
-public class TecnologiaProyeccionServlet extends HttpServlet {
+@WebServlet("/audio/*")
+public class AudioServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public TecnologiaProyeccionServlet() {
+    public AudioServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,14 +35,14 @@ public class TecnologiaProyeccionServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		String pathInfo = request.getPathInfo();
 		Long id = Long.valueOf(pathInfo.substring(1));
-	    TecnologiaProyeccionService tecnologiaProyeccionService = new TecnologiaProyeccionService();
+	    AudioService audioService = new AudioService();
 	    Gson gson = new Gson();
 		try {
-			TecnologiaProyeccion tecnologiaProyeccion = tecnologiaProyeccionService.getById(id.intValue());
-			if(tecnologiaProyeccion.getId() == 0) {
-				throw new ServletException("TecnologiaProyeccion inexistente"); 
+			Audio audio = audioService.getById(id.intValue());
+			if(audio.getId() == 0) {
+				throw new ServletException("Audio inexistente"); 
 			} else {
-				response.getWriter().write(gson.toJson(tecnologiaProyeccion));
+				response.getWriter().write(gson.toJson(audio));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -63,14 +63,14 @@ public class TecnologiaProyeccionServlet extends HttpServlet {
 		System.out.println(requestData);
 	    Gson gson = new Gson();
 	    
-	    TecnologiaProyeccion tecnologiaProyeccion = gson.fromJson(requestData, TecnologiaProyeccion.class);
-	    TecnologiaProyeccionService tecnologiaProyeccionService = new TecnologiaProyeccionService();
+	    Audio audio = gson.fromJson(requestData, Audio.class);
+	    AudioService audioService = new AudioService();
 		try {
-			TecnologiaProyeccion currentTecnologiaProyeccion = tecnologiaProyeccionService.getById(tecnologiaProyeccion.getId());
-			if(currentTecnologiaProyeccion.getId() == 0) {
-				throw new ServletException("TecnologiaProyeccion inexistente"); 
+			Audio currentAudio = audioService.getById(audio.getId());
+			if(currentAudio.getId() == 0) {
+				throw new ServletException("Audio inexistente"); 
 			}
-			tecnologiaProyeccionService.save(tecnologiaProyeccion);
+			audioService.save(audio);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -80,14 +80,14 @@ public class TecnologiaProyeccionServlet extends HttpServlet {
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String pathInfo = request.getPathInfo();
 		Long id = Long.valueOf(pathInfo.substring(1));
-	    TecnologiaProyeccionService tecnologiaProyeccionService = new TecnologiaProyeccionService();
+	    AudioService audioService = new AudioService();
 		System.out.println(id);
 		try {
-			TecnologiaProyeccion tecnologiaProyeccion = tecnologiaProyeccionService.getById(id.intValue());
-			if(tecnologiaProyeccion.getId() == 0) {
-				throw new ServletException("TecnologiaProyeccion inexistente"); 
+			Audio audio = audioService.getById(id.intValue());
+			if(audio.getId() == 0) {
+				throw new ServletException("Audio inexistente"); 
 			} else {
-				tecnologiaProyeccionService.delete(tecnologiaProyeccion.getId());
+				audioService.delete(audio.getId());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

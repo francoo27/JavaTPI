@@ -8,12 +8,7 @@ import { PaisService } from './pais.service';
     providers: []
 })
 export class PaisComponent implements OnInit, OnDestroy {
-    countries: any[] =  [{
-        name: 'Australia',
-        code: 'AU'
-    }];
-    selectedCity1: any;
-
+    countries: any[] =  [];
 
     constructor(
         private paisService: PaisService,
@@ -26,6 +21,35 @@ export class PaisComponent implements OnInit, OnDestroy {
         this.countries = res.body!
     } );
 
+    }
+
+    
+    delete(id:number):void{
+        this.paisService.delete(id).subscribe(
+            x => {
+                setTimeout(() => {
+                    this.messageService.add({
+                        severity: "success",
+                        summary: "Todo Ok!",
+                        detail:"Pais Eliminado"
+                    })
+                }, 100);
+            },
+            res => {
+                setTimeout(() => {
+                    this.messageService.add({
+                        severity: "error",
+                        summary: "ERROR",
+                        detail:res.error.message
+                    })
+                }, 100);
+            },
+            () => {
+                this.paisService.query().subscribe(res => {
+                    this.countries = res.body!
+                });
+            }
+        );
     }
 
     ngOnDestroy(): void {}

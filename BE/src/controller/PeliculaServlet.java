@@ -9,21 +9,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import entity.TecnologiaProyeccion;
-import service.TecnologiaProyeccionService;
+import entity.Pelicula;
+import service.PeliculaService;
 import com.google.gson.*;
 
 /**
- * Servlet implementation class TecnologiaProyeccionServlet
+ * Servlet implementation class PeliculaServlet
  */
-@WebServlet("/tecnologia-proyeccion/*")
-public class TecnologiaProyeccionServlet extends HttpServlet {
+@WebServlet("/pelicula/*")
+public class PeliculaServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public TecnologiaProyeccionServlet() {
+    public PeliculaServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,14 +35,14 @@ public class TecnologiaProyeccionServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		String pathInfo = request.getPathInfo();
 		Long id = Long.valueOf(pathInfo.substring(1));
-	    TecnologiaProyeccionService tecnologiaProyeccionService = new TecnologiaProyeccionService();
+	    PeliculaService peliculaService = new PeliculaService();
 	    Gson gson = new Gson();
 		try {
-			TecnologiaProyeccion tecnologiaProyeccion = tecnologiaProyeccionService.getById(id.intValue());
-			if(tecnologiaProyeccion.getId() == 0) {
-				throw new ServletException("TecnologiaProyeccion inexistente"); 
+			Pelicula pelicula = peliculaService.getById(id.intValue());
+			if(pelicula.getId() == 0) {
+				throw new ServletException("Pelicula inexistente"); 
 			} else {
-				response.getWriter().write(gson.toJson(tecnologiaProyeccion));
+				response.getWriter().write(gson.toJson(pelicula));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -63,14 +63,14 @@ public class TecnologiaProyeccionServlet extends HttpServlet {
 		System.out.println(requestData);
 	    Gson gson = new Gson();
 	    
-	    TecnologiaProyeccion tecnologiaProyeccion = gson.fromJson(requestData, TecnologiaProyeccion.class);
-	    TecnologiaProyeccionService tecnologiaProyeccionService = new TecnologiaProyeccionService();
+	    Pelicula pelicula = gson.fromJson(requestData, Pelicula.class);
+	    PeliculaService peliculaService = new PeliculaService();
 		try {
-			TecnologiaProyeccion currentTecnologiaProyeccion = tecnologiaProyeccionService.getById(tecnologiaProyeccion.getId());
-			if(currentTecnologiaProyeccion.getId() == 0) {
-				throw new ServletException("TecnologiaProyeccion inexistente"); 
+			Pelicula currentPelicula = peliculaService.getById(pelicula.getId());
+			if(currentPelicula.getId() == 0) {
+				throw new ServletException("Pelicula inexistente"); 
 			}
-			tecnologiaProyeccionService.save(tecnologiaProyeccion);
+			peliculaService.save(pelicula);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -80,14 +80,14 @@ public class TecnologiaProyeccionServlet extends HttpServlet {
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String pathInfo = request.getPathInfo();
 		Long id = Long.valueOf(pathInfo.substring(1));
-	    TecnologiaProyeccionService tecnologiaProyeccionService = new TecnologiaProyeccionService();
+	    PeliculaService peliculaService = new PeliculaService();
 		System.out.println(id);
 		try {
-			TecnologiaProyeccion tecnologiaProyeccion = tecnologiaProyeccionService.getById(id.intValue());
-			if(tecnologiaProyeccion.getId() == 0) {
-				throw new ServletException("TecnologiaProyeccion inexistente"); 
+			Pelicula pelicula = peliculaService.getById(id.intValue());
+			if(pelicula.getId() == 0) {
+				throw new ServletException("Pelicula inexistente"); 
 			} else {
-				tecnologiaProyeccionService.delete(tecnologiaProyeccion.getId());
+				peliculaService.delete(pelicula.getId());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

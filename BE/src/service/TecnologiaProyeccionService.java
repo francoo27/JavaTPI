@@ -2,27 +2,27 @@ package service;
 
 import java.util.ArrayList;
 
-import data.TecnologiaProyeccion;
+import data.TecnologiaProyeccionRepository;
 import entity.TecnologiaProyeccion;
 
 public class TecnologiaProyeccionService {
 	
-	TecnologiaProyeccion tecnologiaProyeccion = new TecnologiaProyeccion();
+	TecnologiaProyeccionRepository tecnologiaProyeccionRepository = new TecnologiaProyeccionRepository();
 	
 	public TecnologiaProyeccion getById(int id) throws Exception {
-		return tecnologiaProyeccion.getById(id);
+		return tecnologiaProyeccionRepository.getById(id);
 	}
 
 	public ArrayList<TecnologiaProyeccion> getAll() throws Exception {
-		return tecnologiaProyeccion.getAll();
+		return tecnologiaProyeccionRepository.getAll();
 	}
 	
 	public void save(TecnologiaProyeccion genero) throws Exception {
-		tecnologiaProyeccion.save(genero);
+		tecnologiaProyeccionRepository.save(genero);
 	}
 	
 	public void delete(int id) throws Exception {
-		tecnologiaProyeccion.delete(id);
+		tecnologiaProyeccionRepository.delete(id);
 	}
 
 }

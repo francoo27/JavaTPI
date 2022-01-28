@@ -12,19 +12,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
-import entity.TecnologiaProyeccion;
-import service.TecnologiaProyeccionService;
+import entity.Pelicula;
+import service.PeliculaService;
 /**
  * Servlet implementation class Test
  */
-@WebServlet("/tecnologia-proyeccion")
-public class TecnologiaProyeccionListServlet extends HttpServlet {
+@WebServlet("/pelicula")
+public class PeliculaListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public TecnologiaProyeccionListServlet() {
+    public PeliculaListServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,11 +34,11 @@ public class TecnologiaProyeccionListServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	    
-	    TecnologiaProyeccionService tecnologiaProyeccionService = new TecnologiaProyeccionService();
+	    PeliculaService peliculaService = new PeliculaService();
 	    Gson gson = new Gson();
 		try {
-			ArrayList<TecnologiaProyeccion> tecnologiaProyeccionList = tecnologiaProyeccionService.getAll();
-			response.getWriter().write(gson.toJson(tecnologiaProyeccionList));
+			ArrayList<Pelicula> peliculaList = peliculaService.getAll();
+			response.getWriter().write(gson.toJson(peliculaList));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -56,10 +56,10 @@ public class TecnologiaProyeccionListServlet extends HttpServlet {
 		System.out.println(requestData);
 	    Gson gson = new Gson();
 	    
-	    TecnologiaProyeccion tecnologiaProyeccion = gson.fromJson(requestData, TecnologiaProyeccion.class);
-	    TecnologiaProyeccionService tecnologiaProyeccionService = new TecnologiaProyeccionService();
+	    Pelicula pelicula = gson.fromJson(requestData, Pelicula.class);
+	    PeliculaService peliculaService = new PeliculaService();
 	    try {
-			tecnologiaProyeccionService.save(tecnologiaProyeccion);
+			peliculaService.save(pelicula);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -17,6 +17,10 @@ export class PaisService {
         return this.http.post<IPais>(this.resourceUrl, pais, { observe: 'response' });
     }
 
+    delete(id: number): Observable<EntityResponseType> {
+        return this.http.delete<IPais>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+    }
+
     update(pais: IPais): Observable<EntityResponseType> {
         return this.http.put<IPais>(`${this.resourceUrl}/${pais.id}`, pais, { observe: 'response' });
     }
