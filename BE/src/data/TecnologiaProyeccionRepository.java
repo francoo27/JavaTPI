@@ -16,7 +16,6 @@ public class TecnologiaProyeccionRepository {
 		ResultSet rs=null;
 		TecnologiaProyeccion tecnologiaProyeccion = new TecnologiaProyeccion();
 		String query = String.format("SELECT * FROM tecnologia_proyeccion WHERE ID = ?");  
-		System.out.println(id);
 		try{			
 			stmt = FactoryConection.getInstancia().getConn().prepareStatement(query);
 			stmt.setInt(1, id);

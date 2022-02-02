@@ -16,7 +16,6 @@ public class GeneroRepository {
 		ResultSet rs=null;
 		Genero genero = new Genero();
 		String query = String.format("SELECT * FROM genero WHERE ID = ?");  
-		System.out.println(id);
 		try{			
 			stmt = FactoryConection.getInstancia().getConn().prepareStatement(query);
 			stmt.setInt(1, id);

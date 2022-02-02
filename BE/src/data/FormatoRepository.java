@@ -18,7 +18,6 @@ public class FormatoRepository {
 		AudioRepository audioRepository = new AudioRepository();
 		TecnologiaProyeccionRepository tecnologiaProyeccionRepository = new TecnologiaProyeccionRepository();
 		String query = String.format("SELECT * FROM formato WHERE ID = ?");  
-		System.out.println(id);
 		try{			
 			stmt = FactoryConection.getInstancia().getConn().prepareStatement(query);
 			stmt.setInt(1, id);

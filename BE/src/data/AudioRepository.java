@@ -16,7 +16,6 @@ public class AudioRepository {
 		ResultSet rs=null;
 		Audio audio = new Audio();
 		String query = String.format("SELECT * FROM audio WHERE ID = ?");  
-		System.out.println(id);
 		try{			
 			stmt = FactoryConection.getInstancia().getConn().prepareStatement(query);
 			stmt.setInt(1, id);

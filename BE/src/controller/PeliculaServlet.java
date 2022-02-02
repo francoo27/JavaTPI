@@ -60,7 +60,6 @@ public class PeliculaServlet extends HttpServlet {
 	 */
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String requestData = request.getReader().lines().collect(Collectors.joining());
-		System.out.println(requestData);
 	    Gson gson = new Gson();
 	    
 	    Pelicula pelicula = gson.fromJson(requestData, Pelicula.class);
@@ -81,7 +80,6 @@ public class PeliculaServlet extends HttpServlet {
 		String pathInfo = request.getPathInfo();
 		Long id = Long.valueOf(pathInfo.substring(1));
 	    PeliculaService peliculaService = new PeliculaService();
-		System.out.println(id);
 		try {
 			Pelicula pelicula = peliculaService.getById(id.intValue());
 			if(pelicula.getId() == 0) {

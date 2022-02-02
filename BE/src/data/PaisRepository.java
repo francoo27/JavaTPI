@@ -16,7 +16,6 @@ public class PaisRepository {
 		ResultSet rs = null;
 		Pais pais = new Pais();
 		String query = String.format("SELECT * FROM pais WHERE ID = ?");  
-		System.out.println(id);
 		try{			
 			stmt = FactoryConection.getInstancia().getConn().prepareStatement(query);
 			stmt.setInt(1, id);

@@ -8,12 +8,7 @@ import { PeliculaService } from './pelicula.service';
     providers: []
 })
 export class PeliculaComponent implements OnInit, OnDestroy {
-    peliculas: any[] =  [{
-        name: 'Australia',
-        code: 'AU'
-    }];
-    selectedCity1: any;
-
+    peliculas: any[] =  [];
 
     constructor(
         private peliculaService: PeliculaService,

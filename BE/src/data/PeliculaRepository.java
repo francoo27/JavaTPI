@@ -21,7 +21,6 @@ public class PeliculaRepository {
 		ResultSet rs=null;
 		Pelicula pelicula = new Pelicula();
 		String query = String.format("SELECT * FROM pelicula WHERE ID = ?");  
-		System.out.println(id);
 		try{			
 			stmt = FactoryConection.getInstancia().getConn().prepareStatement(query);
 			stmt.setInt(1, id);
@@ -41,6 +40,7 @@ public class PeliculaRepository {
 					pelicula.setTituloPais(rs.getString("titulo_pais"));
 					pelicula.setFechaEstreno(dateFormatter.parse(rs.getString("fecha_estreno")));
 					pelicula.setDuracion(rs.getInt("duracion"));
+					pelicula.setSinopsis(rs.getString("sinopsis"));
 				}
 			}
 		} catch (Exception e){
@@ -84,7 +84,8 @@ public class PeliculaRepository {
 					pelicula.setTituloPais(rs.getString("titulo_pais"));
 					pelicula.setFechaEstreno(dateFormatter.parse(rs.getString("fecha_estreno")));
 					pelicula.setDuracion(rs.getInt("duracion"));
-	
+					pelicula.setSinopsis(rs.getString("sinopsis"));
+					
 					peliculaList.add(pelicula);
 
 				}
@@ -107,16 +108,16 @@ public class PeliculaRepository {
 	}
 	
 	
-	public void save(Pelicula pelicula) throws Exception {
+	public int save(Pelicula pelicula) throws Exception {
 		PreparedStatement stmt = null;
+		int peliculaId = 0;
 		String insertQuery = String.format(
 				"INSERT INTO pelicula (`fecha_creacion`, `fecha_modificacion`, `titulo_original`, `titulo_pais`, `fecha_estreno`, `duracion`, `sinopsis`, `id_clasificacion`, `id_pais`, `id_genero`) VALUES"
 				+ "(?,?,?,?,?,?,?,?,?,?)");  
 		String updateQuery = String.format("UPDATE pelicula SET `fecha_modificacion`= ?, `titulo_original` = ?, `titulo_pais` = ?, `fecha_estreno`= ?, `duracion` = ?, `sinopsis` = ?, `id_clasificacion` = ?, `id_pais` = ?, `id_genero` = ? WHERE id = ?");  
-
 		try {
 			if(pelicula.getId() == 0 ) {
-				stmt = FactoryConection.getInstancia().getConn().prepareStatement(insertQuery);
+				stmt = FactoryConection.getInstancia().getConn().prepareStatement(insertQuery, new String[] {"id"});
 				java.sql.Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
 				stmt.setTimestamp(1, date);
 				stmt.setTimestamp(2, date);
@@ -129,7 +130,7 @@ public class PeliculaRepository {
 				stmt.setInt(9, pelicula.getPais().getId());
 				stmt.setInt(10, pelicula.getGenero().getId());
 			} else {
-				stmt = FactoryConection.getInstancia().getConn().prepareStatement(updateQuery);
+				stmt = FactoryConection.getInstancia().getConn().prepareStatement(updateQuery, new String[] {"id"});
 				java.sql.Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
 				stmt.setTimestamp(1, date);
 				stmt.setString(2, pelicula.getTituloOriginal());
@@ -140,9 +141,16 @@ public class PeliculaRepository {
 				stmt.setInt(7, pelicula.getClasificacion().getId());
 				stmt.setInt(8, pelicula.getPais().getId());
 				stmt.setInt(9, pelicula.getGenero().getId());
+				stmt.setInt(10, pelicula.getId());
 			}
-			System.out.println(stmt);
-			stmt.execute();
+			
+			stmt.executeUpdate();
+
+			// now get the ID:
+			ResultSet rs = stmt.getGeneratedKeys();
+			if (rs.next()) {
+				peliculaId = rs.getInt(1);
+			}
 
 		} catch (Exception e) {
 			throw e;
@@ -155,7 +163,8 @@ public class PeliculaRepository {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
+		System.out.println("Peliculaid"+peliculaId);
+		return peliculaId;
 	}
 	
 	public void delete(int id ) throws Exception {

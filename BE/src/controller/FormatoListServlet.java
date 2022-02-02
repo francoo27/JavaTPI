@@ -53,7 +53,6 @@ public class FormatoListServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String requestData = request.getReader().lines().collect(Collectors.joining());
-		System.out.println(requestData);
 	    Gson gson = new Gson();
 	    
 	    Formato formato = gson.fromJson(requestData, Formato.class);

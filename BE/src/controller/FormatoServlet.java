@@ -60,7 +60,6 @@ public class FormatoServlet extends HttpServlet {
 	 */
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String requestData = request.getReader().lines().collect(Collectors.joining());
-		System.out.println(requestData);
 	    Gson gson = new Gson();
 	    
 	    Formato formato = gson.fromJson(requestData, Formato.class);
@@ -81,7 +80,6 @@ public class FormatoServlet extends HttpServlet {
 		String pathInfo = request.getPathInfo();
 		Long id = Long.valueOf(pathInfo.substring(1));
 	    FormatoService formatoService = new FormatoService();
-		System.out.println(id);
 		try {
 			Formato formato = formatoService.getById(id.intValue());
 			if(formato.getId() == 0) {
