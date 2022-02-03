@@ -110,7 +110,6 @@ public class PeliculaRepository {
 	
 	public int save(Pelicula pelicula) throws Exception {
 		PreparedStatement stmt = null;
-		int peliculaId = 0;
 		String insertQuery = String.format(
 				"INSERT INTO pelicula (`fecha_creacion`, `fecha_modificacion`, `titulo_original`, `titulo_pais`, `fecha_estreno`, `duracion`, `sinopsis`, `id_clasificacion`, `id_pais`, `id_genero`) VALUES"
 				+ "(?,?,?,?,?,?,?,?,?,?)");  
@@ -149,7 +148,7 @@ public class PeliculaRepository {
 			// now get the ID:
 			ResultSet rs = stmt.getGeneratedKeys();
 			if (rs.next()) {
-				peliculaId = rs.getInt(1);
+				pelicula.setId(rs.getInt(1));
 			}
 
 		} catch (Exception e) {
@@ -163,8 +162,7 @@ public class PeliculaRepository {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		System.out.println("Peliculaid"+peliculaId);
-		return peliculaId;
+		return pelicula.getId();
 	}
 	
 	public void delete(int id ) throws Exception {

@@ -11,19 +11,25 @@ public class PeliculaService {
 	PeliculaFormatoService peliculaFormatoService = new PeliculaFormatoService();
 	
 	public Pelicula getById(int id) throws Exception {
-		return peliculaRepository.getById(id);
+		Pelicula pelicula = peliculaRepository.getById(id);
+		pelicula.setFormatos(peliculaFormatoService.getAllByPelicula(pelicula.getId()));
+		return pelicula;
 	}
 
 	public ArrayList<Pelicula> getAll() throws Exception {
-		return peliculaRepository.getAll();
+		ArrayList<Pelicula> peliculaList = peliculaRepository.getAll();
+	    if (peliculaList != null) {
+		    for(Pelicula p:peliculaList) {
+		        p.setFormatos(peliculaFormatoService.getAllByPelicula(p.getId()));
+		     }
+	    }
+	    return peliculaList;
 	}
 	
 	public void save(Pelicula pelicula) throws Exception {
 		int peliculaId = peliculaRepository.save(pelicula);
-		var newList = pelicula.getFormatos();
-		System.out.println("ACA");
-		var currentList = peliculaFormatoService.getAllByPelicula(peliculaId);
-		System.out.println("ACA");
+		ArrayList<Formato> newList = pelicula.getFormatos();
+		ArrayList<Formato> currentList = peliculaFormatoService.getAllByPelicula(peliculaId);;
 		ArrayList<Formato> toAdd = new ArrayList<Formato>();
 		ArrayList<Formato> toDelete = new ArrayList<Formato>();
 		

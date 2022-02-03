@@ -18,6 +18,6 @@ export class SalaService {
     }
 
     query_ByComplejo(complejoId:number): Observable<EntityArrayResponseType> {
-        return this.http.get<ISala[]>(`${this.resourceUrl}/complejo/${complejoId}`, { params: {}/*options*/, observe: 'response' });
+        return this.http.get<ISala[]>(`${this.resourceUrl}`, { params: {complejoId: complejoId}/*options*/, observe: 'response' });
     }
 }

@@ -23,8 +23,7 @@ public class PeliculaFormatoRepository {
 			FormatoRepository formatoRepository = new FormatoRepository();
 			if (rs != null) {
 				while (rs.next()) {
-					System.out.println("BBBBBBBBBBBBBBBB");
-					formatoList.add(formatoRepository.getById(rs.getInt("id_pelicula")));
+					formatoList.add(formatoRepository.getById(rs.getInt("id_formato")));
 				}
 			}
 		} catch (Exception e) {
@@ -53,10 +52,8 @@ public class PeliculaFormatoRepository {
 				stmt = FactoryConection.getInstancia().getConn().prepareStatement(insertQuery);
 				java.sql.Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
 				stmt.setTimestamp(1, date);
-				stmt.setTimestamp(2, date);
-				stmt.setInt(3, idPelicula);
-				stmt.setInt(4, formato.getId());
-				System.out.println(stmt);
+				stmt.setInt(2, idPelicula);
+				stmt.setInt(3, formato.getId());
 			stmt.execute();
 		} catch (Exception e) {
 			throw e;
@@ -79,7 +76,6 @@ public class PeliculaFormatoRepository {
 			stmt = FactoryConection.getInstancia().getConn().prepareStatement(deleteQuery);
 			stmt.setInt(1, idPelicula);
 			stmt.setInt(2, formato.getId());
-			System.out.println(stmt);
 			stmt.execute();
 		} catch (Exception e) {
 			throw e;

@@ -87,7 +87,11 @@ public class Pelicula extends BaseEntity {
 	public ArrayList<Formato> getFormatos() {
 		return formatos;
 	}
-
+	
+	public void setFormatos(ArrayList<Formato> formatos) {
+		this.formatos =formatos;
+	}
+	
 	public void addFormato(ArrayList<Formato> formatos) {
 		formatos.forEach(x -> this.addFormato(x));
 	}
