@@ -9,14 +9,24 @@ public class SalaService {
 	
 	SalaRepository salaRepository = new SalaRepository();
 	
+	SalaFormatoService salaFormatoService = new SalaFormatoService();
+	
 	public Sala getById(int id) throws Exception {
-		return salaRepository.getById(id);
+		Sala sala = salaRepository.getById(id);
+		sala.setFormatos(salaFormatoService.getAllBySala(sala.getId()));
+		return sala;
 	}
 
 	public ArrayList<Sala> getAll(int complejoId) throws Exception {
-		return salaRepository.getAll(complejoId);
+		ArrayList<Sala> salaList = salaRepository.getAll(complejoId);
+	    if (salaList != null) {
+		    for(Sala s:salaList) {
+		        s.setFormatos(salaFormatoService.getAllBySala(s.getId()));
+		     }
+	    }
+	    return salaList;
 	}
-	
+
 	public void save(Sala sala) throws Exception {
 		salaRepository.save(sala);
 	}

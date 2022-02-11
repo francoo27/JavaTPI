@@ -3,18 +3,21 @@ package data;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import entity.Sala;
+import entity.Precio;
 
-public class SalaRepository {
+public class PrecioRepository {
+	
+	TipoPrecioRepository tipoPrecioRepository = new TipoPrecioRepository();
 
-	public Sala getById(int id) throws Exception{
+	public Precio getById(int id) throws Exception{
 
 		PreparedStatement stmt = null;
 		ResultSet rs=null;
-		Sala sala = new Sala();
-		String query = String.format("SELECT * FROM sala WHERE ID = ?");  
+		Precio precio = new Precio();
+		String query = String.format("SELECT * FROM precio WHERE ID = ?");  
 		try{			
 			stmt = FactoryConection.getInstancia().getConn().prepareStatement(query);
 			stmt.setInt(1, id);
@@ -22,10 +25,10 @@ public class SalaRepository {
 			rs = stmt.getResultSet();
 			if(rs!=null){
 				while(rs.next()){
-					sala.setId(rs.getInt("id"));
-					sala.setNumero(rs.getInt("numero"));
-					sala.setFechaCreacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_creacion")));
-					sala.setFechaModificacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_modificacion")));
+					precio.setId(rs.getInt("id"));
+					precio.setNombre(rs.getString("nombre"));
+					precio.setFechaCreacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_creacion")));
+					precio.setFechaModificacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_modificacion")));
 				}
 			}
 		} catch (Exception e){
@@ -40,37 +43,32 @@ public class SalaRepository {
 			e.printStackTrace();
 		}
 
-		return sala;
+		return precio;
 	}
 
 
-	public ArrayList<Sala> getAll(int complejoId) throws Exception {
-		PreparedStatement stmt = null;
+	public ArrayList<Precio> getAll() throws Exception {
+		Statement stmt = null;
 		ResultSet rs = null;
-		ArrayList<Sala> salaList = new ArrayList<Sala>();
+		ArrayList<Precio> precioList = new ArrayList<Precio>();
 
 		try {
-
-			String query = String.format("SELECT * FROM sala");
-			if (complejoId != 0) {
-				query = String.format("SELECT * FROM sala WHERE id_complejo = ?"); 
-			}
-
-			stmt = FactoryConection.getInstancia().getConn().prepareStatement(query);
-			if (complejoId != 0) {
-				stmt.setInt(1,complejoId);
-			}
-			stmt.execute();
-			rs = stmt.getResultSet();
+			stmt = FactoryConection.getInstancia().getConn().createStatement();
+			String query = String.format("SELECT * FROM precio");  
+			rs = stmt.executeQuery(query);
 			if (rs != null) {
 				while (rs.next()) {
-					Sala sala = new Sala();
+					Precio precio = new Precio();
 
-					sala.setId(rs.getInt("id"));
-					sala.setNumero(rs.getInt("numero"));
-					sala.setFechaCreacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_creacion")));
-					sala.setFechaModificacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_modificacion")));
-					salaList.add(sala);
+					precio.setId(rs.getInt("id"));
+					precio.setNombre(rs.getString("nombre"));
+					precio.setCodigo(rs.getString("codigo"));
+					precio.setValor(rs.getDouble("valor"));
+					precio.setActivo(rs.getBoolean("activo"));
+					precio.setTipoPrecio(tipoPrecioRepository.getById(rs.getInt("id_tipoPrecio")));
+					precio.setFechaCreacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_creacion")));
+					precio.setFechaModificacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_modificacion")));
+					precioList.add(precio);
 
 				}
 			}
@@ -88,28 +86,29 @@ public class SalaRepository {
 			e.printStackTrace();
 		}
 
-		return salaList;
+		return precioList;
 	}
 	
 	
-	public void save(Sala sala) throws Exception {
+	public void save(Precio precio) throws Exception {
 		PreparedStatement stmt = null;
-		String insertQuery = String.format("INSERT INTO sala (`fecha_creacion`,`fecha_modificacion`,`numero`) VALUES"
+		String insertQuery = String.format("INSERT INTO precio (`fecha_creacion`,`fecha_modificacion`,`nombre`) VALUES"
 				+ "(?,?,?)");  
-		String updateQuery = String.format("UPDATE sala SET `fecha_modificacion`= ?, `nombre` = ? WHERE id = ?");  
+		String updateQuery = String.format("UPDATE precio SET `fecha_modificacion`= ?, `nombre` = ? WHERE id = ?");  
 
 		try {
-			if(sala.getId() == 0 ) {
+			if(precio.getId() == 0 ) {
 				stmt = FactoryConection.getInstancia().getConn().prepareStatement(insertQuery);
 				java.sql.Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
 				stmt.setTimestamp(1, date);
 				stmt.setTimestamp(2, date);
-				stmt.setInt(3, sala.getNumero());
+				stmt.setString(3, precio.getNombre());
 			} else {
 				stmt = FactoryConection.getInstancia().getConn().prepareStatement(updateQuery);
 				java.sql.Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
 				stmt.setTimestamp(1, date);
-				stmt.setInt(2, sala.getNumero());
+				stmt.setString(2, precio.getNombre());
+				stmt.setInt(3, precio.getId());
 
 			}
 			
@@ -131,7 +130,7 @@ public class SalaRepository {
 	
 	public void delete(int id ) throws Exception {
 		PreparedStatement stmt = null;
-		String deleteQuery = String.format("DELETE FROM java_tpi.sala WHERE id = ?");  
+		String deleteQuery = String.format("DELETE FROM java_tpi.precio WHERE id = ?");  
 		try {
 			stmt = FactoryConection.getInstancia().getConn().prepareStatement(deleteQuery);
 			stmt.setInt(1, id);
