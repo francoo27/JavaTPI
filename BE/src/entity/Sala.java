@@ -6,6 +6,7 @@ public class Sala extends BaseEntity {
 
 	private int numero;
 	private ArrayList<Formato> formatos;
+	private ArrayList<Asiento> asientos;
 	
 	public Sala() {
 		// TODO Auto-generated constructor stub
@@ -17,6 +18,15 @@ public class Sala extends BaseEntity {
 
 	public void setNumero(int numero) {
 		this.numero = numero;
+	}
+	
+	public ArrayList<Asiento> getAsientos() {
+		return asientos;
+	}
+	
+	public void setAsientos(ArrayList<Asiento> asientos) {
+		this.asientos = asientos;
+		System.out.println(asientos.isEmpty());
 	}
 	
 	public ArrayList<Formato> getFormatos() {

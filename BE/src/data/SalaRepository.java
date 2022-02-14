@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import entity.Sala;
 
 public class SalaRepository {
+	AsientoRepository asientoRepository = new AsientoRepository();
 
 	public Sala getById(int id) throws Exception{
 
@@ -26,6 +27,7 @@ public class SalaRepository {
 					sala.setNumero(rs.getInt("numero"));
 					sala.setFechaCreacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_creacion")));
 					sala.setFechaModificacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_modificacion")));
+					sala.setAsientos(asientoRepository.getAllBySala(sala.getId()));
 				}
 			}
 		} catch (Exception e){

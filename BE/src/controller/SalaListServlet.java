@@ -40,7 +40,6 @@ public class SalaListServlet extends HttpServlet {
 	    if (queryString != null) {
 			String[] queryStringArr = queryString.split("=");
 			idComplejo = Integer.parseInt(queryStringArr[1]);
-			System.out.println(idComplejo);
 	    }
 
 	    SalaService salaService = new SalaService();
