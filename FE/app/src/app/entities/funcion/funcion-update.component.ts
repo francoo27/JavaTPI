@@ -113,18 +113,22 @@ export class FuncionUpdateComponent implements OnInit {
 
     save() {
         this.isSaving = true;
-        this.funcion.horaInicio = this.hora.toString();
-        let saveFuncion = mapToFuncionCreate(this.funcion);
         let saveDate = new Date(Date.parse(this.fechaStr));
+        this.funcion.horaInicio = `${Number(new Date(this.hora).getHours())}:${Number(new Date(this.hora).getMinutes())}`;
+        this.funcion.fechaInicio =`${Number(saveDate.getFullYear())}-${Number(saveDate.getMonth()+1)}-${saveDate.getDate()}`;
+        let saveFuncion = mapToFuncionCreate(this.funcion);
+        console.log(this.funcion.horaInicio);
+        console.log(`${Number(saveDate.getFullYear())}-${Number(saveDate.getMonth()+1)}-${saveDate.getDate()}`);
         saveFuncion.fechaAnio = saveDate.getFullYear();
         saveFuncion.fechaMes = saveDate.getMonth()+1;
         saveFuncion.fechaDia = saveDate.getDate();
         saveFuncion.hora = Number(new Date(this.hora).getHours());
         saveFuncion.minuto = Number(new Date(this.hora).getMinutes());
+
         if (this.isNew()) {
-            this.subscribeToSaveResponse(this.funcionService.create(saveFuncion));
+            this.subscribeToSaveResponse(this.funcionService.create(this.funcion));
         } else {
-            this.subscribeToSaveResponse(this.funcionService.update(saveFuncion));
+            this.subscribeToSaveResponse(this.funcionService.update(this.funcion));
         }
     }
 

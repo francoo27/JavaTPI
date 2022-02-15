@@ -78,6 +78,8 @@ public class FuncionRepository {
 					funcion.setNombre(rs.getString("nombre"));
 					funcion.setFechaCreacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_creacion")));
 					funcion.setFechaModificacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_modificacion")));
+					funcion.setFechaInicio(rs.getString("fechaInicio"));
+					funcion.setHoraInicio(rs.getString("horaInicio"));
 					funcionList.add(funcion);
 
 				}
@@ -102,9 +104,12 @@ public class FuncionRepository {
 	
 	public void save(Funcion funcion) throws Exception {
 		PreparedStatement stmt = null;
-		String insertQuery = String.format("INSERT INTO funcion (`fecha_creacion`,`fecha_modificacion`,`numero`) VALUES"
-				+ "(?,?,?)");  
-		String updateQuery = String.format("UPDATE funcion SET `fecha_modificacion`= ?, `nombre` = ? WHERE id = ?");  
+		String insertQuery = String.format("INSERT INTO funcion (`fecha_creacion`,`fecha_modificacion`,`nombre`,"
+				+ "`fechaInicio`, `horaInicio`, `id_pelicula`, `id_formato`, `id_sala`) VALUES"
+				+ "(?,?,?,?,?,?,?,?)");  
+		String updateQuery = String.format("UPDATE funcion SET `fecha_modificacion`= ?, `nombre` = ? "
+				+ "`fechaInicio`= ?, `horaInicio` = ?,id_pelicula`= ?, `id_formato` = ?, `id_sala` = ? "
+				+ "WHERE id = ?");  
 
 		try {
 			if(funcion.getId() == 0 ) {
@@ -112,13 +117,23 @@ public class FuncionRepository {
 				java.sql.Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
 				stmt.setTimestamp(1, date);
 				stmt.setTimestamp(2, date);
-				//stmt.setInt(3, funcion.getNumero());
+				stmt.setString(3, funcion.getNombre());
+				stmt.setString(4, funcion.getFechaInicio());
+				stmt.setString(5, funcion.getHoraInicio());
+				stmt.setInt(6, funcion.getPelicula().getId());
+				stmt.setInt(7, funcion.getFormato().getId());
+				stmt.setInt(8, funcion.getSala().getId());
 			} else {
 				stmt = FactoryConection.getInstancia().getConn().prepareStatement(updateQuery);
 				java.sql.Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
 				stmt.setTimestamp(1, date);
-				//stmt.setInt(2, funcion.getNumero());
-
+				stmt.setString(2, funcion.getNombre());
+				stmt.setString(3, funcion.getFechaInicio());
+				stmt.setString(4, funcion.getHoraInicio());
+				stmt.setInt(5, funcion.getPelicula().getId());
+				stmt.setInt(6, funcion.getFormato().getId());
+				stmt.setInt(7, funcion.getSala().getId());
+				stmt.setInt(8, funcion.getId());
 			}
 			
 			stmt.execute();

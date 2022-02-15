@@ -1,13 +1,14 @@
 package entity;
 
+import java.sql.Time;
 import java.util.Date;
 
 public class Funcion extends BaseEntity {
 	
 	private String nombre;
-	private Date fechaInicio;
-	private int horaInicio;
-    private Pelicula pelicula;  
+	private String fechaInicio;
+	private String horaInicio;
+    private Pelicula pelicula;
     private Formato formato;
     private Sala sala;
 
@@ -20,18 +21,6 @@ public class Funcion extends BaseEntity {
 	
 	public Funcion() {
 		// TODO Auto-generated constructor stub
-	}
-	public Date getFechaInicio() {
-		return fechaInicio;
-	}
-	public void setFechaInicio(Date fechaInicio) {
-		this.fechaInicio = fechaInicio;
-	}
-	public int getHoraInicio() {
-		return horaInicio;
-	}
-	public void setHoraInicio(int horaInicio) {
-		this.horaInicio = horaInicio;
 	}
 	public Pelicula getPelicula() {
 		return pelicula;
@@ -50,6 +39,18 @@ public class Funcion extends BaseEntity {
 	}
 	public void setSala(Sala sala) {
 		this.sala = sala;
+	}
+	public String getFechaInicio() {
+		return fechaInicio;
+	}
+	public void setFechaInicio(String fechaInicio) {
+		this.fechaInicio = fechaInicio;
+	}
+	public String getHoraInicio() {
+		return horaInicio;
+	}
+	public void setHoraInicio(String horaInicio) {
+		this.horaInicio = horaInicio;
 	}
 
 }
