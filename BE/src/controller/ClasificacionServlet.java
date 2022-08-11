@@ -59,7 +59,6 @@ public class ClasificacionServlet extends HttpServlet {
 	 */
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String requestData = request.getReader().lines().collect(Collectors.joining());
-		System.out.println(requestData);
 	    Gson gson = new Gson();
 	    
 	    Clasificacion clasificacion = gson.fromJson(requestData, Clasificacion.class);
@@ -69,7 +68,6 @@ public class ClasificacionServlet extends HttpServlet {
 			if(currentClasificacion.getId() == 0) {
 				throw new ServletException("Clasificacion inexistente"); 
 			}
-			System.out.println(clasificacion.getIdentificador());
 			clasificacionService.save(clasificacion);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -81,7 +79,6 @@ public class ClasificacionServlet extends HttpServlet {
 		String pathInfo = request.getPathInfo();
 		Long id = Long.valueOf(pathInfo.substring(1));
 	    ClasificacionService clasificacionService = new ClasificacionService();
-		System.out.println(id);
 		try {
 			Clasificacion clasificacion = clasificacionService.getById(id.intValue());
 			if(clasificacion.getId() == 0) {

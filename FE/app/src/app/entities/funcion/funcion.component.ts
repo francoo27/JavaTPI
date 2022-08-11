@@ -27,7 +27,7 @@ export class FuncionComponent implements OnInit, OnDestroy {
     }
 
     cancel(id:number):void{
-        this.funcionService.cancel(id).subscribe(
+        this.funcionService.cancel(this.funciones.find(x=> x.id == id)!).subscribe(
             x => {
                 setTimeout(() => {
                     this.messageService.add({

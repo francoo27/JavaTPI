@@ -24,7 +24,7 @@
                 <td>{{funcion.horaInicio}}</td>
                 <td>
                     <button pButton class="p-button-rounded p-button-warning" type="submit" (click)="delete(funcion.id)" icon="pi pi-times" title="Eliminar"></button>
-                    <ng-container *ngIf="funcion.cancelada == null || funcion.cancelada == undefined ">
+                    <ng-container *ngIf="funcion.cancelada == null || funcion.cancelada == undefined || funcion.cancelada == false ">
                         <button pButton class="p-button-rounded p-button-danger" type="submit" (click)="cancel(funcion.id)" icon="pi" title="Cancelar">C</button>
                     </ng-container>
                 </td>

@@ -11,6 +11,7 @@ public class Funcion extends BaseEntity {
     private Pelicula pelicula;
     private Formato formato;
     private Sala sala;
+    private boolean cancelada = false;
 
 	public String getNombre() {
 		return nombre;
@@ -52,5 +53,13 @@ public class Funcion extends BaseEntity {
 	public void setHoraInicio(String horaInicio) {
 		this.horaInicio = horaInicio;
 	}
-
+	public void cancelar() {
+		this.setCancelada(true);
+	}
+	public boolean getCancelada() {
+		return cancelada;
+	}
+	public void setCancelada(boolean cancelada) {
+		this.cancelada = cancelada;
+	}
 }

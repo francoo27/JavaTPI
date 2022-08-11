@@ -61,14 +61,25 @@ public class FuncionServlet extends HttpServlet {
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String requestData = request.getReader().lines().collect(Collectors.joining());
 	    Gson gson = new Gson();
-	    
 	    Funcion funcion = gson.fromJson(requestData, Funcion.class);
 	    FuncionService funcionService = new FuncionService();
+	    
+	    String queryString = request.getQueryString();
+	    
+
 		try {
 			Funcion currentFuncion = funcionService.getById(funcion.getId());
 			if(currentFuncion.getId() == 0) {
 				throw new ServletException("Funcion inexistente"); 
 			}
+			if (queryString != null) {
+				String[] queryStringArr = queryString.split("=");
+				boolean cancelar = Boolean.parseBoolean(queryStringArr[1]);
+				if(cancelar) {
+					funcion.cancelar();
+				}
+		    }
+			System.out.println(funcion);
 			funcionService.save(funcion);
 		} catch (Exception e) {
 			e.printStackTrace();

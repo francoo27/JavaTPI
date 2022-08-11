@@ -80,7 +80,6 @@ public class PaisServlet extends HttpServlet {
 		String pathInfo = request.getPathInfo();
 		Long id = Long.valueOf(pathInfo.substring(1));
 	    PaisService paisService = new PaisService();
-		System.out.println(id);
 		try {
 			Pais pais = paisService.getById(id.intValue());
 			if(pais.getId() == 0) {

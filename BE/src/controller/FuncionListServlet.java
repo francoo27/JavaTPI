@@ -44,7 +44,6 @@ public class FuncionListServlet extends HttpServlet {
 			String[] secondParameter =  queryStringArr[1].split("=");
 			idPelicula = Integer.parseInt(firstParameter[1]);
 			idFormato = Integer.parseInt(secondParameter[1]);
-			System.out.println(idPelicula+"-"+idFormato);
 	    }
 	    
 	    FuncionService funcionService = new FuncionService();

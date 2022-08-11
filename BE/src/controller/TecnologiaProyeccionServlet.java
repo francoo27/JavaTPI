@@ -60,7 +60,6 @@ public class TecnologiaProyeccionServlet extends HttpServlet {
 	 */
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String requestData = request.getReader().lines().collect(Collectors.joining());
-		System.out.println(requestData);
 	    Gson gson = new Gson();
 	    
 	    TecnologiaProyeccion tecnologiaProyeccion = gson.fromJson(requestData, TecnologiaProyeccion.class);
@@ -81,7 +80,6 @@ public class TecnologiaProyeccionServlet extends HttpServlet {
 		String pathInfo = request.getPathInfo();
 		Long id = Long.valueOf(pathInfo.substring(1));
 	    TecnologiaProyeccionService tecnologiaProyeccionService = new TecnologiaProyeccionService();
-		System.out.println(id);
 		try {
 			TecnologiaProyeccion tecnologiaProyeccion = tecnologiaProyeccionService.getById(id.intValue());
 			if(tecnologiaProyeccion.getId() == 0) {

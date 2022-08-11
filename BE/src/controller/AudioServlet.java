@@ -60,7 +60,6 @@ public class AudioServlet extends HttpServlet {
 	 */
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String requestData = request.getReader().lines().collect(Collectors.joining());
-		System.out.println(requestData);
 	    Gson gson = new Gson();
 	    
 	    Audio audio = gson.fromJson(requestData, Audio.class);
@@ -81,7 +80,6 @@ public class AudioServlet extends HttpServlet {
 		String pathInfo = request.getPathInfo();
 		Long id = Long.valueOf(pathInfo.substring(1));
 	    AudioService audioService = new AudioService();
-		System.out.println(id);
 		try {
 			Audio audio = audioService.getById(id.intValue());
 			if(audio.getId() == 0) {

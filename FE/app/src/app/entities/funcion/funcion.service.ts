@@ -38,7 +38,7 @@ export class FuncionService {
         return this.http.delete<IFuncion>(`${this.resourceUrl}/${id}`, { observe: 'response' });
     }
 
-    cancel(id: number): Observable<EntityResponseType> {
-        return this.http.delete<IFuncion>(`${this.resourceUrl}/${id}/cancel`, { observe: 'response' });
+    cancel(funcion: IFuncionCreate): Observable<EntityResponseType> {
+        return this.http.put<IFuncion>(`${this.resourceUrl}/${funcion.id}`, funcion, { params: {cancelar: true},observe: 'response' });
     }
 }

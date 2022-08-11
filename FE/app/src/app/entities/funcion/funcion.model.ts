@@ -10,6 +10,7 @@ export interface IFuncion {
     pelicula?: IPelicula;
     formato?: IFormato;
     sala?: ISala;
+    cancelada?: boolean;
 
 }
 
@@ -22,6 +23,7 @@ export class Funcion implements IFuncion {
         public pelicula?: IPelicula,
         public formato?: IFormato,
         public sala?: ISala,
+        public cancelada?: boolean
     ) {
 
     }

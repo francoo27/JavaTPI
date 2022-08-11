@@ -19,7 +19,6 @@ public class AsientoRepository {
 			String query = String.format("SELECT * FROM asiento INNER JOIN sala_asiento ON asiento.id = sala_asiento.id_asiento WHERE id_sala = ?");
 			stmt = FactoryConection.getInstancia().getConn().prepareStatement(query);
 			stmt.setInt(1, idSala);
-			System.out.println(stmt);
 			stmt.execute();
 			rs = stmt.getResultSet();
 			if (rs != null) {
@@ -35,7 +34,6 @@ public class AsientoRepository {
 					asiento.setFechaCreacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_creacion")));
 					asiento.setFechaModificacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_modificacion")));
 					asientoList.add(asiento);
-					System.out.println(asiento.getId());
 
 				}
 			}

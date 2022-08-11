@@ -33,6 +33,7 @@ public class FuncionRepository {
 					funcion.setNombre(rs.getString("nombre"));
 					funcion.setFechaCreacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_creacion")));
 					funcion.setFechaModificacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_modificacion")));
+					funcion.setCancelada(rs.getBoolean("cancelada"));
 				}
 			}
 		} catch (Exception e){
@@ -80,6 +81,7 @@ public class FuncionRepository {
 					funcion.setFechaModificacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_modificacion")));
 					funcion.setFechaInicio(rs.getString("fechaInicio"));
 					funcion.setHoraInicio(rs.getString("horaInicio"));
+					funcion.setCancelada(rs.getBoolean("cancelada"));
 					funcionList.add(funcion);
 
 				}
@@ -107,10 +109,7 @@ public class FuncionRepository {
 		String insertQuery = String.format("INSERT INTO funcion (`fecha_creacion`,`fecha_modificacion`,`nombre`,"
 				+ "`fechaInicio`, `horaInicio`, `id_pelicula`, `id_formato`, `id_sala`) VALUES"
 				+ "(?,?,?,?,?,?,?,?)");  
-		String updateQuery = String.format("UPDATE funcion SET `fecha_modificacion`= ?, `nombre` = ? "
-				+ "`fechaInicio`= ?, `horaInicio` = ?,id_pelicula`= ?, `id_formato` = ?, `id_sala` = ? "
-				+ "WHERE id = ?");  
-
+		String updateQuery = String.format("UPDATE funcion SET `fecha_modificacion`= ? , `nombre` = ?, `fechaInicio`= ? , `horaInicio` = ? , `id_pelicula`= ? , `id_formato` = ? , `id_sala` = ? , `cancelada` = ? WHERE id = ?");  
 		try {
 			if(funcion.getId() == 0 ) {
 				stmt = FactoryConection.getInstancia().getConn().prepareStatement(insertQuery);
@@ -133,9 +132,10 @@ public class FuncionRepository {
 				stmt.setInt(5, funcion.getPelicula().getId());
 				stmt.setInt(6, funcion.getFormato().getId());
 				stmt.setInt(7, funcion.getSala().getId());
-				stmt.setInt(8, funcion.getId());
+				stmt.setBoolean(8, funcion.getCancelada());
+				stmt.setInt(9, funcion.getId());
 			}
-			
+			System.out.println(stmt);
 			stmt.execute();
 
 		} catch (Exception e) {
