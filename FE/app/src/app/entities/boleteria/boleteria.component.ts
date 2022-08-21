@@ -79,7 +79,7 @@ export class BoleteriaComponent implements OnInit {
     }
 
     onFormatoSelected() {
-        this.funcionService.queryByPeliculaAndFormato(this.peliculaSeleccionado.id!,this.formatoSeleccionado.id!).subscribe(res=>{
+        this.funcionService.queryBoleteria(this.peliculaSeleccionado.id!,this.formatoSeleccionado.id!,0,1).subscribe(res=>{
             this.funciones = res.body!;
         })
     }
@@ -193,7 +193,7 @@ export class BoleteriaComponent implements OnInit {
         this.isSaving = true;
         this.subscribeToSaveResponse(this.compraService.buy_tickets_to_funcion(
             new Compra(
-                this.funcionSeleccionado.id!,this.selected,this.preciosSeleccionados.map(x =>
+                this.funciones.find(x=>x.id == this.funcionSeleccionado.id)!,this.selected,this.preciosSeleccionados.map(x =>
                     {
                         return new PrecioSelectedQuantity(x.id,x['cantidad'])
                     }),this.email,this.nombre

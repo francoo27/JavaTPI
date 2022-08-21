@@ -13,8 +13,8 @@ public class FuncionService {
 		return funcionRepository.getById(id);
 	}
 
-	public ArrayList<Funcion> getAll(int idPelicula,int idFormato) throws Exception {
-		return funcionRepository.getAll(idPelicula,idFormato);
+	public ArrayList<Funcion> getAll(int idPelicula,int idFormato,int cancelada,int expirada) throws Exception {
+		return funcionRepository.getAll(idPelicula,idFormato,cancelada,expirada);
 	}
 	
 	public void save(Funcion funcion) throws Exception {

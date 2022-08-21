@@ -30,8 +30,8 @@ export class FuncionService {
         return this.http.get<IFuncion[]>(this.resourceUrl, { params: {}/*options*/, observe: 'response' });
     }
         
-    queryByPeliculaAndFormato(peliculaId:number,formatoId:number): Observable<EntityArrayResponseType> {
-        return this.http.get<IFuncion[]>(this.resourceUrl, { params: {peliculaId: peliculaId,formatoId:formatoId}/*options*/, observe: 'response' });
+    queryBoleteria(peliculaId:number,formatoId:number,cancelada:number,expirada:number): Observable<EntityArrayResponseType> {
+        return this.http.get<IFuncion[]>(this.resourceUrl, { params: {peliculaId: peliculaId,formatoId:formatoId,cancelada:cancelada,expirada:expirada}/*options*/, observe: 'response' });
     }
 
     delete(id: number): Observable<EntityResponseType> {

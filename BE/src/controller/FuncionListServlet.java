@@ -36,20 +36,24 @@ public class FuncionListServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	    String queryString = request.getQueryString();
-	    int idPelicula , idFormato;
-		idPelicula = idFormato = 0;
+	    int idPelicula , idFormato, cancelada, expirada;
+		idPelicula = idFormato =  cancelada = expirada = 0;
 	    if (queryString != null) {
 			String[] queryStringArr = queryString.split("&");
 			String[] firstParameter =  queryStringArr[0].split("=");
 			String[] secondParameter =  queryStringArr[1].split("=");
+			String[] thirdParameter =  queryStringArr[2].split("=");
+			String[] fourthParameter =  queryStringArr[3].split("=");
 			idPelicula = Integer.parseInt(firstParameter[1]);
 			idFormato = Integer.parseInt(secondParameter[1]);
+			cancelada = Integer.parseInt(thirdParameter[1]);
+			expirada = Integer.parseInt(fourthParameter[1]);
 	    }
 	    
 	    FuncionService funcionService = new FuncionService();
 	    Gson gson = new Gson();
 		try {
-			ArrayList<Funcion> funcionList = funcionService.getAll(idPelicula,idFormato);
+			ArrayList<Funcion> funcionList = funcionService.getAll(idPelicula,idFormato,cancelada,expirada);
 			response.getWriter().write(gson.toJson(funcionList));
 		} catch (Exception e) {
 			e.printStackTrace();

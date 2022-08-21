@@ -1,6 +1,7 @@
+import { IFuncion } from "../funcion/funcion.model";
 
 export interface ICompra {
-    funcionId?:number;
+    funcion?: IFuncion,
     asientoIdSelected?:number[];
     precioIdQuantitySelected?:IPrecioSelectedQuantity[];
     email?: string;
@@ -9,7 +10,7 @@ export interface ICompra {
 
 export class Compra implements ICompra {
     constructor(
-        public funcionId?: number,
+        public funcion?: IFuncion,
         public asientoIdSelected?: number[],
         public precioIdQuantitySelected?: IPrecioSelectedQuantity[],
         public email?: string,

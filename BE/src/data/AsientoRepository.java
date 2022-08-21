@@ -62,18 +62,17 @@ public class AsientoRepository {
 
 		try {
 			String query  = String.format("SELECT asiento.* FROM asiento"
-					+ "INNER JOIN ticket ON ticket.id_asiento = asiento.id"
-					+ "INNER JOIN compra_ticket ON compra_ticket.id_ticket = ticket.id"
-					+ "INNER JOIN compra ON compra.id = compra_ticket.id_compra"
-					+ "WHERE compra.id_funcion = ?;");
+					+ " INNER JOIN ticket ON ticket.id_asiento = asiento.id"
+					+ " INNER JOIN compra_ticket ON compra_ticket.id_ticket = ticket.id"
+					+ " INNER JOIN compra ON compra.id = compra_ticket.id_compra"
+					+ " WHERE compra.id_funcion = ?;");
 			stmt = FactoryConection.getInstancia().getConn().prepareStatement(query);
 			stmt.setInt(1, idFuncion);
-	
+			stmt.execute();
 			rs = stmt.getResultSet();
 			if (rs != null) {
 				while (rs.next()) {
 					Asiento asiento = new Asiento();
-
 					asiento.setId(rs.getInt("id"));
 					asiento.setNombre(rs.getString("nombre"));
 					asiento.setFila(rs.getInt("fila"));

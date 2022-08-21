@@ -44,6 +44,7 @@ public class AsientoListServlet extends HttpServlet {
 	    AsientoService asientoService = new AsientoService();
 	    Gson gson = new Gson();
 		try {
+			System.out.println(idFuncion);
 			ArrayList<Asiento> asientoList = asientoService.getAllByFuncion(idFuncion);
 			response.getWriter().write(gson.toJson(asientoList));
 		} catch (Exception e) {

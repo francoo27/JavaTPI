@@ -5,6 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+
 import entity.Funcion;
 
 public class FuncionRepository {
@@ -52,20 +54,24 @@ public class FuncionRepository {
 	}
 
 
-	public ArrayList<Funcion> getAll(int peliculaId,int idFormato) throws Exception {
+	public ArrayList<Funcion> getAll(int peliculaId,int idFormato, int cancelada, int funcionExpirada ) throws Exception {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		ArrayList<Funcion> funcionList = new ArrayList<Funcion>();
 
 		try {
 
-			String query = String.format("SELECT * FROM java_tpi.funcion WHERE (0 = ?) OR (id_pelicula = ?) AND (0 = ?) OR (id_formato = ?);");
+			String query = String.format("SELECT * FROM java_tpi.funcion WHERE (0 = ?) OR (id_pelicula = ?) AND (0 = ?) OR (id_formato = ?) AND ((0 = ?) OR (cancelada = ?))"
+					+ "AND ((0 = ?) OR (fechaInicio >= current_date()));");
 
 			stmt = FactoryConection.getInstancia().getConn().prepareStatement(query);
 			stmt.setInt(1,peliculaId);
 			stmt.setInt(2,peliculaId);
 			stmt.setInt(3,idFormato);
 			stmt.setInt(4,idFormato);
+			stmt.setInt(5,cancelada);
+			stmt.setInt(6,cancelada);
+			stmt.setInt(7, funcionExpirada);
 			stmt.execute();
 			rs = stmt.getResultSet();
 			if (rs != null) {
