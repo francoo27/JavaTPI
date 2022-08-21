@@ -19,6 +19,11 @@ public class Compra extends BaseEntity {
 	public Compra() {
 		// TODO Auto-generated constructor stub
 	}
+	public Compra(Funcion funcion, String nombre, String email) {
+		this.funcion = funcion;
+		this.nombre = nombre;
+		this.email = email;
+	}
 	public Funcion getFuncion() {
 		return funcion;
 	}

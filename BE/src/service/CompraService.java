@@ -8,8 +8,8 @@ public class CompraService {
 	
 	CompraRepository compraRepository = new CompraRepository();
 	
-	public void comprar(Compra compra) throws Exception {
-		compraRepository.comprar(compra);
+	public int comprar(Compra compra) throws Exception {
+		return compraRepository.comprar(compra);
 	}
 
 }

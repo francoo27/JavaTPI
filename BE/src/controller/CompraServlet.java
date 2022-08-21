@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
@@ -12,9 +13,16 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 
 import entity.Compra;
+import entity.CompraDTO;
 import entity.Genero;
+import entity.Ticket;
+import entity.CompraDTO.PrecioIdQuantity;
+import entity.CompraTicket;
 import service.CompraService;
+import service.CompraTicketService;
 import service.GeneroService;
+import service.TicketService;
+
 
 /**
  * Servlet implementation class CompraServlet
@@ -47,15 +55,46 @@ public class CompraServlet extends HttpServlet {
 		String requestData = request.getReader().lines().collect(Collectors.joining());
 	    Gson gson = new Gson();
 	    
-	    Compra compra = gson.fromJson(requestData, Compra.class);
+	    CompraDTO compraDTO = gson.fromJson(requestData, CompraDTO.class);
 	    CompraService compraService = new CompraService();
+	    CompraTicketService compraTicketService = new CompraTicketService();
+	    TicketService TicketService = new TicketService();
+	    ArrayList<Ticket> tickets = mapTickets(compraDTO.getPrecioIdQuantitySelected(),compraDTO.getAsientoIdSelected());
 	    try {
-	    	compraService.comprar(compra);
+	    	int compraId = compraService.comprar(mapCompra(compraDTO));
+	    	ArrayList<Integer> ticketsId = TicketService.save(tickets);
+	    	ticketsId.forEach(t -> {
+	    		CompraTicket ct = new CompraTicket(compraId,t);
+	    		try {
+					compraTicketService.save(ct);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	    		});
+	    	
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
         response.setContentType("application/json");
 	    response.setCharacterEncoding("UTF-8");
+	}
+	private ArrayList<Ticket> mapTickets (ArrayList<PrecioIdQuantity> precioIdQuantitySelected, ArrayList<Integer> asientoIdSelected) {
+		
+		ArrayList<Ticket> tickets = new ArrayList<Ticket>();
+
+		precioIdQuantitySelected.forEach((x) ->  {
+			for (int i = 0; i < x.getQuantity(); i++) {
+				tickets.add(new Ticket(asientoIdSelected.get(0),x.getPrecioId()));
+				asientoIdSelected.remove(0);
+			}
+		});
+
+		return tickets;
+	}
+	
+	private Compra mapCompra (CompraDTO compraDTO) {
+		return new Compra(compraDTO.getFuncion(),compraDTO.getNombre(),compraDTO.getEmail());
 	}
 
 }

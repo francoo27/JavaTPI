@@ -7,8 +7,8 @@ public class CompraDTO extends BaseEntity {
 	private String nombre;
 	private String email;
 	private Funcion funcion;
-	private ArrayList<int[]> asientos;
-	private ArrayList<PrecioCantidad> precioCantidades;
+	private ArrayList<Integer> asientoIdSelected;
+	private ArrayList<PrecioIdQuantity> precioIdQuantitySelected;
 	public String getNombre() {
 		return nombre;
 	}
@@ -34,4 +34,38 @@ public class CompraDTO extends BaseEntity {
 	}
 	
 
+	public ArrayList<Integer> getAsientoIdSelected() {
+		return asientoIdSelected;
+	}
+
+	public void setAsientoIdSelected(ArrayList<Integer> asientoIdSelected) {
+		this.asientoIdSelected = asientoIdSelected;
+	}
+
+
+	public ArrayList<PrecioIdQuantity> getPrecioIdQuantitySelected() {
+		return precioIdQuantitySelected;
+	}
+
+	public void setPrecioIdQuantitySelected(ArrayList<PrecioIdQuantity> precioIdQuantitySelected) {
+		this.precioIdQuantitySelected = precioIdQuantitySelected;
+	}
+
+
+	public class PrecioIdQuantity {
+		private int precioId;
+		private int quantity;
+		public int getPrecioId() {
+			return precioId;
+		}
+		public void setPrecioId(int precioId) {
+			this.precioId = precioId;
+		}
+		public int getQuantity() {
+			return quantity;
+		}
+		public void setQuantity(int quantity) {
+			this.quantity = quantity;
+		}
+	}
 }

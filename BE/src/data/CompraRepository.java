@@ -49,13 +49,14 @@ public class CompraRepository {
 	}
 	
 	
-	public void comprar(Compra compra) throws Exception {
+	public int comprar(Compra compra) throws Exception {
+		int compraId;
 		PreparedStatement stmt = null;
 		String insertQuery = String.format("INSERT INTO compra (`fecha_creacion`,`fecha_modificacion`,`id_funcion`,`nombre`,`email`) VALUES"
 				+ "(?,?,?,?,?)");   
 
 		try {
-			stmt = FactoryConection.getInstancia().getConn().prepareStatement(insertQuery);
+			stmt = FactoryConection.getInstancia().getConn().prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS);
 			java.sql.Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
 			stmt.setTimestamp(1, date);
 			stmt.setTimestamp(2, date);
@@ -68,6 +69,15 @@ public class CompraRepository {
 		} catch (Exception e) {
 			throw e;
 		}
+		
+        try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+            if (generatedKeys.next()) {
+            	compraId = generatedKeys.getInt(1);
+            }
+            else {
+                throw new SQLException("Creating Compra failed, no ID obtained.");
+            }
+        }
 
 		try {
 			if (stmt != null)
@@ -76,7 +86,7 @@ public class CompraRepository {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
+		return compraId;
 	}
 	
 
