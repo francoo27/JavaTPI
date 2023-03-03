@@ -36,6 +36,16 @@ _Ocupado_: Estado final de el asiento en el evento de una función , un asiento 
 queda en estado Finalizada. Puede volver a _Libre_ si la compra es cancelada.
 Un asiento para una función podrá estar libre u ocupado. Los asientos libres se identificarán con color blanco o azul (en caso de lugar adaptado
 para sillas de rueda). Los asientos ocupados se identificarán en color gris.
+```mermaid
+stateDiagram-v2 
+state  Funcion{
+    direction LR
+    [*] --> Libre
+    Libre --> Ocupado:Compra concretada
+    Ocupado --> Libre:Compra se cancela
+    Ocupado --> [*]
+    }
+```
 ### **Respecto de tipos de precio**
 Los precios dependen de cada complejo, de la tecnología de proyección y del tipo de entrada. Los beneficios 2x1 no aplican sobre entradas de
 precio reducido o con descuento en ningún caso, aplican sobre el precio vigente de la entrada general.
