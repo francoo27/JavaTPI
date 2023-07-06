@@ -25,7 +25,8 @@ export class PaisResolve implements Resolve<IPais> {
 export const paisRoute: Routes = [
     {
         path: '',
-        component: PaisComponent
+        component: PaisComponent,
+        // canActivate:[CanActivateAuth]
     },
     {
         path: ':id/view',
@@ -35,7 +36,8 @@ export const paisRoute: Routes = [
         },
         data: {
             pageTitle: 'Pais'
-        }
+        },
+        // canActivate:[CanActivateAuth]
     },
     {
         path: ':id/edit',
@@ -45,7 +47,8 @@ export const paisRoute: Routes = [
         },
         data: {
             pageTitle: 'Pais'
-        }
+        },
+        // canActivate:[CanActivateAuth]
     },
     {
         path: 'new',
@@ -55,6 +58,7 @@ export const paisRoute: Routes = [
         },
         data: {
             pageTitle: 'Pais'
-        }
+        },
+        // canActivate:[CanActivateAuth]
     },
 ];

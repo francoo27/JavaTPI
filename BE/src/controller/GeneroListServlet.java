@@ -35,7 +35,6 @@ public class GeneroListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	    
 	    GeneroService generoService = new GeneroService();
 	    Gson gson = new Gson();
 		try {

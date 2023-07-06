@@ -24,7 +24,8 @@ export class TecnologiaProyeccionResolve implements Resolve<ITecnologiaProyeccio
 export const tecnologiaProyeccionRoute: Routes = [
     {
         path: '',
-        component: TecnologiaProyeccionComponent
+        component: TecnologiaProyeccionComponent,
+        // canActivate:[CanActivateAuth]
     },
     {
         path: ':id/edit',
@@ -34,7 +35,8 @@ export const tecnologiaProyeccionRoute: Routes = [
         },
         data: {
             pageTitle: 'TecnologiaProyeccion'
-        }
+        },
+        // canActivate:[CanActivateAuth]
     },
     {
         path: 'new',
@@ -44,6 +46,7 @@ export const tecnologiaProyeccionRoute: Routes = [
         },
         data: {
             pageTitle: 'TecnologiaProyeccion'
-        }
+        },
+        // canActivate:[CanActivateAuth]
     },
 ];

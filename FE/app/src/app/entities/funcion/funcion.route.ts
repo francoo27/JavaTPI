@@ -45,7 +45,8 @@ export const funcionRoute: Routes = [
         },
         data: {
             pageTitle: 'Funcion'
-        }
+        },
+        // canActivate:[CanActivateAuth]
     },
     {
         path: 'new',
@@ -55,6 +56,7 @@ export const funcionRoute: Routes = [
         },
         data: {
             pageTitle: 'Funcion'
-        }
+        },
+        // canActivate:[CanActivateAuth]
     },
 ];

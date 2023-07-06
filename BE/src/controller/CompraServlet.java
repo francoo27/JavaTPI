@@ -14,13 +14,12 @@ import com.google.gson.Gson;
 
 import entity.Compra;
 import entity.CompraDTO;
-import entity.Genero;
 import entity.Ticket;
 import entity.CompraDTO.PrecioIdQuantity;
 import entity.CompraTicket;
 import service.CompraService;
 import service.CompraTicketService;
-import service.GeneroService;
+import service.MailService;
 import service.TicketService;
 
 
@@ -76,6 +75,10 @@ public class CompraServlet extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	    
+	    
+		MailService mailService = new MailService();
+		mailService.mailCompra(compraDTO);
         response.setContentType("application/json");
 	    response.setCharacterEncoding("UTF-8");
 	}

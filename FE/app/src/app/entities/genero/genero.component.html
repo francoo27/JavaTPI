@@ -15,7 +15,6 @@
             <tr>
                 <td>{{genero.nombre}}</td>
                 <td>
-                    <button pButton class="p-button-rounded" type="submit" [routerLink]="['/genero/'+genero.id+'/edit']" icon="pi pi-pencil" title="Editar"></button>
                     <button pButton class="p-button-rounded p-button-danger" type="submit" (click)="delete(genero.id)" icon="pi pi-times" title="Eliminar"></button>
                 </td>
             </tr>

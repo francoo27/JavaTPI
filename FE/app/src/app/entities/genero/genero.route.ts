@@ -34,7 +34,8 @@ export const generoRoute: Routes = [
         },
         data: {
             pageTitle: 'Genero'
-        }
+        },
+        // canActivate:[CanActivateAuth]
     },
     {
         path: 'new',
@@ -44,6 +45,7 @@ export const generoRoute: Routes = [
         },
         data: {
             pageTitle: 'Genero'
-        }
+        },
+        // canActivate:[CanActivateAuth]
     },
 ];

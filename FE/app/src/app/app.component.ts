@@ -30,7 +30,7 @@ export class AppComponent implements OnInit {
     ) {}
 
   ngOnInit() {
-          this.items = [
+          this.items = [...this.items,
         {
           label: 'Entidades',
           items: [
