@@ -1,1 +1,1 @@
-export const SERVER_API_URL= 'http://127.0.0.1:8080/'
+export const SERVER_API_URL= 'http://181.231.48.103:8080'
