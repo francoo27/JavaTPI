@@ -9,35 +9,38 @@ import java.util.ArrayList;
 import entity.Precio;
 
 public class PrecioRepository {
-	
+
 	TipoPrecioRepository tipoPrecioRepository = new TipoPrecioRepository();
 
-	public Precio getById(int id) throws Exception{
+	public Precio getById(int id) throws Exception {
 
 		PreparedStatement stmt = null;
-		ResultSet rs=null;
+		ResultSet rs = null;
 		Precio precio = new Precio();
-		String query = String.format("SELECT * FROM precio WHERE ID = ?");  
-		try{			
+		String query = String.format("SELECT * FROM precio WHERE ID = ?");
+		try {
 			stmt = FactoryConection.getInstancia().getConn().prepareStatement(query);
 			stmt.setInt(1, id);
 			stmt.execute();
 			rs = stmt.getResultSet();
-			if(rs!=null){
-				while(rs.next()){
+			if (rs != null) {
+				while (rs.next()) {
 					precio.setId(rs.getInt("id"));
 					precio.setNombre(rs.getString("nombre"));
 					precio.setFechaCreacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_creacion")));
-					precio.setFechaModificacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_modificacion")));
+					precio.setFechaModificacion(
+							new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_modificacion")));
 				}
 			}
-		} catch (Exception e){
+		} catch (Exception e) {
 			throw e;
 		}
 
 		try {
-			if(rs!=null) rs.close();
-			if(stmt!=null) stmt.close();
+			if (rs != null)
+				rs.close();
+			if (stmt != null)
+				stmt.close();
 			FactoryConection.getInstancia().releaseConn();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -46,7 +49,6 @@ public class PrecioRepository {
 		return precio;
 	}
 
-
 	public ArrayList<Precio> getAll() throws Exception {
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -54,7 +56,7 @@ public class PrecioRepository {
 
 		try {
 			stmt = FactoryConection.getInstancia().getConn().createStatement();
-			String query = String.format("SELECT * FROM precio");  
+			String query = String.format("SELECT * FROM precio");
 			rs = stmt.executeQuery(query);
 			if (rs != null) {
 				while (rs.next()) {
@@ -67,7 +69,8 @@ public class PrecioRepository {
 					precio.setActivo(rs.getBoolean("activo"));
 					precio.setTipoPrecio(tipoPrecioRepository.getById(rs.getInt("id_tipoPrecio")));
 					precio.setFechaCreacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_creacion")));
-					precio.setFechaModificacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_modificacion")));
+					precio.setFechaModificacion(
+							new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_modificacion")));
 					precioList.add(precio);
 
 				}
@@ -88,16 +91,15 @@ public class PrecioRepository {
 
 		return precioList;
 	}
-	
-	
+
 	public void save(Precio precio) throws Exception {
 		PreparedStatement stmt = null;
-		String insertQuery = String.format("INSERT INTO precio (`fecha_creacion`,`fecha_modificacion`,`nombre`) VALUES"
-				+ "(?,?,?)");  
-		String updateQuery = String.format("UPDATE precio SET `fecha_modificacion`= ?, `nombre` = ? WHERE id = ?");  
+		String insertQuery = String
+				.format("INSERT INTO precio (`fecha_creacion`,`fecha_modificacion`,`nombre`) VALUES" + "(?,?,?)");
+		String updateQuery = String.format("UPDATE precio SET `fecha_modificacion`= ?, `nombre` = ? WHERE id = ?");
 
 		try {
-			if(precio.getId() == 0 ) {
+			if (precio.getId() == 0) {
 				stmt = FactoryConection.getInstancia().getConn().prepareStatement(insertQuery);
 				java.sql.Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
 				stmt.setTimestamp(1, date);
@@ -111,7 +113,7 @@ public class PrecioRepository {
 				stmt.setInt(3, precio.getId());
 
 			}
-			
+
 			stmt.execute();
 
 		} catch (Exception e) {
@@ -127,10 +129,10 @@ public class PrecioRepository {
 		}
 
 	}
-	
-	public void delete(int id ) throws Exception {
+
+	public void delete(int id) throws Exception {
 		PreparedStatement stmt = null;
-		String deleteQuery = String.format("DELETE FROM java_tpi.precio WHERE id = ?");  
+		String deleteQuery = String.format("DELETE FROM java_tpi.precio WHERE id = ?");
 		try {
 			stmt = FactoryConection.getInstancia().getConn().prepareStatement(deleteQuery);
 			stmt.setInt(1, id);

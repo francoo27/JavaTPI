@@ -30,7 +30,7 @@ export class AudioComponent implements OnInit, OnDestroy {
                 setTimeout(() => {
                     this.messageService.add({
                         severity: "success",
-                        summary: "Todo Ok!",
+                        summary: "Hecho!",
                         detail:"Audio Eliminado"
                     })
                 }, 100);

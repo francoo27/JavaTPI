@@ -32,7 +32,7 @@ export class FuncionComponent implements OnInit, OnDestroy {
                 setTimeout(() => {
                     this.messageService.add({
                         severity: "success",
-                        summary: "Todo Ok!",
+                        summary: "Hecho!",
                         detail:"Funcion Cancelada"
                     })
                 }, 100);
@@ -60,7 +60,7 @@ export class FuncionComponent implements OnInit, OnDestroy {
                 setTimeout(() => {
                     this.messageService.add({
                         severity: "success",
-                        summary: "Todo Ok!",
+                        summary: "Hecho!",
                         detail:"Funcion Eliminado"
                     })
                 }, 100);

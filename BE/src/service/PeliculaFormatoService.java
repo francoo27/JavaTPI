@@ -6,15 +6,15 @@ import data.PeliculaFormatoRepository;
 import entity.Formato;
 
 public class PeliculaFormatoService {
-	
+
 	PeliculaFormatoRepository peliculaFormatoRepository = new PeliculaFormatoRepository();
 
 	public ArrayList<Formato> getAllByPelicula(int peliculaId) throws Exception {
 		return peliculaFormatoRepository.getAllByPelicula(peliculaId);
 	}
-	
+
 	public void save(int peliculaId, ArrayList<Formato> formatoList) throws Exception {
-		formatoList.forEach(x->{
+		formatoList.forEach(x -> {
 			try {
 				this.save(peliculaId, x);
 			} catch (Exception e) {
@@ -25,7 +25,7 @@ public class PeliculaFormatoService {
 	}
 
 	public void delete(int peliculaId, ArrayList<Formato> formatoList) throws Exception {
-		formatoList.forEach(x->{
+		formatoList.forEach(x -> {
 			try {
 				this.delete(peliculaId, x);
 			} catch (Exception e) {
@@ -34,11 +34,11 @@ public class PeliculaFormatoService {
 			}
 		});
 	}
-	
+
 	public void save(int peliculaId, Formato formato) throws Exception {
 		peliculaFormatoRepository.save(peliculaId, formato);
 	}
-	
+
 	public void delete(int peliculaId, Formato formato) throws Exception {
 		peliculaFormatoRepository.delete(peliculaId, formato);
 	}

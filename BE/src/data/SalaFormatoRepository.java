@@ -14,7 +14,7 @@ public class SalaFormatoRepository {
 		ArrayList<Formato> formatoList = new ArrayList<Formato>();
 
 		try {
-			String query = String.format("SELECT * FROM sala_formato WHERE id_sala = ?"); 
+			String query = String.format("SELECT * FROM sala_formato WHERE id_sala = ?");
 			stmt = FactoryConection.getInstancia().getConn().prepareStatement(query);
 			stmt.setInt(1, salaId);
 			rs = stmt.executeQuery();

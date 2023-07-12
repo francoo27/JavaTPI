@@ -8,8 +8,7 @@ public class CompraTicketRepository {
 
 	public void save(CompraTicket compraTicket) throws Exception {
 		PreparedStatement stmt = null;
-		String insertQuery = String.format("INSERT INTO compra_ticket (`id_compra`,`id_ticket`) VALUES"
-				+ "(?,?)");   
+		String insertQuery = String.format("INSERT INTO compra_ticket (`id_compra`,`id_ticket`) VALUES" + "(?,?)");
 
 		try {
 			stmt = FactoryConection.getInstancia().getConn().prepareStatement(insertQuery);
@@ -30,6 +29,5 @@ public class CompraTicketRepository {
 		}
 
 	}
-	
 
 }

@@ -31,7 +31,7 @@ export class ClasificacionComponent implements OnInit, OnDestroy {
                 setTimeout(() => {
                     this.messageService.add({
                         severity: "success",
-                        summary: "Todo Ok!",
+                        summary: "Hecho!",
                         detail:"Clasificacion Eliminada"
                     })
                 }, 100);

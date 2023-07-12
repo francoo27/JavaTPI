@@ -10,32 +10,36 @@ import entity.TipoPrecio;
 
 public class TipoPrecioRepository {
 
-	public TipoPrecio getById(int id) throws Exception{
+	public TipoPrecio getById(int id) throws Exception {
 
 		PreparedStatement stmt = null;
-		ResultSet rs=null;
+		ResultSet rs = null;
 		TipoPrecio tipoPrecio = new TipoPrecio();
-		String query = String.format("SELECT * FROM tipo_precio WHERE ID = ?");  
-		try{			
+		String query = String.format("SELECT * FROM tipo_precio WHERE ID = ?");
+		try {
 			stmt = FactoryConection.getInstancia().getConn().prepareStatement(query);
 			stmt.setInt(1, id);
 			stmt.execute();
 			rs = stmt.getResultSet();
-			if(rs!=null){
-				while(rs.next()){
+			if (rs != null) {
+				while (rs.next()) {
 					tipoPrecio.setId(rs.getInt("id"));
 					tipoPrecio.setNombre(rs.getString("nombre"));
-					tipoPrecio.setFechaCreacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_creacion")));
-					tipoPrecio.setFechaModificacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_modificacion")));
+					tipoPrecio
+							.setFechaCreacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_creacion")));
+					tipoPrecio.setFechaModificacion(
+							new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_modificacion")));
 				}
 			}
-		} catch (Exception e){
+		} catch (Exception e) {
 			throw e;
 		}
 
 		try {
-			if(rs!=null) rs.close();
-			if(stmt!=null) stmt.close();
+			if (rs != null)
+				rs.close();
+			if (stmt != null)
+				stmt.close();
 			FactoryConection.getInstancia().releaseConn();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -44,7 +48,6 @@ public class TipoPrecioRepository {
 		return tipoPrecio;
 	}
 
-
 	public ArrayList<TipoPrecio> getAll() throws Exception {
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -52,7 +55,7 @@ public class TipoPrecioRepository {
 
 		try {
 			stmt = FactoryConection.getInstancia().getConn().createStatement();
-			String query = String.format("SELECT * FROM tipo_precio");  
+			String query = String.format("SELECT * FROM tipo_precio");
 			rs = stmt.executeQuery(query);
 			if (rs != null) {
 				while (rs.next()) {
@@ -60,8 +63,10 @@ public class TipoPrecioRepository {
 
 					tipoPrecio.setId(rs.getInt("id"));
 					tipoPrecio.setNombre(rs.getString("nombre"));
-					tipoPrecio.setFechaCreacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_creacion")));
-					tipoPrecio.setFechaModificacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_modificacion")));
+					tipoPrecio
+							.setFechaCreacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_creacion")));
+					tipoPrecio.setFechaModificacion(
+							new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_modificacion")));
 					tipoPrecioList.add(tipoPrecio);
 
 				}
@@ -82,16 +87,15 @@ public class TipoPrecioRepository {
 
 		return tipoPrecioList;
 	}
-	
-	
+
 	public void save(TipoPrecio tipoPrecio) throws Exception {
 		PreparedStatement stmt = null;
-		String insertQuery = String.format("INSERT INTO tipo_precio (`fecha_creacion`,`fecha_modificacion`,`nombre`) VALUES"
-				+ "(?,?,?)");  
-		String updateQuery = String.format("UPDATE tipo_precio SET `fecha_modificacion`= ?, `nombre` = ? WHERE id = ?");  
+		String insertQuery = String
+				.format("INSERT INTO tipo_precio (`fecha_creacion`,`fecha_modificacion`,`nombre`) VALUES" + "(?,?,?)");
+		String updateQuery = String.format("UPDATE tipo_precio SET `fecha_modificacion`= ?, `nombre` = ? WHERE id = ?");
 
 		try {
-			if(tipoPrecio.getId() == 0 ) {
+			if (tipoPrecio.getId() == 0) {
 				stmt = FactoryConection.getInstancia().getConn().prepareStatement(insertQuery);
 				java.sql.Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
 				stmt.setTimestamp(1, date);
@@ -105,7 +109,7 @@ public class TipoPrecioRepository {
 				stmt.setInt(3, tipoPrecio.getId());
 
 			}
-			
+
 			stmt.execute();
 
 		} catch (Exception e) {
@@ -121,10 +125,10 @@ public class TipoPrecioRepository {
 		}
 
 	}
-	
-	public void delete(int id ) throws Exception {
+
+	public void delete(int id) throws Exception {
 		PreparedStatement stmt = null;
-		String deleteQuery = String.format("DELETE FROM java_tpi.tipo_precio WHERE id = ?");  
+		String deleteQuery = String.format("DELETE FROM java_tpi.tipo_precio WHERE id = ?");
 		try {
 			stmt = FactoryConection.getInstancia().getConn().prepareStatement(deleteQuery);
 			stmt.setInt(1, id);

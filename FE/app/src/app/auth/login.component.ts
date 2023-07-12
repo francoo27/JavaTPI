@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
               console.log(res)
                   this.messageService.add({
                       severity: "success",
-                      summary: "Todo Ok!",
+                      summary: "Hecho!",
                       detail:"Logeo exitoso"
                   })
           },

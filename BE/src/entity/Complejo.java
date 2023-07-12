@@ -3,7 +3,7 @@ package entity;
 public class Complejo extends BaseEntity {
 
 	private String nombre;
-	
+
 	public Complejo() {
 		// TODO Auto-generated constructor stub
 	}

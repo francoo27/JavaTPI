@@ -10,32 +10,36 @@ import entity.TecnologiaProyeccion;
 
 public class TecnologiaProyeccionRepository {
 
-	public TecnologiaProyeccion getById(int id) throws Exception{
+	public TecnologiaProyeccion getById(int id) throws Exception {
 
 		PreparedStatement stmt = null;
-		ResultSet rs=null;
+		ResultSet rs = null;
 		TecnologiaProyeccion tecnologiaProyeccion = new TecnologiaProyeccion();
-		String query = String.format("SELECT * FROM tecnologia_proyeccion WHERE ID = ?");  
-		try{			
+		String query = String.format("SELECT * FROM tecnologia_proyeccion WHERE ID = ?");
+		try {
 			stmt = FactoryConection.getInstancia().getConn().prepareStatement(query);
 			stmt.setInt(1, id);
 			stmt.execute();
 			rs = stmt.getResultSet();
-			if(rs!=null){
-				while(rs.next()){
+			if (rs != null) {
+				while (rs.next()) {
 					tecnologiaProyeccion.setId(rs.getInt("id"));
 					tecnologiaProyeccion.setNombre(rs.getString("nombre"));
-					tecnologiaProyeccion.setFechaCreacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_creacion")));
-					tecnologiaProyeccion.setFechaModificacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_modificacion")));
+					tecnologiaProyeccion
+							.setFechaCreacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_creacion")));
+					tecnologiaProyeccion.setFechaModificacion(
+							new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_modificacion")));
 				}
 			}
-		} catch (Exception e){
+		} catch (Exception e) {
 			throw e;
 		}
 
 		try {
-			if(rs!=null) rs.close();
-			if(stmt!=null) stmt.close();
+			if (rs != null)
+				rs.close();
+			if (stmt != null)
+				stmt.close();
 			FactoryConection.getInstancia().releaseConn();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -44,7 +48,6 @@ public class TecnologiaProyeccionRepository {
 		return tecnologiaProyeccion;
 	}
 
-
 	public ArrayList<TecnologiaProyeccion> getAll() throws Exception {
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -52,7 +55,7 @@ public class TecnologiaProyeccionRepository {
 
 		try {
 			stmt = FactoryConection.getInstancia().getConn().createStatement();
-			String query = String.format("SELECT * FROM tecnologia_proyeccion");  
+			String query = String.format("SELECT * FROM tecnologia_proyeccion");
 			rs = stmt.executeQuery(query);
 			if (rs != null) {
 				while (rs.next()) {
@@ -60,8 +63,10 @@ public class TecnologiaProyeccionRepository {
 
 					tecnologiaProyeccion.setId(rs.getInt("id"));
 					tecnologiaProyeccion.setNombre(rs.getString("nombre"));
-					tecnologiaProyeccion.setFechaCreacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_creacion")));
-					tecnologiaProyeccion.setFechaModificacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_modificacion")));
+					tecnologiaProyeccion
+							.setFechaCreacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_creacion")));
+					tecnologiaProyeccion.setFechaModificacion(
+							new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_modificacion")));
 					tecnologiaProyeccionList.add(tecnologiaProyeccion);
 
 				}
@@ -82,16 +87,17 @@ public class TecnologiaProyeccionRepository {
 
 		return tecnologiaProyeccionList;
 	}
-	
-	
+
 	public void save(TecnologiaProyeccion tecnologiaProyeccion) throws Exception {
 		PreparedStatement stmt = null;
-		String insertQuery = String.format("INSERT INTO tecnologia_proyeccion (`fecha_creacion`,`fecha_modificacion`,`nombre`) VALUES"
-				+ "(?,?,?)");  
-		String updateQuery = String.format("UPDATE tecnologia_proyeccion SET `fecha_modificacion`= ?, `nombre` = ? WHERE id = ?");  
+		String insertQuery = String
+				.format("INSERT INTO tecnologia_proyeccion (`fecha_creacion`,`fecha_modificacion`,`nombre`) VALUES"
+						+ "(?,?,?)");
+		String updateQuery = String
+				.format("UPDATE tecnologia_proyeccion SET `fecha_modificacion`= ?, `nombre` = ? WHERE id = ?");
 
 		try {
-			if(tecnologiaProyeccion.getId() == 0 ) {
+			if (tecnologiaProyeccion.getId() == 0) {
 				stmt = FactoryConection.getInstancia().getConn().prepareStatement(insertQuery);
 				java.sql.Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
 				stmt.setTimestamp(1, date);
@@ -105,7 +111,7 @@ public class TecnologiaProyeccionRepository {
 				stmt.setInt(3, tecnologiaProyeccion.getId());
 
 			}
-			
+
 			stmt.execute();
 
 		} catch (Exception e) {
@@ -121,10 +127,10 @@ public class TecnologiaProyeccionRepository {
 		}
 
 	}
-	
-	public void delete(int id ) throws Exception {
+
+	public void delete(int id) throws Exception {
 		PreparedStatement stmt = null;
-		String deleteQuery = String.format("DELETE FROM java_tpi.tecnologia_proyeccion WHERE id = ?");  
+		String deleteQuery = String.format("DELETE FROM java_tpi.tecnologia_proyeccion WHERE id = ?");
 		try {
 			stmt = FactoryConection.getInstancia().getConn().prepareStatement(deleteQuery);
 			stmt.setInt(1, id);

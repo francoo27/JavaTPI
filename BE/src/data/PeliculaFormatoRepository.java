@@ -14,7 +14,7 @@ public class PeliculaFormatoRepository {
 		ArrayList<Formato> formatoList = new ArrayList<Formato>();
 
 		try {
-			String query = String.format("SELECT * FROM pelicula_formato WHERE id_pelicula = ?"); 
+			String query = String.format("SELECT * FROM pelicula_formato WHERE id_pelicula = ?");
 			stmt = FactoryConection.getInstancia().getConn().prepareStatement(query);
 			stmt.setInt(1, peliculaId);
 			rs = stmt.executeQuery();
@@ -40,18 +40,17 @@ public class PeliculaFormatoRepository {
 
 		return formatoList;
 	}
-	
-	
+
 	public void save(int idPelicula, Formato formato) throws Exception {
 		PreparedStatement stmt = null;
-		String insertQuery = String.format("INSERT INTO pelicula_formato (`fecha_creacion`,`id_pelicula`,`id_formato`) VALUES"
-				+ "(?,?,?)");  
+		String insertQuery = String.format(
+				"INSERT INTO pelicula_formato (`fecha_creacion`,`id_pelicula`,`id_formato`) VALUES" + "(?,?,?)");
 		try {
-				stmt = FactoryConection.getInstancia().getConn().prepareStatement(insertQuery);
-				java.sql.Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
-				stmt.setTimestamp(1, date);
-				stmt.setInt(2, idPelicula);
-				stmt.setInt(3, formato.getId());
+			stmt = FactoryConection.getInstancia().getConn().prepareStatement(insertQuery);
+			java.sql.Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
+			stmt.setTimestamp(1, date);
+			stmt.setInt(2, idPelicula);
+			stmt.setInt(3, formato.getId());
 			stmt.execute();
 		} catch (Exception e) {
 			throw e;
@@ -66,10 +65,11 @@ public class PeliculaFormatoRepository {
 		}
 
 	}
-	
+
 	public void delete(int idPelicula, Formato formato) throws Exception {
 		PreparedStatement stmt = null;
-		String deleteQuery = String.format("DELETE FROM java_tpi.pelicula_formato WHERE  id_pelicula = ? AND id_formato = ?");  
+		String deleteQuery = String
+				.format("DELETE FROM java_tpi.pelicula_formato WHERE  id_pelicula = ? AND id_formato = ?");
 		try {
 			stmt = FactoryConection.getInstancia().getConn().prepareStatement(deleteQuery);
 			stmt.setInt(1, idPelicula);

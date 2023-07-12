@@ -6,9 +6,9 @@ import data.TicketRepository;
 import entity.Ticket;
 
 public class TicketService {
-	
+
 	TicketRepository ticketRepository = new TicketRepository();
-	
+
 	public ArrayList<Integer> save(ArrayList<Ticket> tickets) throws Exception {
 		ArrayList<Integer> ids = new ArrayList<Integer>();
 		tickets.forEach(t -> {
@@ -21,7 +21,7 @@ public class TicketService {
 		});
 		return ids;
 	}
-	
+
 	public int save(Ticket ticket) throws Exception {
 		return ticketRepository.save(ticket);
 	}

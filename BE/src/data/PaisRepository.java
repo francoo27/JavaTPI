@@ -10,33 +10,36 @@ import entity.Pais;
 
 public class PaisRepository {
 
-	public Pais getById(int id) throws Exception{
+	public Pais getById(int id) throws Exception {
 
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		Pais pais = new Pais();
-		String query = String.format("SELECT * FROM pais WHERE ID = ?");  
-		try{			
+		String query = String.format("SELECT * FROM pais WHERE ID = ?");
+		try {
 			stmt = FactoryConection.getInstancia().getConn().prepareStatement(query);
 			stmt.setInt(1, id);
 			stmt.execute();
 			rs = stmt.getResultSet();
-			if(rs != null){
-				while(rs.next()){
+			if (rs != null) {
+				while (rs.next()) {
 					pais.setId(rs.getInt("id"));
 					pais.setNombre(rs.getString("nombre"));
 					pais.setCodigo(rs.getString("codigo"));
 					pais.setFechaCreacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_creacion")));
-					pais.setFechaModificacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_modificacion")));
+					pais.setFechaModificacion(
+							new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_modificacion")));
 				}
 			}
-		} catch (Exception e){
+		} catch (Exception e) {
 			throw e;
 		}
 
 		try {
-			if(rs!=null) rs.close();
-			if(stmt!=null) stmt.close();
+			if (rs != null)
+				rs.close();
+			if (stmt != null)
+				stmt.close();
 			FactoryConection.getInstancia().releaseConn();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -45,7 +48,6 @@ public class PaisRepository {
 		return pais;
 	}
 
-
 	public ArrayList<Pais> getAll() throws Exception {
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -53,7 +55,7 @@ public class PaisRepository {
 
 		try {
 			stmt = FactoryConection.getInstancia().getConn().createStatement();
-			String query = String.format("SELECT * FROM pais");  
+			String query = String.format("SELECT * FROM pais");
 			rs = stmt.executeQuery(query);
 			if (rs != null) {
 				while (rs.next()) {
@@ -63,7 +65,8 @@ public class PaisRepository {
 					pais.setNombre(rs.getString("nombre"));
 					pais.setCodigo(rs.getString("codigo"));
 					pais.setFechaCreacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_creacion")));
-					pais.setFechaModificacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_modificacion")));
+					pais.setFechaModificacion(
+							new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_modificacion")));
 					paisList.add(pais);
 
 				}
@@ -84,16 +87,16 @@ public class PaisRepository {
 
 		return paisList;
 	}
-	
-	
+
 	public void save(Pais pais) throws Exception {
 		PreparedStatement stmt = null;
-		String insertQuery = String.format("INSERT INTO pais (`fecha_creacion`,`fecha_modificacion`,`nombre`, `codigo`) VALUES"
-				+ "(?,?,?,?)");  
-		String updateQuery = String.format("UPDATE pais SET `fecha_modificacion`= ? , `nombre` = ? , `codigo` = ? WHERE id = ?");  
+		String insertQuery = String.format(
+				"INSERT INTO pais (`fecha_creacion`,`fecha_modificacion`,`nombre`, `codigo`) VALUES" + "(?,?,?,?)");
+		String updateQuery = String
+				.format("UPDATE pais SET `fecha_modificacion`= ? , `nombre` = ? , `codigo` = ? WHERE id = ?");
 
 		try {
-			if(pais.getId() == 0 ) {
+			if (pais.getId() == 0) {
 				stmt = FactoryConection.getInstancia().getConn().prepareStatement(insertQuery);
 				java.sql.Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
 				stmt.setTimestamp(1, date);
@@ -109,7 +112,7 @@ public class PaisRepository {
 				stmt.setInt(4, pais.getId());
 
 			}
-			
+
 			stmt.execute();
 
 		} catch (Exception e) {
@@ -125,10 +128,10 @@ public class PaisRepository {
 		}
 
 	}
-	
-	public void delete(int id ) throws Exception {
+
+	public void delete(int id) throws Exception {
 		PreparedStatement stmt = null;
-		String deleteQuery = String.format("DELETE FROM java_tpi.pais WHERE id = ?");  
+		String deleteQuery = String.format("DELETE FROM java_tpi.pais WHERE id = ?");
 		try {
 			stmt = FactoryConection.getInstancia().getConn().prepareStatement(deleteQuery);
 			stmt.setInt(1, id);

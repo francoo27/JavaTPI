@@ -4,7 +4,7 @@ public class Pais extends BaseEntity {
 
 	private String nombre;
 	private String codigo;
-	
+
 	public Pais() {
 		// TODO Auto-generated constructor stub
 	}

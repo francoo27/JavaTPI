@@ -10,36 +10,40 @@ import entity.Formato;
 
 public class FormatoRepository {
 
-	public Formato getById(int id) throws Exception{
+	public Formato getById(int id) throws Exception {
 
 		PreparedStatement stmt = null;
-		ResultSet rs=null;
+		ResultSet rs = null;
 		Formato formato = new Formato();
 		AudioRepository audioRepository = new AudioRepository();
 		TecnologiaProyeccionRepository tecnologiaProyeccionRepository = new TecnologiaProyeccionRepository();
-		String query = String.format("SELECT * FROM formato WHERE ID = ?");  
-		try{			
+		String query = String.format("SELECT * FROM formato WHERE ID = ?");
+		try {
 			stmt = FactoryConection.getInstancia().getConn().prepareStatement(query);
 			stmt.setInt(1, id);
 			stmt.execute();
 			rs = stmt.getResultSet();
-			if(rs!=null){
-				while(rs.next()){
+			if (rs != null) {
+				while (rs.next()) {
 					formato.setId(rs.getInt("id"));
 					formato.setAudio(audioRepository.getById(rs.getInt("id_audio")));
-					formato.setTecnologiaProyeccion(tecnologiaProyeccionRepository.getById(rs.getInt("id_tecnologia_proyeccion")));
+					formato.setTecnologiaProyeccion(
+							tecnologiaProyeccionRepository.getById(rs.getInt("id_tecnologia_proyeccion")));
 					formato.setNombre();
 					formato.setFechaCreacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_creacion")));
-					formato.setFechaModificacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_modificacion")));
+					formato.setFechaModificacion(
+							new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_modificacion")));
 				}
 			}
-		} catch (Exception e){
+		} catch (Exception e) {
 			throw e;
 		}
 
 		try {
-			if(rs!=null) rs.close();
-			if(stmt!=null) stmt.close();
+			if (rs != null)
+				rs.close();
+			if (stmt != null)
+				stmt.close();
 			FactoryConection.getInstancia().releaseConn();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -48,7 +52,6 @@ public class FormatoRepository {
 		return formato;
 	}
 
-
 	public ArrayList<Formato> getAll() throws Exception {
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -56,7 +59,7 @@ public class FormatoRepository {
 
 		try {
 			stmt = FactoryConection.getInstancia().getConn().createStatement();
-			String query = String.format("SELECT * FROM formato");  
+			String query = String.format("SELECT * FROM formato");
 			rs = stmt.executeQuery(query);
 			AudioRepository audioRepository = new AudioRepository();
 			TecnologiaProyeccionRepository tecnologiaProyeccionRepository = new TecnologiaProyeccionRepository();
@@ -66,10 +69,12 @@ public class FormatoRepository {
 
 					formato.setId(rs.getInt("id"));
 					formato.setAudio(audioRepository.getById(rs.getInt("id_audio")));
-					formato.setTecnologiaProyeccion(tecnologiaProyeccionRepository.getById(rs.getInt("id_tecnologia_proyeccion")));
+					formato.setTecnologiaProyeccion(
+							tecnologiaProyeccionRepository.getById(rs.getInt("id_tecnologia_proyeccion")));
 					formato.setNombre();
 					formato.setFechaCreacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_creacion")));
-					formato.setFechaModificacion(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_modificacion")));
+					formato.setFechaModificacion(
+							new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("fecha_modificacion")));
 					formatoList.add(formato);
 
 				}
@@ -90,16 +95,17 @@ public class FormatoRepository {
 
 		return formatoList;
 	}
-	
-	
+
 	public void save(Formato formato) throws Exception {
 		PreparedStatement stmt = null;
-		String insertQuery = String.format("INSERT INTO formato (`fecha_creacion`,`fecha_modificacion`,`nombre`,`id_audio`,`id_tecnologia_proyeccion`) VALUES"
-				+ "(?,?,?,?,?)");  
-		String updateQuery = String.format("UPDATE formato SET `fecha_modificacion`= ?, `nombre` = ?, `id_audio` = ?, `id_tecnologia_proyeccion` = ? WHERE id = ?");  
+		String insertQuery = String.format(
+				"INSERT INTO formato (`fecha_creacion`,`fecha_modificacion`,`nombre`,`id_audio`,`id_tecnologia_proyeccion`) VALUES"
+						+ "(?,?,?,?,?)");
+		String updateQuery = String.format(
+				"UPDATE formato SET `fecha_modificacion`= ?, `nombre` = ?, `id_audio` = ?, `id_tecnologia_proyeccion` = ? WHERE id = ?");
 
 		try {
-			if(formato.getId() == 0 ) {
+			if (formato.getId() == 0) {
 				stmt = FactoryConection.getInstancia().getConn().prepareStatement(insertQuery);
 				java.sql.Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
 				stmt.setTimestamp(1, date);
@@ -116,7 +122,7 @@ public class FormatoRepository {
 				stmt.setInt(4, formato.getAudio().getId());
 				stmt.setInt(5, formato.getTecnologiaProyeccion().getId());
 			}
-			
+
 			stmt.execute();
 
 		} catch (Exception e) {
@@ -132,10 +138,10 @@ public class FormatoRepository {
 		}
 
 	}
-	
-	public void delete(int id ) throws Exception {
+
+	public void delete(int id) throws Exception {
 		PreparedStatement stmt = null;
-		String deleteQuery = String.format("DELETE FROM java_tpi.formato WHERE id = ?");  
+		String deleteQuery = String.format("DELETE FROM java_tpi.formato WHERE id = ?");
 		try {
 			stmt = FactoryConection.getInstancia().getConn().prepareStatement(deleteQuery);
 			stmt.setInt(1, id);

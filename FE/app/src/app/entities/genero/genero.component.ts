@@ -30,8 +30,8 @@ export class GeneroComponent implements OnInit, OnDestroy {
                 setTimeout(() => {
                     this.messageService.add({
                         severity: "success",
-                        summary: "Todo Ok!",
-                        detail:"Genero Eliminado"
+                        summary: "Hecho!",
+                        detail:"Genero Eliminado."
                     })
                 }, 100);
             },
@@ -39,8 +39,7 @@ export class GeneroComponent implements OnInit, OnDestroy {
                 setTimeout(() => {
                     this.messageService.add({
                         severity: "error",
-                        summary: "ERROR",
-                        detail:res.error.message
+                        summary: "No es posible eliminar el genero este momento."
                     })
                 }, 100);
             },

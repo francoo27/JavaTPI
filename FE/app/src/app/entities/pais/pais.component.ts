@@ -30,7 +30,7 @@ export class PaisComponent implements OnInit, OnDestroy {
                 setTimeout(() => {
                     this.messageService.add({
                         severity: "success",
-                        summary: "Todo Ok!",
+                        summary: "Hecho!",
                         detail:"Pais Eliminado"
                     })
                 }, 100);

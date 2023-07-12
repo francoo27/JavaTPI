@@ -129,7 +129,7 @@ export class PeliculaUpdateComponent implements OnInit {
         setTimeout(() => {
             this.messageService.add({
                 severity: "success",
-                summary: "Todo Ok!",
+                summary: "Hecho!",
                 detail: this.isNew() ? "Pelicula creada":"Pelicula editada"
             })
         }, 1000);

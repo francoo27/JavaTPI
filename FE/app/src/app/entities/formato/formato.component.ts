@@ -30,7 +30,7 @@ export class FormatoComponent implements OnInit, OnDestroy {
                 setTimeout(() => {
                     this.messageService.add({
                         severity: "success",
-                        summary: "Todo Ok!",
+                        summary: "Hecho!",
                         detail:"Formato Eliminado"
                     })
                 }, 100);

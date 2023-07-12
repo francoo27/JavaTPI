@@ -30,7 +30,7 @@ export class TecnologiaProyeccionComponent implements OnInit, OnDestroy {
                 setTimeout(() => {
                     this.messageService.add({
                         severity: "success",
-                        summary: "Todo Ok!",
+                        summary: "Hecho!",
                         detail:"Tecnologia Proyeccion Eliminada"
                     })
                 }, 100);

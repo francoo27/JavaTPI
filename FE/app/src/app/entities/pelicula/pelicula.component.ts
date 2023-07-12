@@ -28,7 +28,7 @@ export class PeliculaComponent implements OnInit, OnDestroy {
                 setTimeout(() => {
                     this.messageService.add({
                         severity: "success",
-                        summary: "Todo Ok!",
+                        summary: "Hecho!",
                         detail:"Pelicula Eliminada"
                     })
                 }, 100);
