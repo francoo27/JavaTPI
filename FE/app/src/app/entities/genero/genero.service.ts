@@ -3,6 +3,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IGenero } from './genero.model';
 import { SERVER_API_URL } from 'src/app/app.constants';
+import { createHeaders } from 'src/app/shared/createHeader';
 
 type EntityResponseType = HttpResponse<IGenero>;
 type EntityArrayResponseType = HttpResponse<IGenero[]>;
@@ -18,11 +19,11 @@ export class GeneroService {
     }
 
     create(genero: IGenero): Observable<EntityResponseType> {
-        return this.http.post<IGenero>(this.resourceUrl, genero, { observe: 'response' });
+        return this.http.post<IGenero>(this.resourceUrl, genero, { headers: createHeaders(), observe: 'response' });
     }
 
     update(genero: IGenero): Observable<EntityResponseType> {
-        return this.http.put<IGenero>(`${this.resourceUrl}/${genero.id}`, genero, { observe: 'response' });
+        return this.http.put<IGenero>(`${this.resourceUrl}/${genero.id}`, genero, { headers: createHeaders(), observe: 'response' });
     }
 
     find(id: number): Observable<EntityResponseType> {
@@ -30,7 +31,7 @@ export class GeneroService {
     }
 
     delete(id: number): Observable<EntityResponseType> {
-        return this.http.delete<IGenero>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+        return this.http.delete<IGenero>(`${this.resourceUrl}/${id}`, { headers: createHeaders(), observe: 'response' });
     }
 
 }

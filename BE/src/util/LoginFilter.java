@@ -10,37 +10,56 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import service.AuthService;
+
 public class LoginFilter implements Filter {
 
+	
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
-			throws IOException, ServletException {
-		// No es la mejor forma pero es facil redirigir todos los servlets a este filtro
-		// y bloquear
-		final String Login = "/authorization/login";
+	        throws IOException, ServletException {
+	    final String loginPath = "/authorization/login";
 
-		String url = ((HttpServletRequest) req).getRequestURL().toString();
-		String servlet = ((HttpServletRequest) req).getServletPath();
+	    HttpServletRequest httpRequest = (HttpServletRequest) req;
+	    HttpServletResponse httpResponse = (HttpServletResponse) res;
+	    String servletPath = httpRequest.getServletPath();
+	    AuthService authService = new AuthService();
 
-		HttpServletRequest httpRequest = (HttpServletRequest) req;
-		if (httpRequest.getMethod().equalsIgnoreCase("POST") || httpRequest.getMethod().equalsIgnoreCase("PUT")) {
-			if (!servlet.equals(Login)) {
-				System.out.println("The token is not valid.");
-				((HttpServletResponse) res).sendError(HttpServletResponse.SC_UNAUTHORIZED, "The token is not valid.");
-			} else {
-				chain.doFilter(req, res);
-			}
-		}
-		chain.doFilter(req, res);
+	    if (httpRequest.getMethod().equalsIgnoreCase("POST") || httpRequest.getMethod().equalsIgnoreCase("PUT") || httpRequest.getMethod().equalsIgnoreCase("DELETE")) {
+	        if (!servletPath.equals(loginPath)) {
+	            String email = httpRequest.getHeader("X-User-Email");
+	            String token = httpRequest.getHeader("X-Auth-Token");
+
+	            if (email == null || token == null) {
+	                System.out.println("Missing email or token headers.");
+	                httpResponse.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing email or token headers.");
+	                return;
+	            }
+
+	            try {
+	                if (!authService.validateAuthToken(email, token)) {
+	                    System.out.println("The token is not valid.");
+	                    httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "The token is not valid.");
+	                    return;
+	                }
+	            } catch (Exception e) {
+	                throw new ServletException("Error validating authentication token", e);
+	            }
+	        }
+	    }
+
+	    chain.doFilter(req, res);
 	}
 
-	public void destroy() {
-		// TODO Auto-generated method stub
 
-	}
 
-	public void init(FilterConfig arg0) throws ServletException {
-		// TODO Auto-generated method stub
 
-	}
+    @Override
+    public void destroy() {
+        // Cleanup code, if any
+    }
 
+    @Override
+    public void init(FilterConfig arg0) throws ServletException {
+        // Initialization code, if any
+    }
 }

@@ -59,6 +59,7 @@ export class GeneroUpdateComponent implements OnInit {
     }
 
     private onSaveSuccess() {
+        console.log("ASDASD")
         this.isSaving = false;
         this.messageService.add({
             severity: "success",

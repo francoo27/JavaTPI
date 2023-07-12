@@ -126,7 +126,7 @@ public class GeneroRepository {
 
 	public void delete(int id) throws Exception {
 		PreparedStatement stmt = null;
-		String deleteQuery = String.format("DELETE FROM java_tpi.genero WHERE id = ?");
+		String deleteQuery = String.format("DELETE FROM genero WHERE id = ?");
 		try {
 			stmt = FactoryConection.getInstancia().getConn().prepareStatement(deleteQuery);
 			stmt.setInt(1, id);

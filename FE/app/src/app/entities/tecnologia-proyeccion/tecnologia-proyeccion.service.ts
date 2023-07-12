@@ -3,6 +3,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ITecnologiaProyeccion } from './tecnologia-proyeccion.model';
 import { SERVER_API_URL } from 'src/app/app.constants';
+import { createHeaders } from 'src/app/shared/createHeader';
 
 type EntityResponseType = HttpResponse<ITecnologiaProyeccion>;
 type EntityArrayResponseType = HttpResponse<ITecnologiaProyeccion[]>;
@@ -18,11 +19,11 @@ export class TecnologiaProyeccionService {
     }
 
     create(tecnologiaProyeccion: ITecnologiaProyeccion): Observable<EntityResponseType> {
-        return this.http.post<ITecnologiaProyeccion>(this.resourceUrl, tecnologiaProyeccion, { observe: 'response' });
+        return this.http.post<ITecnologiaProyeccion>(this.resourceUrl, tecnologiaProyeccion, {headers: createHeaders(), observe: 'response' });
     }
 
     update(tecnologiaProyeccion: ITecnologiaProyeccion): Observable<EntityResponseType> {
-        return this.http.put<ITecnologiaProyeccion>(`${this.resourceUrl}/${tecnologiaProyeccion.id}`, tecnologiaProyeccion, { observe: 'response' });
+        return this.http.put<ITecnologiaProyeccion>(`${this.resourceUrl}/${tecnologiaProyeccion.id}`, tecnologiaProyeccion, {headers: createHeaders(), observe: 'response' });
     }
 
     find(id: number): Observable<EntityResponseType> {
@@ -30,7 +31,7 @@ export class TecnologiaProyeccionService {
     }
 
     delete(id: number): Observable<EntityResponseType> {
-        return this.http.delete<ITecnologiaProyeccion>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+        return this.http.delete<ITecnologiaProyeccion>(`${this.resourceUrl}/${id}`, {headers: createHeaders(), observe: 'response' });
     }
 
 }

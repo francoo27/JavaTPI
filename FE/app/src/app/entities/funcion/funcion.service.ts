@@ -3,6 +3,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IFuncion, IFuncionCreate } from './funcion.model';
 import { SERVER_API_URL } from 'src/app/app.constants';
+import { createHeaders } from 'src/app/shared/createHeader';
 
 type EntityResponseType = HttpResponse<IFuncion>;
 type EntityResponseCreateType = HttpResponse<IFuncionCreate>;
@@ -15,11 +16,11 @@ export class FuncionService {
     constructor(private http: HttpClient) {}
 
     create(funcion: IFuncionCreate): Observable<EntityResponseCreateType> {
-        return this.http.post<IFuncionCreate>(this.resourceUrl, funcion, { observe: 'response' });
+        return this.http.post<IFuncionCreate>(this.resourceUrl, funcion, {headers: createHeaders(), observe: 'response' });
     }
 
     update(funcion: IFuncionCreate): Observable<EntityResponseCreateType> {
-        return this.http.put<IFuncionCreate>(`${this.resourceUrl}/${funcion.id}`, funcion, { observe: 'response' });
+        return this.http.put<IFuncionCreate>(`${this.resourceUrl}/${funcion.id}`, funcion, {headers: createHeaders(), observe: 'response' });
     }
 
     find(id: number): Observable<EntityResponseType> {
@@ -35,10 +36,10 @@ export class FuncionService {
     }
 
     delete(id: number): Observable<EntityResponseType> {
-        return this.http.delete<IFuncion>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+        return this.http.delete<IFuncion>(`${this.resourceUrl}/${id}`, {headers: createHeaders(), observe: 'response' });
     }
 
     cancel(funcion: IFuncionCreate): Observable<EntityResponseType> {
-        return this.http.put<IFuncion>(`${this.resourceUrl}/${funcion.id}`, funcion, { params: {cancelar: true},observe: 'response' });
+        return this.http.put<IFuncion>(`${this.resourceUrl}/${funcion.id}`, funcion, {headers: createHeaders(), params: {cancelar: true},observe: 'response' });
     }
 }

@@ -3,6 +3,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IClasificacion } from './clasificacion.model';
 import { SERVER_API_URL } from 'src/app/app.constants';
+import { createHeaders } from 'src/app/shared/createHeader';
 
 type EntityResponseType = HttpResponse<IClasificacion>;
 type EntityArrayResponseType = HttpResponse<IClasificacion[]>;
@@ -18,11 +19,11 @@ export class ClasificacionService {
     }
 
     create(clasificacion: IClasificacion): Observable<EntityResponseType> {
-        return this.http.post<IClasificacion>(this.resourceUrl, clasificacion, { observe: 'response' });
+        return this.http.post<IClasificacion>(this.resourceUrl, clasificacion, {headers: createHeaders(), observe: 'response' });
     }
 
     update(clasificacion: IClasificacion): Observable<EntityResponseType> {
-        return this.http.put<IClasificacion>(`${this.resourceUrl}/${clasificacion.id}`, clasificacion, { observe: 'response' });
+        return this.http.put<IClasificacion>(`${this.resourceUrl}/${clasificacion.id}`, clasificacion, {headers: createHeaders(), observe: 'response' });
     }
 
     find(id: number): Observable<EntityResponseType> {
@@ -30,6 +31,6 @@ export class ClasificacionService {
     }
 
     delete(id: number): Observable<EntityResponseType> {
-        return this.http.delete<IClasificacion>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+        return this.http.delete<IClasificacion>(`${this.resourceUrl}/${id}`, {headers: createHeaders(), observe: 'response' });
     }
 }

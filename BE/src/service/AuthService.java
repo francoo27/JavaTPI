@@ -1,10 +1,6 @@
 package service;
 
-import java.util.ArrayList;
-
-import data.AsientoRepository;
 import data.UsuarioRepository;
-import entity.Asiento;
 
 public class AuthService {
 

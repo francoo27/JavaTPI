@@ -3,6 +3,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IPelicula } from './pelicula.model';
 import { SERVER_API_URL } from 'src/app/app.constants';
+import { createHeaders } from 'src/app/shared/createHeader';
 
 type EntityResponseType = HttpResponse<IPelicula>;
 type EntityArrayResponseType = HttpResponse<IPelicula[]>;
@@ -14,11 +15,11 @@ export class PeliculaService {
     constructor(private http: HttpClient) {}
 
     create(pelicula: IPelicula): Observable<EntityResponseType> {
-        return this.http.post<IPelicula>(this.resourceUrl, pelicula, { observe: 'response' });
+        return this.http.post<IPelicula>(this.resourceUrl, pelicula, {headers: createHeaders(), observe: 'response' });
     }
 
     update(pelicula: IPelicula): Observable<EntityResponseType> {
-        return this.http.put<IPelicula>(`${this.resourceUrl}/${pelicula.id}`, pelicula, { observe: 'response' });
+        return this.http.put<IPelicula>(`${this.resourceUrl}/${pelicula.id}`, pelicula, {headers: createHeaders(), observe: 'response' });
     }
 
     find(id: number): Observable<EntityResponseType> {
@@ -26,7 +27,7 @@ export class PeliculaService {
     }
 
     delete(id: number): Observable<EntityResponseType> {
-        return this.http.delete<IPelicula>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+        return this.http.delete<IPelicula>(`${this.resourceUrl}/${id}`, {headers: createHeaders(), observe: 'response' });
     }
 
     query(): Observable<EntityArrayResponseType> {

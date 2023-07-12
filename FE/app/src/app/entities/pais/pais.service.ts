@@ -3,6 +3,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IPais } from './pais.model';
 import { SERVER_API_URL } from 'src/app/app.constants';
+import { createHeaders } from 'src/app/shared/createHeader';
 
 type EntityResponseType = HttpResponse<IPais>;
 type EntityArrayResponseType = HttpResponse<IPais[]>;
@@ -14,15 +15,15 @@ export class PaisService {
     constructor(private http: HttpClient) {}
 
     create(pais: IPais): Observable<EntityResponseType> {
-        return this.http.post<IPais>(this.resourceUrl, pais, { observe: 'response' });
+        return this.http.post<IPais>(this.resourceUrl, pais, {headers: createHeaders(), observe: 'response' });
     }
 
     delete(id: number): Observable<EntityResponseType> {
-        return this.http.delete<IPais>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+        return this.http.delete<IPais>(`${this.resourceUrl}/${id}`, {headers: createHeaders(), observe: 'response' });
     }
 
     update(pais: IPais): Observable<EntityResponseType> {
-        return this.http.put<IPais>(`${this.resourceUrl}/${pais.id}`, pais, { observe: 'response' });
+        return this.http.put<IPais>(`${this.resourceUrl}/${pais.id}`, pais, {headers: createHeaders(), observe: 'response' });
     }
 
     find(id: number): Observable<EntityResponseType> {

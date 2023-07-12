@@ -3,6 +3,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IAudio } from './audio.model';
 import { SERVER_API_URL } from 'src/app/app.constants';
+import { createHeaders } from 'src/app/shared/createHeader';
 
 type EntityResponseType = HttpResponse<IAudio>;
 type EntityArrayResponseType = HttpResponse<IAudio[]>;
@@ -18,11 +19,11 @@ export class AudioService {
     }
 
     create(audio: IAudio): Observable<EntityResponseType> {
-        return this.http.post<IAudio>(this.resourceUrl, audio, { observe: 'response' });
+        return this.http.post<IAudio>(this.resourceUrl, audio, {headers: createHeaders(), observe: 'response' });
     }
 
     update(audio: IAudio): Observable<EntityResponseType> {
-        return this.http.put<IAudio>(`${this.resourceUrl}/${audio.id}`, audio, { observe: 'response' });
+        return this.http.put<IAudio>(`${this.resourceUrl}/${audio.id}`, audio, {headers: createHeaders(), observe: 'response' });
     }
 
     find(id: number): Observable<EntityResponseType> {
@@ -30,7 +31,7 @@ export class AudioService {
     }
 
     delete(id: number): Observable<EntityResponseType> {
-        return this.http.delete<IAudio>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+        return this.http.delete<IAudio>(`${this.resourceUrl}/${id}`, {headers: createHeaders(), observe: 'response' });
     }
 
 }
