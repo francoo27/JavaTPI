@@ -36,7 +36,7 @@ public class LoginFilter implements Filter {
 	            }
 
 	            try {
-	                if (!authService.validateAuthToken(email, token)) {
+	                if (!authService.authenticate(email, token)) {
 	                    System.out.println("The token is not valid.");
 	                    httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "The token is not valid.");
 	                    return;

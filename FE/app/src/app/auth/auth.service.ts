@@ -3,6 +3,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { SERVER_API_URL } from 'src/app/app.constants';
 import { IUser } from './user.model';
+import { createHeaders } from '../shared/createHeader';
 
 type EntityResponseType = HttpResponse<IUser>;
 type EntityResponseCreateType = HttpResponse<IUser>;
@@ -18,10 +19,10 @@ export class AuthService {
     }
 
     logout(user: IUser): Observable<EntityResponseType> {
-        return this.http.post<IUser>(`${this.resourceUrl}/logout`, user, { observe: 'response' });
+        return this.http.post<IUser>(`${this.resourceUrl}/logout`, user, { headers: createHeaders(), observe: 'response' });
     }
     
     authenticate(user: IUser): Observable<EntityResponseType> {
-        return this.http.get<IUser>(`${this.resourceUrl}/${user.token}`, { observe: 'response' });
+        return this.http.get<IUser>(`${this.resourceUrl}`, { headers: createHeaders(), observe: 'response' });
     }
 }

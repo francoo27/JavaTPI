@@ -6,56 +6,46 @@ import { MessageService } from 'primeng/api';
 @Component({
   selector: 'login',
   templateUrl: './login.component.html'
-  ,providers: []
+  , providers: []
 })
 export class LoginComponent implements OnInit {
-    loggin:boolean = false;
-    password!:string;
-    email!:string;
+  loggin: boolean = false;
+  password!: string;
+  email!: string;
 
-    constructor(
-      private authService: AuthService,
-      private location: Location,
-      private messageService: MessageService
+  constructor(
+    private authService: AuthService,
+    private location: Location,
+    private messageService: MessageService
   ) {
   }
 
-    ngOnInit(){
-      // localStorage.setItem('token', 'Como utilizar el LocalStorage en Angular');
-      // console.log(localStorage.getItem('token'))
-    }
+  ngOnInit() {
+    // localStorage.setItem('token', 'Como utilizar el LocalStorage en Angular');
+    // console.log(localStorage.getItem('token'))
+  }
 
-    login(){
-      this.loggin= true;
-      this.authService.login({email:this.email,password:this.password}).subscribe(
-        res => {
-          localStorage.setItem('token', res.body?.token!)
-          localStorage.setItem('email', this.email!)
-          console.log("Eerr")
-          this.authService.authenticate({token:localStorage.getItem('token')!}).subscribe(
-            res => {
-              console.log(res)
-                  this.messageService.add({
-                      severity: "success",
-                      summary: "Hecho!",
-                      detail:"Logeo exitoso"
-                  })
-          },
-          err => {
-            console.log(err)
-                  this.messageService.add({
-                      severity: "error",
-                      summary: "ERROR",
-                      detail:"No es posible validar esos datos"
-                  })
-          },
-            () =>  this.location.back()
-          )
-          }
-        )
-    }
-    previousState() {
-      this.location.back();
+  login() {
+    this.loggin = true;
+    this.authService.login({ email: this.email, password: this.password }).subscribe(
+      res => {
+        console.log(res)
+        localStorage.setItem('token', res?.body?.token!)
+        localStorage.setItem('email', this.email!)
+      },
+      err => {
+        console.log(err)
+        this.messageService.add({
+          severity: "error",
+          summary: "ERROR",
+          detail: "No es posible validar esos datos"
+        })
+      },
+      () => this.location.back()
+    )
+  }
+  previousState() {
+    this.location.back();
   }
 }
 
