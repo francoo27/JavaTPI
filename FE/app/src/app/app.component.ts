@@ -47,7 +47,7 @@ export class AppComponent implements OnInit {
     this.user = new User();
     this.authService.authenticate().subscribe(
       res => {
-        res ? this.user = new User(localStorage.getItem('email')!, undefined, localStorage.getItem('token')!) : null;
+        res.body ? this.user = new User(localStorage.getItem('email')!, undefined, localStorage.getItem('token')!) : null;
         console.log("authenticate")
         this.items = this.getMenuItems();
       },

@@ -10,17 +10,37 @@ import java.util.UUID;
 public class UsuarioRepository {
 
 	public boolean authenticate(String email, String token) throws Exception {
-		String query = "SELECT * FROM usuario WHERE email = ? AND token = ? AND token_valid_until >= current_timestamp()";
-		try (Connection conn = FactoryConection.getInstancia().getConn();
-				PreparedStatement stmt = conn.prepareStatement(query)) {
-			stmt.setString(1, email);
-			stmt.setString(2, token);
-			try (ResultSet rs = stmt.executeQuery()) {
-				return rs.next();
-			}
-		} catch (Exception e) {
-			throw e;
-		}
+	    String query = "SELECT * FROM usuario WHERE email = ? AND token = ?";
+	    try (Connection conn = FactoryConection.getInstancia().getConn();
+	         PreparedStatement stmt = conn.prepareStatement(query)) {
+	        stmt.setString(1, email);
+	        stmt.setString(2, token);
+	        try (ResultSet rs = stmt.executeQuery()) {
+	            if (rs.next()) {
+	                Timestamp tokenValidUntil = rs.getTimestamp("token_valid_until");
+	                Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
+	                if (tokenValidUntil == null || tokenValidUntil.before(currentTimestamp)) {
+	                    clearTokenAndTimestamp(email);
+	                    return false;
+	                }
+	                return true;
+	            }
+	            return false;
+	        }
+	    } catch (Exception e) {
+	        throw e;
+	    }
+	}
+
+	private void clearTokenAndTimestamp(String email) throws Exception {
+	    String updateQuery = "UPDATE usuario SET token = NULL, token_valid_until = NULL WHERE email = ?";
+	    try (Connection conn = FactoryConection.getInstancia().getConn();
+	         PreparedStatement stmt = conn.prepareStatement(updateQuery)) {
+	        stmt.setString(1, email);
+	        stmt.executeUpdate();
+	    } catch (Exception e) {
+	        throw e;
+	    }
 	}
 
 	public void logout(String email) throws Exception {

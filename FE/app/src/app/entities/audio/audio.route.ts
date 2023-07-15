@@ -7,6 +7,7 @@ import { AudioUpdateComponent } from './audio-update.component';
 import { IAudio, Audio } from './audio.model';
 import { AudioService } from './audio.service';
 import { AudioComponent } from './audio.component';
+import { CanActivateAuth } from 'src/app/auth/canActivateAuth';
 
 @Injectable({ providedIn: 'root' })
 export class AudioResolve implements Resolve<IAudio> {
@@ -24,7 +25,8 @@ export class AudioResolve implements Resolve<IAudio> {
 export const audioRoute: Routes = [
     {
         path: '',
-        component: AudioComponent
+        component: AudioComponent,
+        canActivate:[CanActivateAuth]
     },
     {
         path: ':id/edit',
@@ -34,7 +36,8 @@ export const audioRoute: Routes = [
         },
         data: {
             pageTitle: 'Audio'
-        }
+        },
+        canActivate:[CanActivateAuth]
     },
     {
         path: 'new',
@@ -44,6 +47,7 @@ export const audioRoute: Routes = [
         },
         data: {
             pageTitle: 'Audio'
-        }
+        },
+        canActivate:[CanActivateAuth]
     },
 ];
