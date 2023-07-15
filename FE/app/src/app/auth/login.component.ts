@@ -3,6 +3,10 @@ import { MenuItem } from 'primeng/api/menuitem';
 import { AuthService } from './auth.service';
 import { Location } from '@angular/common';
 import { MessageService } from 'primeng/api';
+import { EventEmitter } from '@angular/core';
+import { User } from './user.model';
+import { LogStateService } from './logStateService';
+
 @Component({
   selector: 'login',
   templateUrl: './login.component.html'
@@ -16,22 +20,26 @@ export class LoginComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private location: Location,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private logStateService: LogStateService
   ) {
   }
 
-  ngOnInit() {
-    // localStorage.setItem('token', 'Como utilizar el LocalStorage en Angular');
-    // console.log(localStorage.getItem('token'))
-  }
+  ngOnInit() { }
 
   login() {
     this.loggin = true;
     this.authService.login({ email: this.email, password: this.password }).subscribe(
       res => {
-        console.log(res)
-        localStorage.setItem('token', res?.body?.token!)
+        var token = res?.body?.token!
+        localStorage.setItem('token', token)
         localStorage.setItem('email', this.email!)
+        this.emitLoggedState(this.email,token)
+        this.messageService.add({
+          severity: "success",
+          summary: "Bienvenido",
+        })
+        this.previousState();
       },
       err => {
         console.log(err)
@@ -40,12 +48,16 @@ export class LoginComponent implements OnInit {
           summary: "ERROR",
           detail: "No es posible validar esos datos"
         })
-      },
-      () => this.location.back()
+      }
     )
   }
+
   previousState() {
     this.location.back();
+  }
+
+  emitLoggedState(email?:string,token?:string): void {
+    this.logStateService.logStateEvent.emit(new User(email,undefined,token));
   }
 }
 

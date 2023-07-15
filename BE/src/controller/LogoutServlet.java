@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+
 import service.AuthService;
 
 /**
@@ -17,6 +19,7 @@ import service.AuthService;
 public class LogoutServlet extends HttpServlet implements Servlet {
 	private static final long serialVersionUID = 1L;
     private AuthService authService;
+    private Gson gson;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -25,6 +28,7 @@ public class LogoutServlet extends HttpServlet implements Servlet {
         super();
         // TODO Auto-generated constructor stub
         authService = new AuthService();
+        gson = new Gson();
     }
 
 	/**
@@ -36,9 +40,9 @@ public class LogoutServlet extends HttpServlet implements Servlet {
         String token = request.getHeader("X-Auth-Token");
         try {
         	authService.logout(email, token);
-            response.getWriter().write("Logout successful");
+            response.getWriter().write(gson.toJson("Logout successful"));
         } catch (Exception e) {
-            response.getWriter().write("Error occurred during logout");
+            response.sendError(500);
         }
     }
 

@@ -22,7 +22,7 @@ export class AuthService {
         return this.http.post<IUser>(`${this.resourceUrl}/logout`, user, { headers: createHeaders(), observe: 'response' });
     }
     
-    authenticate(user: IUser): Observable<EntityResponseType> {
-        return this.http.get<IUser>(`${this.resourceUrl}`, { headers: createHeaders(), observe: 'response' });
+    authenticate(): Observable<HttpResponse<boolean>> {
+        return this.http.get<boolean>(`${this.resourceUrl}`, { headers: createHeaders(), observe: 'response' });
     }
 }

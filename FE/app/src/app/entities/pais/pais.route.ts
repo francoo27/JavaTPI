@@ -8,6 +8,7 @@ import { IPais, Pais } from './pais.model';
 import { PaisService } from './pais.service';
 import { PaisDetailComponent } from './pais-detail.component';
 import { PaisComponent } from './pais.component';
+import { CanActivateAuth } from 'src/app/auth/canActivateAuth';
 
 @Injectable({ providedIn: 'root' })
 export class PaisResolve implements Resolve<IPais> {
@@ -26,7 +27,7 @@ export const paisRoute: Routes = [
     {
         path: '',
         component: PaisComponent,
-        // canActivate:[CanActivateAuth]
+       canActivate:[CanActivateAuth]
     },
     {
         path: ':id/view',
@@ -37,7 +38,7 @@ export const paisRoute: Routes = [
         data: {
             pageTitle: 'Pais'
         },
-        // canActivate:[CanActivateAuth]
+       canActivate:[CanActivateAuth]
     },
     {
         path: ':id/edit',
@@ -48,7 +49,7 @@ export const paisRoute: Routes = [
         data: {
             pageTitle: 'Pais'
         },
-        // canActivate:[CanActivateAuth]
+       canActivate:[CanActivateAuth]
     },
     {
         path: 'new',
@@ -59,6 +60,6 @@ export const paisRoute: Routes = [
         data: {
             pageTitle: 'Pais'
         },
-        // canActivate:[CanActivateAuth]
+       canActivate:[CanActivateAuth]
     },
 ];

@@ -7,6 +7,7 @@ import { ClasificacionUpdateComponent } from './clasificacion-update.component';
 import { IClasificacion, Clasificacion } from './clasificacion.model';
 import { ClasificacionService } from './clasificacion.service';
 import { ClasificacionComponent } from './clasificacion.component';
+import { CanActivateAuth } from 'src/app/auth/canActivateAuth';
 
 @Injectable({ providedIn: 'root' })
 export class ClasificacionResolve implements Resolve<IClasificacion> {
@@ -24,7 +25,8 @@ export class ClasificacionResolve implements Resolve<IClasificacion> {
 export const clasificacionRoute: Routes = [
     {
         path: '',
-        component: ClasificacionComponent
+        component: ClasificacionComponent,
+        canActivate:[CanActivateAuth]
     },
     {
         path: ':id/edit',
@@ -34,7 +36,8 @@ export const clasificacionRoute: Routes = [
         },
         data: {
             pageTitle: 'Clasificacion'
-        }
+        },
+        canActivate:[CanActivateAuth]
     },
     {
         path: 'new',
@@ -44,6 +47,7 @@ export const clasificacionRoute: Routes = [
         },
         data: {
             pageTitle: 'Clasificacion'
-        }
+        },
+        canActivate:[CanActivateAuth]
     },
 ];

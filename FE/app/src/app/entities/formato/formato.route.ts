@@ -7,6 +7,7 @@ import { FormatoUpdateComponent } from './formato-update.component';
 import { IFormato, Formato } from './formato.model';
 import { FormatoService } from './formato.service';
 import { FormatoComponent } from './formato.component';
+import { CanActivateAuth } from 'src/app/auth/canActivateAuth';
 
 @Injectable({ providedIn: 'root' })
 export class FormatoResolve implements Resolve<IFormato> {
@@ -24,7 +25,8 @@ export class FormatoResolve implements Resolve<IFormato> {
 export const formatoRoute: Routes = [
     {
         path: '',
-        component: FormatoComponent
+        component: FormatoComponent,
+        canActivate:[CanActivateAuth]
     },
     {
         path: ':id/edit',
@@ -34,7 +36,8 @@ export const formatoRoute: Routes = [
         },
         data: {
             pageTitle: 'Formato'
-        }
+        },
+        canActivate:[CanActivateAuth]
     },
     {
         path: 'new',
@@ -44,6 +47,7 @@ export const formatoRoute: Routes = [
         },
         data: {
             pageTitle: 'Formato'
-        }
+        },
+        canActivate:[CanActivateAuth]
     },
 ];

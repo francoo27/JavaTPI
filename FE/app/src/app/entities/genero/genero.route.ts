@@ -7,6 +7,7 @@ import { GeneroUpdateComponent } from './genero-update.component';
 import { IGenero, Genero } from './genero.model';
 import { GeneroService } from './genero.service';
 import { GeneroComponent } from './genero.component';
+import { CanActivateAuth } from 'src/app/auth/canActivateAuth';
 
 @Injectable({ providedIn: 'root' })
 export class GeneroResolve implements Resolve<IGenero> {
@@ -24,7 +25,8 @@ export class GeneroResolve implements Resolve<IGenero> {
 export const generoRoute: Routes = [
     {
         path: '',
-        component: GeneroComponent
+        component: GeneroComponent,
+        canActivate:[CanActivateAuth]
     },
     {
         path: ':id/edit',
@@ -35,7 +37,7 @@ export const generoRoute: Routes = [
         data: {
             pageTitle: 'Genero'
         },
-        // canActivate:[CanActivateAuth]
+       canActivate:[CanActivateAuth]
     },
     {
         path: 'new',
@@ -46,6 +48,6 @@ export const generoRoute: Routes = [
         data: {
             pageTitle: 'Genero'
         },
-        // canActivate:[CanActivateAuth]
+       canActivate:[CanActivateAuth]
     },
 ];

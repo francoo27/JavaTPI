@@ -8,6 +8,7 @@ import { IFuncion, Funcion } from './funcion.model';
 import { FuncionService } from './funcion.service';
 import { FuncionDetailComponent } from './funcion-detail.component';
 import { FuncionComponent } from './funcion.component';
+import { CanActivateAuth } from 'src/app/auth/canActivateAuth';
 
 @Injectable({ providedIn: 'root' })
 export class FuncionResolve implements Resolve<IFuncion> {
@@ -46,7 +47,7 @@ export const funcionRoute: Routes = [
         data: {
             pageTitle: 'Funcion'
         },
-        // canActivate:[CanActivateAuth]
+       canActivate:[CanActivateAuth]
     },
     {
         path: 'new',
@@ -57,6 +58,6 @@ export const funcionRoute: Routes = [
         data: {
             pageTitle: 'Funcion'
         },
-        // canActivate:[CanActivateAuth]
+       canActivate:[CanActivateAuth]
     },
 ];

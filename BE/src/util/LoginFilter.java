@@ -1,6 +1,9 @@
 package util;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -17,7 +20,10 @@ public class LoginFilter implements Filter {
 	
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
 	        throws IOException, ServletException {
-	    final String loginPath = "/authorization/login";
+		final List<String> stringList = new ArrayList<>();
+        stringList.add("/authorization/login");
+        stringList.add("/authorization/logout");
+        stringList.add("orange");
 
 	    HttpServletRequest httpRequest = (HttpServletRequest) req;
 	    HttpServletResponse httpResponse = (HttpServletResponse) res;
@@ -25,7 +31,7 @@ public class LoginFilter implements Filter {
 	    AuthService authService = new AuthService();
 
 	    if (httpRequest.getMethod().equalsIgnoreCase("POST") || httpRequest.getMethod().equalsIgnoreCase("PUT") || httpRequest.getMethod().equalsIgnoreCase("DELETE")) {
-	        if (!servletPath.equals(loginPath)) {
+	        if (!stringList.contains(servletPath)) {
 	            String email = httpRequest.getHeader("X-User-Email");
 	            String token = httpRequest.getHeader("X-Auth-Token");
 

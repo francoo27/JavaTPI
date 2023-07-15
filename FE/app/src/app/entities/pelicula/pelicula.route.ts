@@ -27,7 +27,7 @@ export const peliculaRoute: Routes = [
     {
         path: '',
         component: PeliculaComponent,
-        // canActivate:[CanActivateAuth]
+       canActivate:[CanActivateAuth]
     },
     {
         path: ':id/view',
@@ -38,7 +38,7 @@ export const peliculaRoute: Routes = [
         data: {
             pageTitle: 'Pelicula'
         },
-        // canActivate:[CanActivateAuth]
+       canActivate:[CanActivateAuth]
     },
     {
         path: ':id/edit',

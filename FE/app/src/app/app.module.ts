@@ -9,11 +9,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { MessagesModule } from 'primeng/messages';
 import { MessageModule } from 'primeng/message';
 import { ToastModule } from 'primeng/toast';
-import {MenubarModule} from 'primeng/menubar';
+import { MenubarModule } from 'primeng/menubar';
 import { CineArFormModule } from './entities/cineArForm.module';
 import { CineArAuthModule } from './auth/auth.module';
 import { CommonModule } from '@angular/common';
-import {BadgeModule} from 'primeng/badge';
+import { BadgeModule } from 'primeng/badge';
+import { MessageService } from 'primeng/api';
+import { LogStateService } from './auth/logStateService';
 
 
 @NgModule({
@@ -36,7 +38,7 @@ import {BadgeModule} from 'primeng/badge';
     CineArAuthModule,
     BadgeModule
   ],
-  providers: [],
+  providers: [MessageService, LogStateService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

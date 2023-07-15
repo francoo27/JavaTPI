@@ -7,6 +7,7 @@ import { TecnologiaProyeccionUpdateComponent } from './tecnologia-proyeccion-upd
 import { ITecnologiaProyeccion, TecnologiaProyeccion } from './tecnologia-proyeccion.model';
 import { TecnologiaProyeccionService } from './tecnologia-proyeccion.service';
 import { TecnologiaProyeccionComponent } from './tecnologia-proyeccion.component';
+import { CanActivateAuth } from 'src/app/auth/canActivateAuth';
 
 @Injectable({ providedIn: 'root' })
 export class TecnologiaProyeccionResolve implements Resolve<ITecnologiaProyeccion> {
@@ -25,7 +26,7 @@ export const tecnologiaProyeccionRoute: Routes = [
     {
         path: '',
         component: TecnologiaProyeccionComponent,
-        // canActivate:[CanActivateAuth]
+       canActivate:[CanActivateAuth]
     },
     {
         path: ':id/edit',
@@ -36,7 +37,7 @@ export const tecnologiaProyeccionRoute: Routes = [
         data: {
             pageTitle: 'TecnologiaProyeccion'
         },
-        // canActivate:[CanActivateAuth]
+       canActivate:[CanActivateAuth]
     },
     {
         path: 'new',
@@ -47,6 +48,6 @@ export const tecnologiaProyeccionRoute: Routes = [
         data: {
             pageTitle: 'TecnologiaProyeccion'
         },
-        // canActivate:[CanActivateAuth]
+       canActivate:[CanActivateAuth]
     },
 ];
