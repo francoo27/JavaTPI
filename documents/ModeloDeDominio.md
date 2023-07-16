@@ -1,3 +1,4 @@
+```mermaid
 erDiagram
     entity "pais" {
         id int PK
@@ -158,3 +159,5 @@ erDiagram
     asiento ||--|{ ticket : id_asiento
     precio ||--|{ ticket : id_precio
     tipo_precio ||..|| precio : id_tipoPrecio
+
+```
