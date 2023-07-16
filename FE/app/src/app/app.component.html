@@ -5,13 +5,13 @@
   <ng-template pTemplate="end">
     <div class="p-grid" *ngIf="isLogged()">
       <div class="p-col-12">
-              <p-button label="{{user.email}}" icon="pi pi-users" styleClass="p-button-warning" badgeClass="p-badge-danger"></p-button>
-              <button pButton class="p-button-rounded p-button-info" type="submit" (click)="logout()" icon="pi pi-power-off" title="Logout"></button>
+        <p-button label="{{user.email}}" icon="pi pi-users" styleClass="p-button-warning" badgeClass="p-badge-danger"></p-button>
+        <button pButton class="p-button p-button-danger" type="submit" (click)="logout()" title="Logout" label="Logout"></button>
       </div>
   </div>
   <div class="p-grid" *ngIf="!isLogged()">
     <div class="p-col-12">
-          <p-button label="Login" icon="pi pi-users" styleClass="p-button-warning"  [routerLink]="['/login']" badgeClass="p-badge-danger" title="Login"></p-button>
+          <p-button label="Login" icon="pi pi-users" styleClass="p-button-warning"  [routerLink]="['/login']" badgeClass="p-badge-warning" title="Login"></p-button>
     </div>
   </div>
   </ng-template>

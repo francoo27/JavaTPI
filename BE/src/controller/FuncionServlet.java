@@ -19,13 +19,16 @@ import com.google.gson.*;
 @WebServlet("/funcion/*")
 public class FuncionServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+	private final Gson gson;
+	private final FuncionService funcionService;
     /**
      * @see HttpServlet#HttpServlet()
      */
     public FuncionServlet() {
         super();
         // TODO Auto-generated constructor stub
+	    gson = new Gson();
+	    funcionService = new FuncionService();
     }
 
 	/**
@@ -35,8 +38,6 @@ public class FuncionServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		String pathInfo = request.getPathInfo();
 		Long id = Long.valueOf(pathInfo.substring(1));
-	    FuncionService funcionService = new FuncionService();
-	    Gson gson = new Gson();
 		try {
 			Funcion funcion = funcionService.getById(id.intValue());
 			if(funcion.getId() == 0) {
@@ -60,9 +61,7 @@ public class FuncionServlet extends HttpServlet {
 	 */
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String requestData = request.getReader().lines().collect(Collectors.joining());
-	    Gson gson = new Gson();
 	    Funcion funcion = gson.fromJson(requestData, Funcion.class);
-	    FuncionService funcionService = new FuncionService();
 	    
 	    String queryString = request.getQueryString();
 	    
@@ -79,7 +78,6 @@ public class FuncionServlet extends HttpServlet {
 					funcion.cancelar();
 				}
 		    }
-			System.out.println(funcion);
 			funcionService.save(funcion);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -90,7 +88,6 @@ public class FuncionServlet extends HttpServlet {
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String pathInfo = request.getPathInfo();
 		Long id = Long.valueOf(pathInfo.substring(1));
-	    FuncionService funcionService = new FuncionService();
 		try {
 			Funcion funcion = funcionService.getById(id.intValue());
 			if(funcion.getId() == 0) {

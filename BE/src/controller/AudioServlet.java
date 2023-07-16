@@ -47,6 +47,7 @@ public class AudioServlet extends HttpServlet {
 
     protected void doPut(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+	    request.setCharacterEncoding("UTF-8"); 
         String requestData = request.getReader().lines().collect(Collectors.joining());
         Audio audio = gson.fromJson(requestData, Audio.class);
         try {

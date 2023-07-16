@@ -33,7 +33,8 @@ public class PeliculaListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	    
+        response.setContentType("application/json");
+	    response.setCharacterEncoding("UTF-8"); 
 	    PeliculaService peliculaService = new PeliculaService();
 	    Gson gson = new Gson();
 		try {
@@ -42,16 +43,15 @@ public class PeliculaListServlet extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-        response.setContentType("application/json");
-	    response.setCharacterEncoding("UTF-8"); 
 	}
 	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+        response.setContentType("application/json");
+	    response.setCharacterEncoding("UTF-8"); 
+	    request.setCharacterEncoding("UTF-8"); 
 		String requestData = request.getReader().lines().collect(Collectors.joining());
 	    Gson gson = new Gson();
 	    
@@ -62,8 +62,6 @@ public class PeliculaListServlet extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-        response.setContentType("application/json");
-	    response.setCharacterEncoding("UTF-8");
 	}
 
 	@Override

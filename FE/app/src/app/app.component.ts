@@ -16,12 +16,12 @@ export class AppComponent implements OnInit {
   baseItems: MenuItem[] = [
     {
       label: 'Cartelera',
-      icon: 'pi pi-fw',
+      icon: 'pi pi-fw pi-eye',
       routerLink: ['']
     },
     {
       label: 'Boleteria',
-      icon: 'pi pi-fw',
+      icon: 'pi pi-fw pi-ticket',
       routerLink: ['/boleteria']
     }
   ];

@@ -33,6 +33,8 @@ public class AsientoListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("application/json");
+	    response.setCharacterEncoding("UTF-8"); 
 	    String queryString = request.getQueryString();
 	    int idFuncion = 0;
 	    if (queryString != null) {
@@ -49,8 +51,7 @@ public class AsientoListServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 
-        response.setContentType("application/json");
-	    response.setCharacterEncoding("UTF-8"); 
+
 	}
 	
 }

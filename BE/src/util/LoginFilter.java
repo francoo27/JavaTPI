@@ -23,8 +23,9 @@ public class LoginFilter implements Filter {
 		final List<String> stringList = new ArrayList<>();
         stringList.add("/authorization/login");
         stringList.add("/authorization/logout");
-        stringList.add("orange");
-
+        stringList.add("/compra");
+        req.setCharacterEncoding("UTF-8"); 
+        
 	    HttpServletRequest httpRequest = (HttpServletRequest) req;
 	    HttpServletResponse httpResponse = (HttpServletResponse) res;
 	    String servletPath = httpRequest.getServletPath();

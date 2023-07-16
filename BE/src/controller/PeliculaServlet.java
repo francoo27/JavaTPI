@@ -32,7 +32,9 @@ public class PeliculaServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+        response.setContentType("application/json");
+	    response.setCharacterEncoding("UTF-8"); 
+	    request.setCharacterEncoding("UTF-8"); 
 		String pathInfo = request.getPathInfo();
 		Long id = Long.valueOf(pathInfo.substring(1));
 	    PeliculaService peliculaService = new PeliculaService();
@@ -48,9 +50,6 @@ public class PeliculaServlet extends HttpServlet {
 			e.printStackTrace();
 			response.sendError(500);
 		}
-
-        response.setContentType("application/json");
-	    response.setCharacterEncoding("UTF-8"); 
 	}
 
 
@@ -59,6 +58,10 @@ public class PeliculaServlet extends HttpServlet {
 	 * @see HttpServlet#doPut(HttpServletRequest, HttpServletResponse)
 	 */
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("application/json");
+	    response.setCharacterEncoding("UTF-8"); 
+	    request.setCharacterEncoding("UTF-8"); 
+	    
 		String requestData = request.getReader().lines().collect(Collectors.joining());
 	    Gson gson = new Gson();
 	    
@@ -77,6 +80,9 @@ public class PeliculaServlet extends HttpServlet {
 	}
 
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("application/json");
+	    response.setCharacterEncoding("UTF-8"); 
+	    
 		String pathInfo = request.getPathInfo();
 		Long id = Long.valueOf(pathInfo.substring(1));
 	    PeliculaService peliculaService = new PeliculaService();
@@ -91,9 +97,6 @@ public class PeliculaServlet extends HttpServlet {
 			e.printStackTrace();
 			response.sendError(500);
 		}
-
-        response.setContentType("application/json");
-	    response.setCharacterEncoding("UTF-8"); 
 	}
 	
 	protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
