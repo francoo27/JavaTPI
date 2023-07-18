@@ -4,16 +4,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.UUID;
 
 @WebServlet("/images/*")
 public class ImageServlet extends HttpServlet {
@@ -31,8 +27,18 @@ public class ImageServlet extends HttpServlet {
 
         String imageFilePath = getImageDirectory(); // Replace with the actual method to retrieve the image directory path
         System.out.println(imageFilePath);
-        // Determine the file extension based on your specific logic
-        String extension = determineFileExtension(imageId);
+        
+        // Check if imageId contains an extension
+        int dotIndex = imageId.lastIndexOf('.');
+        String extension = null;
+        if (dotIndex > 0 && dotIndex < imageId.length() - 1) {
+            extension = imageId.substring(dotIndex + 1);
+            // Adjust imageId to remove the extension
+            imageId = imageId.substring(0, dotIndex);
+        } else {
+            // If the imageId doesn't contain an extension, determine the extension based on files in the image directory
+            extension = determineFileExtension(imageId);
+        }
 
         if (extension == null) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
@@ -80,28 +86,11 @@ public class ImageServlet extends HttpServlet {
     }
 
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String imageName = generateGUID();
-
-        File imageFile = new File(getImageDirectory(), imageName);
-
-        try (FileOutputStream out = new FileOutputStream(imageFile)) {
-            byte[] buffer = new byte[4096];
-            int bytesRead;
-            while ((bytesRead = request.getInputStream().read(buffer)) != -1) {
-                out.write(buffer, 0, bytesRead);
-            }
-        }
-
-        response.setStatus(HttpServletResponse.SC_OK);
-        response.getWriter().print(imageName);
-    }
-
-    private String generateGUID() {
-        return UUID.randomUUID().toString();
-    }
 
     private String getImageDirectory() {
         return getServletContext().getRealPath(IMAGE_DIRECTORY);
     }
 }
+
+
+

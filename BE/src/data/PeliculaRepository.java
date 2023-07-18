@@ -112,10 +112,10 @@ public class PeliculaRepository {
 	public int save(Pelicula pelicula) throws Exception {
 		PreparedStatement stmt = null;
 		String insertQuery = String.format(
-				"INSERT INTO pelicula (`fecha_creacion`, `fecha_modificacion`, `titulo_original`, `titulo_pais`, `fecha_estreno`, `duracion`, `sinopsis`, `id_clasificacion`, `id_pais`, `id_genero`) VALUES"
-						+ "(?,?,?,?,?,?,?,?,?,?)");
+				"INSERT INTO pelicula (`fecha_creacion`, `fecha_modificacion`, `titulo_original`, `titulo_pais`, `fecha_estreno`, `duracion`, `sinopsis`, `id_clasificacion`, `id_pais`, `id_genero`, `imagen`) VALUES"
+						+ "(?,?,?,?,?,?,?,?,?,?,?)");
 		String updateQuery = String.format(
-				"UPDATE pelicula SET `fecha_modificacion`= ?, `titulo_original` = ?, `titulo_pais` = ?, `fecha_estreno`= ?, `duracion` = ?, `sinopsis` = ?, `id_clasificacion` = ?, `id_pais` = ?, `id_genero` = ? WHERE id = ?");
+				"UPDATE pelicula SET `fecha_modificacion`= ?, `titulo_original` = ?, `titulo_pais` = ?, `fecha_estreno`= ?, `duracion` = ?, `sinopsis` = ?, `id_clasificacion` = ?, `id_pais` = ?, `id_genero` = ? , `imagen` = ? WHERE id = ?");
 		try {
 			if (pelicula.getId() == 0) {
 				stmt = FactoryConection.getInstancia().getConn().prepareStatement(insertQuery, new String[] { "id" });
@@ -130,6 +130,7 @@ public class PeliculaRepository {
 				stmt.setInt(8, pelicula.getClasificacion().getId());
 				stmt.setInt(9, pelicula.getPais().getId());
 				stmt.setInt(10, pelicula.getGenero().getId());
+				stmt.setString(11, pelicula.getImagen());
 			} else {
 				stmt = FactoryConection.getInstancia().getConn().prepareStatement(updateQuery, new String[] { "id" });
 				java.sql.Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
@@ -142,7 +143,8 @@ public class PeliculaRepository {
 				stmt.setInt(7, pelicula.getClasificacion().getId());
 				stmt.setInt(8, pelicula.getPais().getId());
 				stmt.setInt(9, pelicula.getGenero().getId());
-				stmt.setInt(10, pelicula.getId());
+				stmt.setString(10, pelicula.getImagen());
+				stmt.setInt(11, pelicula.getId());
 			}
 
 			stmt.executeUpdate();

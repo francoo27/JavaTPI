@@ -18,6 +18,8 @@ import {formatDate} from '@angular/common';
 import { DATE_FORMAT } from 'src/app/shared/dateFormat';
 import { DateTime } from "luxon";
 import { SERVER_API_URL } from 'src/app/app.constants';
+import { createHeaders } from 'src/app/shared/createHeader';
+import { ImageService } from 'src/app/shared/image.service';
 
 
 
@@ -46,6 +48,7 @@ export class PeliculaUpdateComponent implements OnInit {
         private formatoService: FormatoService,
         private activatedRoute: ActivatedRoute,
         private messageService: MessageService,
+        private imageService: ImageService,
         private location: Location
     ) {}
 
@@ -55,9 +58,7 @@ export class PeliculaUpdateComponent implements OnInit {
 
         this.activatedRoute.data.subscribe(({ pelicula }) => {
             this.pelicula = pelicula;
-            console.log(this.pelicula.clasificacion)
             this.currentNombre = pelicula.tituloPais +" ("+pelicula.tituloOriginal+")" ;
-
 
             var date = new Date(pelicula.fechaEstreno)
             var userTimezoneOffset = date.getTimezoneOffset() * 60000;
@@ -91,16 +92,46 @@ export class PeliculaUpdateComponent implements OnInit {
         this.location.back();
     }
 
-    onSubmit(){
-        console.log("asds")
+    onSubmit(){}
+
+    
+    // onUpload($event:any){
+    //     console.log($event);
+    //     for(let file of $event.files) {
+    //         console.log(file)
+    //         this.canUpload = false;
+    //         this.uploadedFiles.push(file);
+    //         this.pelicula.imagen =  (String)(file.name).slice(0,file.name.length-4);
+    //     }
+    // }
+
+    getImageUrl(image?:string){
+        return SERVER_API_URL + (image != undefined ? 'JavaTPI/images/' + image : 'JavaTPI/images') ;
     }
+
+    getHeaders(){
+        return createHeaders();
+    }
+
+
+
     onUpload($event:any){
+        console.log("asdds")
         for(let file of $event.files) {
-            this.canUpload = false;
-            this.uploadedFiles.push(file);
-            this.pelicula.imagen = file.name;
+            this.imageService.upload(file).subscribe((res) =>{
+                this.canUpload = false;
+                this.pelicula.imagen =  res.body;
+            })
         }
     }
+
+    // getImageUrl(image?:string){
+    //     return SERVER_API_URL + (image != undefined ? 'JavaTPI/images/' + image : 'JavaTPI/images') ;
+    // }
+
+    // getHeaders(){
+    //     return createHeaders();
+    // }
 
     eliminarFoto(){
         this.pelicula.imagen = null;
@@ -146,10 +177,6 @@ export class PeliculaUpdateComponent implements OnInit {
             });
         }, 1000);
         this.isSaving = false;
-    }
-
-    getImageUrl(image:string){
-        return SERVER_API_URL + 'JavaTPI/images/' + image;
     }
 
     get pelicula() {

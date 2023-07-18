@@ -17,12 +17,12 @@
                         </p-card>
                     </ng-container>
                     <ng-container *ngIf="!pelicula.imagen">
-                        <p-fileUpload name="file" url="getImageUrl(pelicula.imagen)" (onUpload)="onUpload($event)" accept="image/*" chooseLabel="Elegir" uploadLabel="Subir" cancelLabel="Cancelar" [disabled]="!canUpload">
+                        <p-fileUpload name="file" [url]="getImageUrl()" [headers]="getHeaders()" accept="image/*"    (uploadHandler)="onUpload($event)"
+                        [customUpload]="true"
+                        chooseLabel="Elegir" uploadLabel="Subir" cancelLabel="Cancelar" [disabled]="!canUpload">
                             <ng-template pTemplate="content">
-                                <div *ngIf="uploadedFiles.length && pelicula.imagen != undefined">
-                                    <div *ngFor="let file of uploadedFiles">
-                                        <img [src]="getImageUrl(pelicula.imagen)" style=" width: 200px;height: 100%;" alt="">{{file.name}} - {{file.size}} bytes
-                                    </div>
+                                <div *ngIf="pelicula.imagen != undefined">
+                                        <img [src]="getImageUrl(pelicula.imagen)" style=" width: 200px;height: 100%;" alt="">
                                 </div>
                             </ng-template>
                         </p-fileUpload>
