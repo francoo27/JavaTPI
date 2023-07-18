@@ -10,6 +10,7 @@ public class Pelicula extends BaseEntity {
 	private String tituloPais;
 	private int duracion;
 	private String sinopsis;
+	private String imagen;
 	private Date fechaEstreno;
 	private Pais pais;
 	private Genero genero;
@@ -129,6 +130,14 @@ public class Pelicula extends BaseEntity {
 
 	public void setFechaEstreno(Date fechaEstreno) {
 		this.fechaEstreno = fechaEstreno;
+	}
+
+	public String getImagen() {
+		return imagen;
+	}
+
+	public void setImagen(String imagen) {
+		this.imagen = imagen;
 	}
 
 }

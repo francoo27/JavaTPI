@@ -34,7 +34,7 @@
                         <img alt="Card" src="{{getImageSrc(pelicula.imagen!)}}" style="height: 200px;width: 300px;">
                     </div>
                 </ng-template>
-                <p>{{pelicula.sinopsis}}</p>
+                <p>{{getSinopsis(pelicula.sinopsis!)}}</p>
                 <ng-template pTemplate="footer">
                     <p-button label="Ver funciones" [routerLink]="['/boleteria',pelicula.id]" icon="pi pi-eye"></p-button>
                 </ng-template>

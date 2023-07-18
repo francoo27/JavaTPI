@@ -16,5 +16,8 @@ public class AsientoService {
 	public ArrayList<Asiento> getAllBySala(int idSala) throws Exception {
 		return asientoRepository.getAllBySala(idSala);
 	}
-
+	
+	public ArrayList<Asiento> getAsientosByIds(ArrayList<Integer> asientoIds) throws Exception {
+		return asientoRepository.getAsientosByIds(asientoIds);
+	}
 }

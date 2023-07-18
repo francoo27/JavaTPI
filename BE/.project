@@ -28,4 +28,11 @@
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>WebContent/Images</name>
+			<type>2</type>
+			<location>D:/Java/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/JavaTPI/Images</location>
+		</link>
+	</linkedResources>
 </projectDescription>

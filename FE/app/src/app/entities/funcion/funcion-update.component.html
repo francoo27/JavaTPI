@@ -2,13 +2,15 @@
     <h2>{{isNew() ? 'Nueva' : 'Editar' }} Funcion {{isNew() ? "" : "- " + currentNombre}}</h2>
     <form (ngSubmit)="save()" #dataform="ngForm">
         <div class="p-fluid p-formgrid p-grid">
-            <div class="p-field p-col-3 p-md-3">
+            <div class="p-field p-col-8 p-md-8">
                 <label for="nombre">Nombre (Generado)</label>
                 <input type="text" pInputText class="p-inputtext-sm" placeholder="" [ngModel]="generateNombre()" required disabled name="nombre">
             </div>
+            <div class="p-field p-col-4 p-md-4">
+            </div>
             <div class="p-field p-col-3 p-md-3">
                 <label for="pelicula">Pelicula</label>
-                <p-dropdown  [options]="peliculas" [(ngModel)]="funcion.pelicula"  optionLabel="tituloPais" name="pelicula" placeholder="Seleccione una pelicula" [required]="true" [showClear]="true"></p-dropdown>
+                <p-dropdown  [options]="peliculas" [(ngModel)]="funcion.pelicula" (ngModelChange)="onPeliculaChange()" optionLabel="tituloPais" name="pelicula" placeholder="Seleccione una pelicula" [required]="true" [showClear]="true"></p-dropdown>
             </div>
             <div class="p-field p-col-3 p-md-3">
                 <label for="complejo">Complejo</label>
@@ -18,7 +20,9 @@
                 <label for="sala">Sala</label>
                 <p-dropdown  [options]="salas" [(ngModel)]="funcion.sala" optionLabel="numero" (ngModelChange)="onSalaChange()" name="sala" placeholder="Seleccione una sala" [required]="true" [showClear]="true"></p-dropdown>
             </div>
-            <ng-container *ngIf="funcion.sala" >
+            <div class="p-field p-col-3 p-md-3">
+            </div>
+            <ng-container *ngIf="funcion.pelicula && funcion.sala" >
                 <div class="p-field p-col-3 p-md-3" >
                     <label for="formato">Formato</label>
                     <p-dropdown [options]="formatos" [(ngModel)]="funcion.formato"  optionLabel="nombre" name="formato" placeholder="Seleccione un formato" [required]="true" [showClear]="true"></p-dropdown>

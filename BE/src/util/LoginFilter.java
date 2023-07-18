@@ -2,6 +2,7 @@ package util;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.Filter;
@@ -16,15 +17,17 @@ import javax.servlet.http.HttpServletResponse;
 import service.AuthService;
 
 public class LoginFilter implements Filter {
-
+    private final List<String> stringList = new ArrayList<>(Arrays.asList(
+            "/authorization/login",
+            "/authorization/logout",
+            "/compra"
+        ));
 	
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
 	        throws IOException, ServletException {
-		final List<String> stringList = new ArrayList<>();
-        stringList.add("/authorization/login");
-        stringList.add("/authorization/logout");
-        stringList.add("/compra");
+
         req.setCharacterEncoding("UTF-8"); 
+        res.setCharacterEncoding("UTF-8"); 
         
 	    HttpServletRequest httpRequest = (HttpServletRequest) req;
 	    HttpServletResponse httpResponse = (HttpServletResponse) res;

@@ -8,11 +8,10 @@ import { Location } from '@angular/common';
 import { IAsiento } from '../asiento/asiento.model';
 import { IPrecio } from '../precio/precio.model';
 import { PrecioService } from '../precio/precio.service';
-import { isNgTemplate } from '@angular/compiler';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AsientoService } from '../asiento/asiento.service';
 import { CompraService } from '../compra/compra.service';
-import { Compra, PrecioSelectedQuantity } from '../compra/compra.model';
+import { Compra, ICompra, PrecioSelectedQuantity } from '../compra/compra.model';
 import { HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { MessageService } from 'primeng/api';
@@ -23,48 +22,51 @@ import { MessageService } from 'primeng/api';
     providers: []
 })
 export class BoleteriaComponent implements OnInit {
-    peliculas:IPelicula[]=[];
-    funciones:IFuncion[]=[];
-    precios:any[]=[];
+    peliculas: IPelicula[] = [];
+    funciones: IFuncion[] = [];
+    precios: any[] = [];
 
-    peliculaSeleccionado!:IPelicula;
-    formatoSeleccionado!:IFormato;
-    funcionSeleccionado!:IFuncion;
-    preciosSeleccionados:any[]=[];
+    peliculaSeleccionado!: IPelicula;
+    formatoSeleccionado!: IFormato;
+    funcionSeleccionado!: IFuncion;
+    preciosSeleccionados: any[] = [];
     ccRegex: RegExp = /[0-9]{12}$/;
     cc!: string;
-    me!: string;  
+    me!: string;
     ae!: string;
-    email!: string;  
-    nombre!: string;    
+    email!: string;
+    nombre!: string;
     cvef!: string;
-    
-    okPrecio:boolean = false;
-    okAsiento:boolean = false;
-    isSaving:boolean = false;
 
-    asientosSeleccionables : IAsiento[][] = []; 
+    okPrecio: boolean = false;
+    okAsiento: boolean = false;
+    isSaving: boolean = false;
 
-    a: IAsiento[] = [{fila:1},{fila:2},{fila:3}];
-    nodisp:number[] = []
-    selected:number[] = []
-    multi: IAsiento[][] = []; 
+    asientosSeleccionables: IAsiento[][] = [];
+
+    a: IAsiento[] = [{ fila: 1 }, { fila: 2 }, { fila: 3 }];
+    nodisp: number[] = []
+    selected: number[] = []
+    multi: IAsiento[][] = [];
+
+    compra: ICompra = new Compra(); 
 
     constructor(private peliculaService: PeliculaService,
-                private funcionService: FuncionService,
-                private precioService: PrecioService,
-                private location: Location,
-                private activatedRoute: ActivatedRoute,
-                private asientoService: AsientoService,
-                private compraService: CompraService,
-                private messageService: MessageService
-                ) { 
-        this.peliculaService.query().subscribe(res=>{
+        private funcionService: FuncionService,
+        private precioService: PrecioService,
+        private location: Location,
+        private activatedRoute: ActivatedRoute,
+        private asientoService: AsientoService,
+        private compraService: CompraService,
+        private messageService: MessageService,
+        private router: Router
+    ) {
+        this.peliculaService.query().subscribe(res => {
             this.peliculas = res.body!;
         })
-        this.precioService.query().subscribe(res=>{
+        this.precioService.query().subscribe(res => {
             this.precios = res.body!;
-            this.preciosSeleccionados = this.precios.map(x=>{
+            this.preciosSeleccionados = this.precios.map(x => {
                 x['cantidad'] = 0;
                 return x;
             })
@@ -79,60 +81,60 @@ export class BoleteriaComponent implements OnInit {
     }
 
     onFormatoSelected() {
-        this.funcionService.queryBoleteria(this.peliculaSeleccionado.id!,this.formatoSeleccionado.id!,0,1).subscribe(res=>{
+        this.funcionService.queryBoleteria(this.peliculaSeleccionado.id!, this.formatoSeleccionado.id!, 0, 1).subscribe(res => {
             this.funciones = res.body!;
         })
     }
 
-    onPrecioChange(precio:IPrecio,value:string){
-        this.preciosSeleccionados.forEach(x=> {
-            if(x.id === precio.id){
+    onPrecioChange(precio: IPrecio, value: string) {
+        this.preciosSeleccionados.forEach(x => {
+            if (x.id === precio.id) {
                 let val = parseInt(value)
                 x['cantidad'] = !isNaN(val) ? val : 0;
             }
         })
-        if (this.calculateTotalPrecioSelected() > this.asientosSeleccionables.reduce((a, b) => a + b.length, 0) - this.nodisp.length ){
+        if (this.calculateTotalPrecioSelected() > this.asientosSeleccionables.reduce((a, b) => a + b.length, 0) - this.nodisp.length) {
             this.messageService.add({
                 severity: "info",
                 summary: "INFORMACION",
                 detail: "Debe reducir la cantidad de tickets a comprar"
-                });
+            });
         }
 
     }
 
-    canElegirAsiento(){
-       return this.calculateTotalPrecioSelected() <= this.asientosSeleccionables.reduce((a, b) => a + b.length, 0) - this.nodisp.length 
+    canElegirAsiento() {
+        return this.calculateTotalPrecioSelected() <= this.asientosSeleccionables.reduce((a, b) => a + b.length, 0) - this.nodisp.length
     }
 
-    calculateSubtotal(item:any) {
-        return item.valor *  this.preciosSeleccionados.find(x=>x.id === item.id)['cantidad'];
+    calculateSubtotal(item: any) {
+        return item.valor * this.preciosSeleccionados.find(x => x.id === item.id)['cantidad'];
     }
 
     calculateTotalElegido() {
-        let subtotales = this.preciosSeleccionados.map(x=>x['cantidad']);
+        let subtotales = this.preciosSeleccionados.map(x => x['cantidad']);
         let total = 0;
-        subtotales.forEach(x=> total += x);
+        subtotales.forEach(x => total += x);
         return total;
     }
 
-    isPrecioSelected(){
-        return this.preciosSeleccionados.some(x=>x['cantidad']>0);
+    isPrecioSelected() {
+        return this.preciosSeleccionados.some(x => x['cantidad'] > 0);
     }
-    
-    calculateTotalPrecioSelected(){
+
+    calculateTotalPrecioSelected() {
         return this.preciosSeleccionados.reduce((a, b) => a + b['cantidad'], 0);
     }
 
     calculateTotal() {
-        let subtotales = this.preciosSeleccionados.map(x=>x['cantidad']*x.valor);
+        let subtotales = this.preciosSeleccionados.map(x => x['cantidad'] * x.valor);
         let total = 0;
-        subtotales.forEach(x=> total += x);
+        subtotales.forEach(x => total += x);
         return total;
     }
 
     onFuncionSelected() {
-        this.asientoService.query_occupied_by_funcion(this.funcionSeleccionado.id!).subscribe(res=>{
+        this.asientoService.query_occupied_by_funcion(this.funcionSeleccionado.id!).subscribe(res => {
             this.nodisp = res.body!.map(x => x.id!);
             this.fillAsientos()
         })
@@ -146,60 +148,62 @@ export class BoleteriaComponent implements OnInit {
         return false;
     }
 
-    onAsientoSelected(id:number){
-        if (this.selected.length >= this.calculateTotalPrecioSelected() && !this.selected.some(x =>x == id)) {
+    onAsientoSelected(id: number) {
+        if (this.selected.length >= this.calculateTotalPrecioSelected() && !this.selected.some(x => x == id)) {
             return;
         }
         this.asientosSeleccionables.map(x => {
-            return x.map(y=>{
-                if(y.id === id){
+            return x.map(y => {
+                if (y.id === id) {
                     y.seleccionado = !y.seleccionado;
-                    if(y.seleccionado){
+                    if (y.seleccionado) {
                         this.selected.push(id);
-                    }else{
+                    } else {
                         this.selected = [...this.selected.filter(z => z !== id)];
                     }
                 }
             })
-        } );
+        });
         console.log(this.selected)
     }
 
-    fillAsientos(){
+    fillAsientos() {
         let ini = 1;
-        let arr : IAsiento[] = [];
+        let arr: IAsiento[] = [];
         this.asientosSeleccionables = []
         while (true) {
             arr = this.funcionSeleccionado.sala?.asientos!.filter(x => x.fila == ini)!;
             arr = arr.map(x => {
-                let result = this.nodisp.find(y=> y == x.id);
+                let result = this.nodisp.find(y => y == x.id);
                 let result2 = this.selected.find(y => y == x.id);
-                x.disponible = result === null  || result === undefined;
-                x.seleccionado = result2 !== null  && result2 !== undefined;
-                return x})
-            if (arr.length < 1) {break;}
+                x.disponible = result === null || result === undefined;
+                x.seleccionado = result2 !== null && result2 !== undefined;
+                return x
+            })
+            if (arr.length < 1) { break; }
             this.asientosSeleccionables.push([...arr]);
-            // console.log(this.asientosSeleccionables);
             ini++;
         }
     }
 
-    canPagar(){
+    canPagar() {
         return this.selected.length > 0 && this.selected.length == this.calculateTotalPrecioSelected();
     }
 
 
-    onSubmit(){
+    onSubmit() {
         this.isSaving = true;
-        this.subscribeToSaveResponse(this.compraService.buy_tickets_to_funcion(
-            new Compra(
-                this.funciones.find(x=>x.id == this.funcionSeleccionado.id)!,this.selected,this.preciosSeleccionados.map(x =>
-                    {
-                        return new PrecioSelectedQuantity(x.id,x['cantidad'])
-                    }),this.email,this.nombre
-                )
-        ));
-
+        this.messageService.add({
+            severity: "info",
+            summary: "Informacion",
+            detail: "Procesando compra"
+        })
+        this.compra = new Compra(
+            this.funciones.find(x => x.id == this.funcionSeleccionado.id)!, this.selected, this.preciosSeleccionados.map(x => {
+                return new PrecioSelectedQuantity(x.id, x['cantidad'])
+            }), this.email, this.nombre
+        )
+        this.subscribeToSaveResponse(this.compraService.buy_tickets_to_funcion(this.compra));
     }
 
     private subscribeToSaveResponse(result: Observable<HttpResponse<any>>) {
@@ -208,7 +212,7 @@ export class BoleteriaComponent implements OnInit {
 
     private onSaveSuccess() {
         this.isSaving = false;
-            this.messageService.add({
+        this.messageService.add({
             severity: "success",
             summary: "Ok!",
             detail: "Compra Exitosa"
@@ -224,7 +228,7 @@ export class BoleteriaComponent implements OnInit {
             severity: "error",
             summary: "Ok!",
             detail: "Hubo un error al procesar la compra"
-          });
+        });
         this.isSaving = false;
     }
 

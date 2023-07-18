@@ -3,18 +3,16 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { FuncionService } from './funcion.service';
-import { Funcion, FuncionCreate, IFuncion, IFuncionCreate, mapToFuncionCreate } from './funcion.model';
+import { IFuncion, IFuncionCreate, mapToFuncionCreate } from './funcion.model';
 import { MessageService } from 'primeng/api';
 import { Location } from '@angular/common';
 import { IFormato } from '../formato/formato.model';
-import { FormatoService } from '../formato/formato.service';
 import { IPelicula } from '../pelicula/pelicula.model';
 import { PeliculaService } from '../pelicula/pelicula.service';
 import { ISala } from '../sala/sala.model';
 import { IComplejo } from '../complejo/complejo.model';
 import { ComplejoService } from '../complejo/complejo.service';
 import { SalaService } from '../sala/sala.service';
-import { formatDate } from 'src/app/shared/dateFormat';
 
 
 @Component({
@@ -24,16 +22,16 @@ import { formatDate } from 'src/app/shared/dateFormat';
 export class FuncionUpdateComponent implements OnInit {
     private _funcion!: IFuncion;
 
-    formatos:IFormato[]=[];
-    peliculas:IPelicula[]=[];
-    complejos:IComplejo[]=[];
-    salas:ISala[]=[];
+    formatos: IFormato[] = [];
+    peliculas: IPelicula[] = [];
+    complejos: IComplejo[] = [];
+    salas: ISala[] = [];
 
 
-    salaSelected!:ISala;
-    peliculaSelected!:IPelicula;
-    complejoSelected!:IComplejo;
-    formatoSelected!:IFormato;
+    salaSelected!: ISala;
+    peliculaSelected!: IPelicula;
+    complejoSelected!: IComplejo;
+    formatoSelected!: IFormato;
 
     currentNombre!: string;
     isSaving!: boolean;
@@ -52,26 +50,25 @@ export class FuncionUpdateComponent implements OnInit {
         private activatedRoute: ActivatedRoute,
         private messageService: MessageService,
         private location: Location
-    ) {}
+    ) { }
 
     ngOnInit() {
         this.isSaving = false;
 
-        this.activatedRoute.data.subscribe( ( res ) => {
+        this.activatedRoute.data.subscribe((res) => {
             this.funcion = res.funcion;
             this.currentNombre = res.funcion.nombre!;
             this.complejoSelected = res.funcion.sala.complejo!;
             this.fecha = new Date(res.funcion.fechaInicio!);
-            console.log(this.funcion)
         });
 
         this.complejoService.query().subscribe(res => {
             this.complejos = res.body!
-        } )
+        })
 
         this.peliculaService.query().subscribe(res => {
             this.peliculas = res.body!
-        } )
+        })
 
 
     }
@@ -80,47 +77,71 @@ export class FuncionUpdateComponent implements OnInit {
         this.location.back();
     }
 
-    onSubmit(){
-        console.log("asds")
+    onSubmit() {
     }
 
-    generateNombre(){
-        let fecha = new Date(Date.parse(this.fechaStr));
-        this.funcion.nombre = 
-         `${this.funcion.pelicula?.id && this.funcion.formato?.id 
-            ? this.funcion.pelicula?.tituloPais! + " - " + this.funcion.formato?.nombre! + " - " + "Sala: " + this.funcion.sala?.numero! + " - " + (fecha ? fecha!.getDate().toString()+"/"+ (fecha!.getMonth()+1).toString() : "") + " - " + (this.hora ? this.hora!.getHours().toString() + ":" + this.hora!.getMinutes().toString(): "") 
-            : ""}`;
+    generateNombre(): string {
+        const fecha = new Date(Date.parse(this.fechaStr));
+        let nombre = '';
+
+        if (this.funcion.pelicula?.id && this.funcion.formato?.id) {
+            nombre += this.funcion.pelicula.tituloPais + ' - ';
+            nombre += this.funcion.formato.nombre + ' - ';
+            nombre += this.funcion.sala ? 'Sala: ' + this.funcion.sala.numero + ' - ' : '';
+            nombre += fecha ? 'Fecha: ' + fecha.getDate().toString() + '/' + (fecha.getMonth() + 1).toString() + ' - ' : '';
+            nombre += this.hora ? 'Horario: ' + this.hora.getHours().toString() + ':' + this.hora.getMinutes().toString() + ' - ' : '';
+            nombre += this.complejoSelected ? 'Complejo: ' + this.complejoSelected.nombre : '';
+        }
+
+        this.funcion.nombre = nombre;
         return this.funcion.nombre;
     }
 
-    onComplejoChange(){
+    onPeliculaChange() {
+        this.formatos = [];
+        this.funcion.sala = undefined;
+    }
+
+    onComplejoChange() {
+        this.formatos = [];
+        this.funcion.sala = undefined;
         this.salaService.query_ByComplejo(this.complejoSelected.id!).subscribe(res => {
             this.salas = res.body!
             this.funcion.sala = this.funcion.sala;
-        } )
+            if (this.salas.length < 1) {
+                this.messageService.add({
+                    severity: "info",
+                    summary: "Informacion",
+                    detail: "Actualmente el complejo no posee salas habilitadas"
+                })
+            }
+        })
     }
 
-    onSalaChange(){
-        // this.formatos=this.funcion.sala?.formatos!;
+    onSalaChange() {
         this.formatos = [];
         let formatosDisp = this.funcion.sala?.formatos!.map(x => {
             let item = this.funcion.pelicula?.formatos!.find(item => item.id === x.id);
             return item!;
-          }).filter(item => item !== undefined)!;
-        this.formatos = formatosDisp !== undefined && formatosDisp!.length > 0 ? formatosDisp : this.formatos! ;
-        //this.funcion.salaId = this.salaSelected.id;
+        }).filter(item => item !== undefined)!;
+        this.formatos = formatosDisp !== undefined && formatosDisp!.length > 0 ? formatosDisp : this.formatos!;
+        if (this.funcion.sala != undefined && this.formatos.length < 1) {
+            this.messageService.add({
+                severity: "info",
+                summary: "Informacion",
+                detail: "No existen formatos que coincidan entre pelicula y sala seleccionada"
+            })
+        }
     }
 
     save() {
         this.isSaving = true;
         let saveDate = new Date(Date.parse(this.fechaStr));
         this.funcion.horaInicio = `${Number(new Date(this.hora).getHours())}:${Number(new Date(this.hora).getMinutes())}`;
-        this.funcion.fechaInicio =`${Number(saveDate.getFullYear())}-${Number(saveDate.getMonth()+1)}-${saveDate.getDate()}`;
+        this.funcion.fechaInicio = `${Number(saveDate.getFullYear())}-${Number(saveDate.getMonth() + 1)}-${saveDate.getDate()}`;
         let saveFuncion = mapToFuncionCreate(this.funcion);
-        console.log(this.funcion.horaInicio);
-        console.log(`${Number(saveDate.getFullYear())}-${Number(saveDate.getMonth()+1)}-${saveDate.getDate()}`);
         saveFuncion.fechaAnio = saveDate.getFullYear();
-        saveFuncion.fechaMes = saveDate.getMonth()+1;
+        saveFuncion.fechaMes = saveDate.getMonth() + 1;
         saveFuncion.fechaDia = saveDate.getDate();
         saveFuncion.hora = Number(new Date(this.hora).getHours());
         saveFuncion.minuto = Number(new Date(this.hora).getMinutes());
@@ -146,7 +167,7 @@ export class FuncionUpdateComponent implements OnInit {
             this.messageService.add({
                 severity: "success",
                 summary: "Ok!",
-                detail: this.isNew() ? "Funcion creada":"Funcion editada"
+                detail: this.isNew() ? "Funcion creada" : "Funcion editada"
             })
         }, 1000);
         this.previousState();
@@ -157,17 +178,18 @@ export class FuncionUpdateComponent implements OnInit {
             this.messageService.add({
                 severity: "error",
                 summary: "ERROR",
-                detail: this.isNew() ? "Hubo un error al crear el Funcion":"Hubo un error al editar el Funcion"
+                detail: this.isNew() ? "Hubo un error al crear el Funcion" : "Hubo un error al editar el Funcion"
             })
         }, 1000);
         this.isSaving = false;
     }
 
-    get funcion():IFuncion {
+    get funcion(): IFuncion {
         return this._funcion;
     }
 
     set funcion(funcion: IFuncion) {
-        this._funcion =  funcion;
+        this._funcion = funcion;
     }
+
 }

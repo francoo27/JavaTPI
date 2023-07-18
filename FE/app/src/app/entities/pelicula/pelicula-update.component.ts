@@ -17,6 +17,7 @@ import { FormatoService } from '../formato/formato.service';
 import {formatDate} from '@angular/common';
 import { DATE_FORMAT } from 'src/app/shared/dateFormat';
 import { DateTime } from "luxon";
+import { SERVER_API_URL } from 'src/app/app.constants';
 
 
 
@@ -145,6 +146,10 @@ export class PeliculaUpdateComponent implements OnInit {
             });
         }, 1000);
         this.isSaving = false;
+    }
+
+    getImageUrl(image:string){
+        return SERVER_API_URL + 'JavaTPI/images/' + image;
     }
 
     get pelicula() {

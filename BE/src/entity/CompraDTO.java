@@ -9,6 +9,7 @@ public class CompraDTO extends BaseEntity {
 	private Funcion funcion;
 	private ArrayList<Integer> asientoIdSelected;
 	private ArrayList<PrecioIdQuantity> precioIdQuantitySelected;
+	private ArrayList<Asiento> asientos;
 
 	public String getNombre() {
 		return nombre;
@@ -48,6 +49,14 @@ public class CompraDTO extends BaseEntity {
 
 	public ArrayList<PrecioIdQuantity> getPrecioIdQuantitySelected() {
 		return precioIdQuantitySelected;
+	}
+
+	public void setAsientos(ArrayList<Asiento> asientos) {
+		this.asientos = asientos;
+	}
+
+	public ArrayList<Asiento> getAsientos() {
+		return this.asientos;
 	}
 
 	public void setPrecioIdQuantitySelected(ArrayList<PrecioIdQuantity> precioIdQuantitySelected) {

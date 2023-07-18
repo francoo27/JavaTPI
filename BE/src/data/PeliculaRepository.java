@@ -41,6 +41,7 @@ public class PeliculaRepository {
 					pelicula.setFechaEstreno(dateFormatter.parse(rs.getString("fecha_estreno")));
 					pelicula.setDuracion(rs.getInt("duracion"));
 					pelicula.setSinopsis(rs.getString("sinopsis"));
+					pelicula.setImagen(rs.getString("imagen"));
 				}
 			}
 		} catch (Exception e) {
@@ -86,7 +87,7 @@ public class PeliculaRepository {
 					pelicula.setFechaEstreno(dateFormatter.parse(rs.getString("fecha_estreno")));
 					pelicula.setDuracion(rs.getInt("duracion"));
 					pelicula.setSinopsis(rs.getString("sinopsis"));
-
+					pelicula.setImagen(rs.getString("imagen"));
 					peliculaList.add(pelicula);
 
 				}

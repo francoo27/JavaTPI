@@ -22,7 +22,7 @@ export class HomeComponent {
     buffer: IDataCarousel[] = [
     ];
 
-    responsiveOptions:any[] = [
+    responsiveOptions: any[] = [
         {
             breakpoint: '1024px',
             numVisible: 5
@@ -56,7 +56,7 @@ export class HomeComponent {
             //         "title": p.tituloPais!
             //     })
             // });
-        } );
+        });
         // console.log(this.images)
         // this.images.push(       {
         //     "previewImageSrc": this.getImageSrc('2.jpeg'),
@@ -67,19 +67,23 @@ export class HomeComponent {
 
     }
 
-    getImageSrc(img:string):string{
-        console.log(SERVER_API_URL_IMAGE+img)
-        return SERVER_API_URL_IMAGE+img;
+    getImageSrc(img: string): string {
+        console.log(SERVER_API_URL_IMAGE + img)
+        return SERVER_API_URL_IMAGE + img;
+    }
+
+    getSinopsis(sinopsis: string): string {
+        return sinopsis.length > 250 ? sinopsis.substring(0,300) + "..." : sinopsis;
     }
 
 }
 
 
 
-export const SERVER_API_URL_IMAGE = SERVER_API_URL + 'JavaTPI/img/'
+export const SERVER_API_URL_IMAGE = SERVER_API_URL + 'JavaTPI/images/'
 export interface IDataCarousel {
-    previewImageSrc:string
-    thumbnailImageSrc:string;
-    alt:string;
-    title:string;
+    previewImageSrc: string
+    thumbnailImageSrc: string;
+    alt: string;
+    title: string;
 }

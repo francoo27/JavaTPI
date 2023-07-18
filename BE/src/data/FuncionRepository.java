@@ -64,8 +64,11 @@ public class FuncionRepository {
 		try {
 
 			String query = String.format(
-					"SELECT * FROM java_tpi.funcion WHERE (0 = ?) OR (id_pelicula = ?) AND (0 = ?) OR (id_formato = ?) AND ((0 = ?) OR (cancelada = ?))"
-							+ "AND ((0 = ?) OR (fechaInicio >= current_date()));");
+				    "SELECT * FROM funcion WHERE ((0 = ?) OR (id_pelicula = ?))%n"
+				    + "AND ((0 = ?) OR (id_formato = ?))%n"
+				    + "AND ((0 = ?) OR (cancelada = ?))%n"
+				    + "AND ((0 = ?) OR (fechaInicio >= current_date()));"
+				);
 
 			stmt = FactoryConection.getInstancia().getConn().prepareStatement(query);
 			stmt.setInt(1, peliculaId);
@@ -144,7 +147,6 @@ public class FuncionRepository {
 				stmt.setBoolean(8, funcion.getCancelada());
 				stmt.setInt(9, funcion.getId());
 			}
-			System.out.println(stmt);
 			stmt.execute();
 
 		} catch (Exception e) {
