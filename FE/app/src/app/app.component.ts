@@ -39,7 +39,6 @@ export class AppComponent implements OnInit {
 
     this.logStateService.logStateEvent.subscribe((user: IUser) => {
       this.user = user;
-      console.log("logStateEvent")
       this.items = this.getMenuItems();
       location.reload();
     });
@@ -48,7 +47,6 @@ export class AppComponent implements OnInit {
     this.authService.authenticate().subscribe(
       res => {
         res.body ? this.user = new User(localStorage.getItem('email')!, undefined, localStorage.getItem('token')!) : null;
-        console.log("authenticate")
         this.items = this.getMenuItems();
       },
       err => {}

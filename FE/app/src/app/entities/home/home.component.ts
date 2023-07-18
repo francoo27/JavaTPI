@@ -42,33 +42,10 @@ export class HomeComponent {
     ngOnInit() {
         this.peliculaService.query().subscribe(res => {
             this.peliculas = res.body!
-            // this.peliculas.forEach(p=>{
-            //     // this.images.push({
-            //     //     previewImageSrc:this.getImageSrc(p.imagen!),
-            //     //     thumbnailImageSrc:"",
-            //     //     alt:p.sinopsis,
-            //     //     title:p.tituloPais
-            //     // } as IDataCarousel )
-            //     this.images.push(       {
-            //         "previewImageSrc": this.getImageSrc(p.imagen!),
-            //         "thumbnailImageSrc": "http://192.168.0.10:5000/api/img/2.jpeg",
-            //         "alt": p.sinopsis!,
-            //         "title": p.tituloPais!
-            //     })
-            // });
         });
-        // console.log(this.images)
-        // this.images.push(       {
-        //     "previewImageSrc": this.getImageSrc('2.jpeg'),
-        //     "thumbnailImageSrc": "http://192.168.0.10:5000/api/img/2.jpeg",
-        //     "alt": "",
-        //     "title":" p.tituloPais!"
-        // })
-
     }
 
     getImageSrc(img: string): string {
-        console.log(SERVER_API_URL_IMAGE + img)
         return SERVER_API_URL_IMAGE + img;
     }
 

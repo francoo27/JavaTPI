@@ -12,7 +12,6 @@ export class CanActivateAuth implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
     return this.authService.authenticate().toPromise().then(authenticated => {
       if (authenticated) {
-        console.log(authenticated.body)
         if (!authenticated.body){
           this.logStateService.logStateEvent.emit(new User());
           this.router.navigate(['/login']);

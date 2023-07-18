@@ -38,7 +38,6 @@ export class AudioUpdateComponent implements OnInit {
     }
 
     onSubmit(){
-        console.log("asds")
     }
 
     save() {

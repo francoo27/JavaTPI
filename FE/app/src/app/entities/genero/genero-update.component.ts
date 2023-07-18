@@ -38,7 +38,6 @@ export class GeneroUpdateComponent implements OnInit {
     }
 
     onSubmit(){
-        console.log("asds")
     }
 
     save() {
@@ -59,7 +58,6 @@ export class GeneroUpdateComponent implements OnInit {
     }
 
     private onSaveSuccess() {
-        console.log("ASDASD")
         this.isSaving = false;
         this.messageService.add({
             severity: "success",

@@ -38,7 +38,6 @@ export class TecnologiaProyeccionUpdateComponent implements OnInit {
     }
 
     onSubmit(){
-        console.log("asds")
     }
 
     save() {

@@ -38,7 +38,6 @@ export class PaisUpdateComponent implements OnInit {
     }
 
     onSubmit(){
-        console.log("asds")
     }
 
     save() {

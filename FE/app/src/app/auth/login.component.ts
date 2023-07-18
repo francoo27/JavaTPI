@@ -42,7 +42,6 @@ export class LoginComponent implements OnInit {
         this.previousState();
       },
       err => {
-        console.log(err)
         this.messageService.add({
           severity: "error",
           summary: "ERROR",

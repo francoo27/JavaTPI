@@ -164,7 +164,6 @@ export class BoleteriaComponent implements OnInit {
                 }
             })
         });
-        console.log(this.selected)
     }
 
     fillAsientos() {

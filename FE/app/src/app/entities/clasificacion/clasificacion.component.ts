@@ -20,7 +20,6 @@ export class ClasificacionComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
       this.clasificacionService.query().subscribe(res => {
         this.clasificacions = res.body!
-        console.log(res.body![0])
     } );
 
     }

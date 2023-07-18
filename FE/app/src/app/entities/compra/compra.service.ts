@@ -14,7 +14,6 @@ export class CompraService {
     constructor(private http: HttpClient) {}
 
     buy_tickets_to_funcion(compra: ICompra): Observable<EntityResponseType> {
-        console.log(compra)
         return this.http.post<ICompra>(`${this.resourceUrl}`,compra, { observe: 'response' });;
     }
 }

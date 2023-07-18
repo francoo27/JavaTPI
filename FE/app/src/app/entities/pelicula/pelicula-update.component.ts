@@ -94,17 +94,6 @@ export class PeliculaUpdateComponent implements OnInit {
 
     onSubmit(){}
 
-    
-    // onUpload($event:any){
-    //     console.log($event);
-    //     for(let file of $event.files) {
-    //         console.log(file)
-    //         this.canUpload = false;
-    //         this.uploadedFiles.push(file);
-    //         this.pelicula.imagen =  (String)(file.name).slice(0,file.name.length-4);
-    //     }
-    // }
-
     getImageUrl(image?:string){
         return SERVER_API_URL + (image != undefined ? 'JavaTPI/images/' + image : 'JavaTPI/images') ;
     }
@@ -116,7 +105,6 @@ export class PeliculaUpdateComponent implements OnInit {
 
 
     onUpload($event:any){
-        console.log("asdds")
         for(let file of $event.files) {
             this.imageService.upload(file).subscribe((res) =>{
                 this.canUpload = false;
@@ -124,14 +112,6 @@ export class PeliculaUpdateComponent implements OnInit {
             })
         }
     }
-
-    // getImageUrl(image?:string){
-    //     return SERVER_API_URL + (image != undefined ? 'JavaTPI/images/' + image : 'JavaTPI/images') ;
-    // }
-
-    // getHeaders(){
-    //     return createHeaders();
-    // }
 
     eliminarFoto(){
         this.pelicula.imagen = null;
