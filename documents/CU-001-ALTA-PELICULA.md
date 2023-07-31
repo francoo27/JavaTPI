@@ -1,10 +1,8 @@
-**Código y Nombre del CASO DE USO:**
+**Código y Nombre del CASO DE USO:** **CU-001-Alta-Película**
 
 | Nivel  | Estructura | Alcance | Caja | Instanciación | Interacción |
 |--------|------------|---------|-------|-----------------|--------------|
-| Resumen | Estructurado | Sistema | Negra | Real | Semántico |
-
-**CU-001-Alta-Película**
+| Usuario | Sin Estructura | Sistema | Negra | Real | Semántico |
 
 **Meta del CASO DE USO:** Crear Película
 

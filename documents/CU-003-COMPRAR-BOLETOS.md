@@ -1,8 +1,8 @@
-**Código y Nombre del CASO DE USO:** CU-001: Compra de boletos
+**Código y Nombre del CASO DE USO:** **CU-003-Compra-de-boletos**
 
 | Nivel  | Estructura | Alcance | Caja | Instanciación | Interacción |
 |--------|------------|---------|------|---------------|-------------|
-| Resumen | Estructurado | Sistema | Negra | Real | Semántico |
+| Usuario | Sin Estructura | Sistema | Negra | Real | Semántico |
 
 **Meta del CASO DE USO:** Permitir al usuario comprar boletos para una película específica en la vista de boletería.
 

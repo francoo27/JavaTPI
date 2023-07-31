@@ -1,10 +1,8 @@
-**Código y Nombre del CASO DE USO:**
+**Código y Nombre del CASO DE USO:** **CU-002-Alta-Función**
 
 | Nivel  | Estructura | Alcance | Caja | Instanciación | Interacción |
 |--------|------------|---------|-------|-----------------|--------------|
-| Resumen | Estructurado | Sistema | Negra | Real | Semántico |
-
-**CU-002-Alta-Función**
+| Usuario | Sin Estructura | Sistema | Negra | Real | Semántico |
 
 **Meta del CASO DE USO:** Alta de Función
 
