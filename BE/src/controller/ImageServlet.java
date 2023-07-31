@@ -26,7 +26,6 @@ public class ImageServlet extends HttpServlet {
         }
 
         String imageFilePath = getImageDirectory(); // Replace with the actual method to retrieve the image directory path
-        System.out.println(imageFilePath);
         
         // Check if imageId contains an extension
         int dotIndex = imageId.lastIndexOf('.');
@@ -46,7 +45,6 @@ public class ImageServlet extends HttpServlet {
         }
 
         imageFilePath += "/" + imageId + "." + extension;
-        System.out.println(imageFilePath);
         Path imagePath = Paths.get(imageFilePath);
 
         if (!Files.exists(imagePath) || Files.isDirectory(imagePath)) {

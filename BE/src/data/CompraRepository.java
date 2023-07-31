@@ -65,7 +65,6 @@ public class CompraRepository {
 			stmt.setInt(3, compra.getFuncion().getId());
 			stmt.setString(4, compra.getNombre());
 			stmt.setString(5, compra.getEmail());
-			System.out.println(stmt);
 			stmt.execute();
 
 		} catch (Exception e) {

@@ -125,7 +125,6 @@ public class AsientoRepository {
 			for (int i = 0; i < asientoIds.size(); i++) {
 				stmt.setInt(i + 1, asientoIds.get(i));
 			}
-			System.out.println(stmt);
 			stmt.execute();
 			rs = stmt.getResultSet();
 			if (rs != null) {

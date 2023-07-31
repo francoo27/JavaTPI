@@ -26,7 +26,6 @@ public class Sala extends BaseEntity {
 
 	public void setAsientos(ArrayList<Asiento> asientos) {
 		this.asientos = asientos;
-		System.out.println(asientos.isEmpty());
 	}
 
 	public ArrayList<Formato> getFormatos() {
